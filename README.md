@@ -29,7 +29,7 @@ branch and create a pull request for review
 
 # Other Notes
 
-To reduce overhead, lets standardize the use of the Material-UI library for all frontend components.
+To reduce overhead, lets standardize the use of the [Material-UI library](https://mui.com/getting-started/installation/) for all frontend components.
 
 # Getting Started with Create React App
 
