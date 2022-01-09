@@ -11,10 +11,21 @@ Navigate to /backend and /frontend and run
 ```npm i ```
 
 To run the backend use
+
 ```npm run dev```
 
 To run the frontend use
+
 ```npm start```
+
+# How to push to github
+
+1. Create a new branch, and give a relavent name to your task
+
+2. Commit changes and add a commit message (commit often!)
+
+3. After you have finished and tested your feature push your changes to your
+branch and create a pull request for review
 
 # Getting Started with Create React App
 
