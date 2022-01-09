@@ -3,24 +3,18 @@
 Clone the repository using the link below
 
 
-### 'https://github.com/hack4impact-calpoly/HumaneSociety.git'
+```https://github.com/hack4impact-calpoly/HumaneSociety.git```
 
 
 Navigate to /backend and /frontend and run
 
-'''
-npm i 
-'''
+```npm i ```
 
 To run the backend use
-'''
-npm run dev
-'''
+```npm run dev```
 
 To run the frontend use
-'''
-npm start
-'''
+```npm start```
 
 # Getting Started with Create React App
 
