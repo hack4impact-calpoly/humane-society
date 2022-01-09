@@ -1,3 +1,27 @@
+# Setting up
+
+Clone the repository using the link below
+
+'''
+https://github.com/hack4impact-calpoly/HumaneSociety.git
+'''
+
+Navigate to /backend and /frontend and run
+
+'''
+npm i 
+'''
+
+To run the backend use
+'''
+npm run dev
+'''
+
+To run the frontend use
+'''
+npm start
+'''
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
