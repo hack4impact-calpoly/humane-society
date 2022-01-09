@@ -2,9 +2,9 @@
 
 Clone the repository using the link below
 
-'''
-https://github.com/hack4impact-calpoly/HumaneSociety.git
-'''
+
+### 'https://github.com/hack4impact-calpoly/HumaneSociety.git'
+
 
 Navigate to /backend and /frontend and run
 
