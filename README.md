@@ -27,6 +27,10 @@ To run the frontend use
 3. After you have finished and tested your feature push your changes to your
 branch and create a pull request for review
 
+# Other Notes
+
+To reduce overhead, lets standardize the use of the Material-UI library for all frontend components.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
