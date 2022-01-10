@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import logo from './imgs/logo.svg';
 import './css/App.css';
@@ -10,7 +11,7 @@ function App() {
         <p>
           Edit
           {' '}
-          <code>src/App.tsx</code>
+          <code>src/App.jsx</code>
           {' '}
           and save to reload.
         </p>

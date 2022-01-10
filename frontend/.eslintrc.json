@@ -7,7 +7,6 @@
         "plugin:react/recommended",
         "airbnb"
     ],
-    "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true
@@ -16,17 +15,8 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react",
-        "@typescript-eslint"
+        "react"
     ],
     "rules": {
-        "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts"] }]
-    },
-    "settings": {
-        "import/resolver": {
-          "node": {
-            "paths": ["src"]
-          }
-        }
-      }
+    }
 }
