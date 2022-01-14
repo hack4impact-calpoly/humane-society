@@ -1,52 +1,14 @@
-/* eslint-disable react/jsx-filename-extension */
-/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import logo from './imgs/logo.svg';
-import Signup from "signup.js";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import './css/App.css';
+import woods from './imgs/signupLogo.svg';
+import './css/signup.css';
 
 function App() {
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/signup">
-          <Signup />
-        </Route>
-      </Switch>
-    </Router>
+    <div className="App">
+      <img src={woods} className="woods-logo" alt="woods" />
+      <div className="account_header">Create an account</div>
+    </div>
   );
 }
-
-export default App;
-
-// import React from 'react';
-// import logo from './imgs/logo.svg';
-// import './css/App.css';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit
-//           {' '}
-//           <code>src/App.jsx</code>
-//           {' '}
-//           and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
 
 export default App;
