@@ -1,9 +1,12 @@
+.loginPage {
+  height: 100%;
+}
+
 #loginLogoSmall {
   height: 300px;
   width: 300px;
 }
 
 #loginLogo {
-  height: 120px;
-  width: 400px;
+  width: 60%;
 }
