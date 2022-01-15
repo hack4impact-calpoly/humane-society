@@ -8,9 +8,11 @@ import logoSmall from './imgs/logo-small.png';
 export default function Login() {
   return (
     <div className="loginPage">
+      {/* TODO make halves extend to end of page. container doesnt extend? */}
       <Grid
         container
         direction="row"
+        alignItems="stretch"
         style={{ height: '1000px' }}
       >
         <Grid
@@ -34,15 +36,17 @@ export default function Login() {
             alignItems="center"
             spacing={3}
           >
-            <Grid item>
+            <Grid item style={{ width: '60%' }}>
               <TextField
+                fullWidth
                 id="loginEmail"
                 label="Email"
                 placeholder="Enter your email"
               />
             </Grid>
-            <Grid item>
+            <Grid item style={{ width: '60%' }}>
               <TextField
+                fullWidth
                 id="loginPassword"
                 label="Password"
                 type="password"
@@ -53,14 +57,14 @@ export default function Login() {
             </Grid>
           </Grid>
           <Grid item>
+            {/* TODO style button to design */}
             <Button sx={{ color: '#4aa7ac' }}>Login</Button>
-          </Grid>
-          <Grid item>
+            <br />
             Don&apos;t have an account?&nbsp;
             <Link to="/signup">Create an account here.</Link>
           </Grid>
         </Grid>
-        {/* TODO make second half extend to end of page */}
+        {/* TODO center image in grid */}
         <Grid
           item
           md={6}
