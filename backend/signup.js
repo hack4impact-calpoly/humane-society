@@ -22,8 +22,9 @@ router.post('/email-taken', async (req, res) => {
 
 router.post('/', async (req, res) => {
     const { firstName, lastName, email } = req.body
-    const password = bcrypt.hashSync(req.body.password, 9); // creates password hash
-
+   // var salt = bcrypt.genSaltSync(10);
+   // const password = bcrypt.hashSync(req.body.password, salt);  // creates password hash
+    const password = req.body.password;
     let user = User;
     console.log(user)
 
@@ -36,7 +37,7 @@ router.post('/', async (req, res) => {
             var doc;
             var userID = '_' + Math.random().toString(36).substr(2, 9); // random ID
             doc = new userType({
-                userID, firstName, lastName, email, password
+                userID, firstName, lastName, userName, email, password
             })
 
             doc.save()
@@ -45,7 +46,7 @@ router.post('/', async (req, res) => {
         }
     }).catch(err => {
         console.log(err)
-        res.send(500).send("error")
+        res.status(500).send("error")
     })
 });
 
