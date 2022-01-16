@@ -21,13 +21,14 @@ router.post('/email-taken', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const { firstName, lastName, email } = req.body
-   // var salt = bcrypt.genSaltSync(10);
-   // const password = bcrypt.hashSync(req.body.password, salt);  // creates password hash
-    const password = req.body.password;
+    const { firstName, lastName, userName, email } = req.body
+    var salt = bcrypt.genSaltSync(10);
+    const password = bcrypt.hashSync(req.body.password, salt);  // creates password hash
+  //  const password = req.body.password;
     let user = User;
     console.log(user)
-
+    console.log(userName)
+    console.log(email)
     user.findOne({ 'email': email }).then(function (result) {
         if (result) {
             console.log("email already in use")
@@ -36,7 +37,7 @@ router.post('/', async (req, res) => {
         else {
             var doc;
             var userID = '_' + Math.random().toString(36).substr(2, 9); // random ID
-            doc = new userType({
+            doc = new user({
                 userID, firstName, lastName, userName, email, password
             })
 
