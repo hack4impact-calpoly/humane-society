@@ -56,9 +56,15 @@ export default function Login() {
               <Link to="/forgotpassword" style={{ float: 'right' }}>Forgot Password?</Link>
             </Grid>
           </Grid>
-          <Grid item>
+          <Grid item style={{ width: '60%' }}>
             {/* TODO style button to design */}
-            <Button sx={{ color: '#4aa7ac' }}>Login</Button>
+            <Button
+              variant="contained"
+              fullWidth
+              color="secondary"
+            >
+              Login
+            </Button>
             <br />
             Don&apos;t have an account?&nbsp;
             <Link to="/signup">Create an account here.</Link>
@@ -69,7 +75,6 @@ export default function Login() {
           item
           md={6}
           container
-          direction="column"
           justifyContent="center"
           alignItems="center"
           style={{ background: '#1d4d71' }}
