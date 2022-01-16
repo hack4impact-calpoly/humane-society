@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const { userConnection } = require('../backend');
 
 const UserSchema = new mongoose.Schema({
     userID: { type: String, required: true },
@@ -9,6 +10,5 @@ const UserSchema = new mongoose.Schema({
     password: { type: String, required: true },
 })
 
-const User = mongoose.model('users', UserSchema);
-
+const User = userConnection.model('users', UserSchema);
 module.exports = User
