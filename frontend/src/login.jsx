@@ -8,12 +8,14 @@ import logoSmall from './imgs/logo-small.png';
 export default function Login() {
   return (
     <div className="loginPage">
-      {/* TODO make halves extend to end of page. container doesnt extend? */}
+      {/* TODO make halves extend to end of page. container doesnt extend?
+      add functionality to form
+      dynamic font size */}
       <Grid
         container
         direction="row"
         alignItems="stretch"
-        style={{ height: '1000px' }}
+        sx={{ height: '1000px' }}
       >
         <Grid
           item
@@ -36,7 +38,7 @@ export default function Login() {
             alignItems="center"
             spacing={3}
           >
-            <Grid item style={{ width: '60%' }}>
+            <Grid item sx={{ width: '60%' }}>
               <TextField
                 fullWidth
                 id="loginEmail"
@@ -44,7 +46,7 @@ export default function Login() {
                 placeholder="Enter your email"
               />
             </Grid>
-            <Grid item style={{ width: '60%' }}>
+            <Grid item sx={{ width: '60%' }}>
               <TextField
                 fullWidth
                 id="loginPassword"
@@ -57,10 +59,10 @@ export default function Login() {
             </Grid>
           </Grid>
           <Grid item style={{ width: '60%' }}>
-            {/* TODO style button to design */}
             <Button
               variant="contained"
               fullWidth
+              size="large"
               color="secondary"
             >
               Login
@@ -75,10 +77,7 @@ export default function Login() {
           item
           md={6}
           container
-          justifyContent="center"
-          alignItems="center"
-          style={{ background: '#1d4d71' }}
-          sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}
+          sx={{ background: '#1d4d71', display: { xs: 'none', sm: 'none', md: 'block' } }}
         >
           <Grid item>
             <img id="loginLogoSmall" src={logoSmall} alt="logo" />
