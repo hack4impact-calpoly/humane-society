@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
     const { firstName, lastName, userName, email } = req.body
     var salt = bcrypt.genSaltSync(10);
     const password = bcrypt.hashSync(req.body.password, salt);  // creates password hash
-  //  const password = req.body.password;
+
     let user = User;
     console.log(user)
     console.log(userName)
