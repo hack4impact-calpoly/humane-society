@@ -15,7 +15,7 @@ export default function Login() {
         container
         direction="row"
         alignItems="stretch"
-        sx={{ height: '1000px' }}
+        sx={{ height: '100%' }}
       >
         <Grid
           item
@@ -25,7 +25,7 @@ export default function Login() {
           direction="column"
           justifyContent="center"
           alignItems="center"
-          spacing={2}
+          spacing={5}
         >
           <Grid item>
             <img id="loginLogo" src={logo} alt="logo" />
@@ -54,8 +54,9 @@ export default function Login() {
                 type="password"
                 placeholder="Password"
               />
-              <br />
-              <Link to="/forgotpassword" style={{ float: 'right' }}>Forgot Password?</Link>
+              <p>
+                <Link to="/forgotpassword" style={{ float: 'right' }}>Forgot Password?</Link>
+              </p>
             </Grid>
           </Grid>
           <Grid item style={{ width: '60%' }}>
@@ -67,9 +68,10 @@ export default function Login() {
             >
               Login
             </Button>
-            <br />
-            Don&apos;t have an account?&nbsp;
-            <Link to="/signup">Create an account here.</Link>
+            <p>
+              Don&apos;t have an account?&nbsp;
+              <Link to="/signup">Create an account here.</Link>
+            </p>
           </Grid>
         </Grid>
         {/* TODO center image in grid */}
