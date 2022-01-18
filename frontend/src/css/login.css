@@ -17,3 +17,9 @@
 p {
   font-size: 14px;
 }
+
+#hiddenMobile {
+  background-color: #1d4d71;
+  padding: 5%;
+  padding-top: 15%;
+}

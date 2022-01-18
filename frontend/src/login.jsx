@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './css/login.css';
 import { Button, Grid, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -6,11 +6,15 @@ import logo from './imgs/logo.png';
 import logoSmall from './imgs/logo-small.png';
 
 export default function Login() {
+  const [email, setEmail] = useState('');
+  const [pw, setPw] = useState('');
+  const verifyLogin = () => {
+    // Add value verification with AWS Amplify here
+    console.log('button pressed');
+    console.log(`Email=${email} pw=${pw}`);
+  };
   return (
     <div className="loginPage">
-      {/* TODO make halves extend to end of page. container doesnt extend?
-      add functionality to form
-      dynamic font size */}
       <Grid
         container
         direction="row"
@@ -42,17 +46,23 @@ export default function Login() {
               <TextField
                 fullWidth
                 id="loginEmail"
+                name="email"
                 label="Email"
                 placeholder="Enter your email"
+                value={email}
+                onChange={(e) => { setEmail(e.target.value); }}
               />
             </Grid>
             <Grid item sx={{ width: '60%' }}>
               <TextField
                 fullWidth
                 id="loginPassword"
+                name="password"
                 label="Password"
                 type="password"
                 placeholder="Password"
+                value={pw}
+                onChange={(e) => { setPw(e.target.value); }}
               />
               <p>
                 <Link to="/forgotpassword" style={{ float: 'right' }}>Forgot Password?</Link>
@@ -65,24 +75,27 @@ export default function Login() {
               fullWidth
               size="large"
               color="secondary"
+              onClick={verifyLogin}
             >
               Login
             </Button>
-            <p>
+            <p align="left">
               Don&apos;t have an account?&nbsp;
               <Link to="/signup">Create an account here.</Link>
             </p>
           </Grid>
         </Grid>
-        {/* TODO center image in grid */}
         <Grid
+          id="hiddenMobile"
           item
           md={6}
           container
-          sx={{ background: '#1d4d71', display: { xs: 'none', sm: 'none', md: 'block' } }}
+          justifyContent="center"
+          alignItems="center"
+          sx={{ display: { xs: 'none', sm: 'none', md: 'inline' } }}
         >
           <Grid item>
-            <img id="loginLogoSmall" src={logoSmall} alt="logo" />
+            <img id="loginLogoSmall" src={logoSmall} alt="logosmall" />
           </Grid>
         </Grid>
       </Grid>
