@@ -90,11 +90,9 @@ export default function Login() {
           item
           md={6}
           container
-          justifyContent="center"
-          alignItems="center"
           sx={{ display: { xs: 'none', sm: 'none', md: 'inline' } }}
         >
-          <Grid item>
+          <Grid id="logoSmallContainer" item>
             <img id="loginLogoSmall" src={logoSmall} alt="logosmall" />
           </Grid>
         </Grid>
