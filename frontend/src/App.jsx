@@ -4,7 +4,7 @@ import './css/App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './theme';
-import Login from './login';
+import Login from './components/login';
 
 function App() {
   return (
