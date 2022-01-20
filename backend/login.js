@@ -35,10 +35,11 @@ router.post('/', async (req, res) => {
                let token = makeToken(data)
                 result['token'] = token
                 res.send({ result, token })
+                res.status(200).send("valid")
+
             }
             else {
                 res.status(404).send("Invalid email/password")
-
             }
         }
     })

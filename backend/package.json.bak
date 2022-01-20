@@ -13,7 +13,7 @@
   },
   "scripts": {
     "start": "node server.js",
-    "test": "jest --testEnvironment=node",
+    "test": "jest",
     "dev": "node server.js"
   },
   "name": "backend",
