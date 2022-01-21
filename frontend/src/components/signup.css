@@ -1,0 +1,86 @@
+.woods-logo
+{
+    position: fixed;
+    width: 10%;
+    height: auto;
+    top: 20px;
+    left: 20px;
+}
+
+.label 
+{
+    text-align: left;
+    left: 550px;
+    font-weight: 500;
+    position: relative;
+    top: 50px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-size: 20px;
+    display: block;
+}
+
+.input{
+    position: relative;
+    top: 50px;
+    font-size: larger;
+    /* padding: 5px;
+    margin: 2px; */
+    display: block;
+    padding: 5px;
+    margin: 10px auto;
+    width: 350px;
+    
+  }
+
+.btn{
+    position: relative;
+    top: 110px;
+    color: white;
+    background-color: rgb(77, 181, 170);
+    border-radius: 5px;
+    font-size: 20px;
+    display: block;
+    padding: 5px;
+    margin: 10px auto;
+    width: 370px;
+  }
+  btn:focus {outline:0;};
+
+.signup_Background
+{
+    background-color: white;
+}
+
+.account_header
+{
+    text-align: center;
+    font-size: 35px;
+    top: 100px;
+    border: 3px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    font-weight: 600;
+    color: rgb(23, 75, 152);
+    padding-top: 6em;
+}
+
+.mini_header
+{
+    font-size: 20px;
+    top: 100px;
+    left: 3000px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    font-weight: 500;
+    color: rgb(0, 0, 0);
+    padding-top: 2em;
+}
+
+.Signup form
+{
+    margin: 0 auto;
+    max-width: 320px;
+}
