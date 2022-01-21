@@ -50,7 +50,7 @@ export default function signupPage() {
           display: submitted ? '' : 'none',
         }}>
         <h1>
-          User
+          This User,
            {name}
            successfully registered!!
         </h1>
