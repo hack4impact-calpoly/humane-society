@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import logo from '../imgs/signupLogo.svg';
-import '../css/login.css';
+import '../css/signup.css';
 
 export default function SignUp() {
   const [firstName, setFirstName] = useState('');
@@ -20,6 +20,23 @@ export default function SignUp() {
   const [validEmail, setValidEmail] = useState(false);
   const [validPhone, setValidPhone] = useState(false);
   const [validPassword, setValidPassword] = useState(false);
+  const [validFirstName, setValidFirstName] = useState(false);
+  const [validLastName, setValidLastName] = useState(false);
+
+  const checkFirst = () => {
+    if (firstName.length === 0) {
+      setValidFirstName(true);
+    } else {
+      setValidFirstName(false);
+    }
+  };
+  const checkLast = () => {
+    if (lastName.length === 0) {
+      setValidLastName(true);
+    } else {
+      setValidLastName(false);
+    }
+  };
 
   const checkEmail = () => {
     const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -32,7 +49,6 @@ export default function SignUp() {
 
   const checkPhone = () => {
     const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-    console.log(phoneNumber);
     if (!phoneNumber.match(phoneRegex) && phoneNumber.length !== 0) {
       setValidPhone(true);
     } else {
@@ -54,7 +70,7 @@ export default function SignUp() {
   };
 
   return (
-    <div className="signinPage">
+    <div className="signupPage">
       <Container component="main" maxWidth="xs">
         <Box
           sx={{
@@ -64,12 +80,12 @@ export default function SignUp() {
             justifyContent: 'center',
           }}
         >
-          <Typography component="h1" variant="h5">
-            Create an account
-          </Typography>
           <Grid item>
             <img id="signupLogo" src={logo} alt="logo" />
           </Grid>
+          <Typography component="h1" variant="h5">
+            Create an account
+          </Typography>
           <Box component="form" noValidate onSubmit={signup} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
@@ -82,6 +98,10 @@ export default function SignUp() {
                   label="First Name"
                   value={firstName}
                   onChange={(e) => { setFirstName(e.target.value); }}
+                  onBlur={checkFirst}
+                  error={validFirstName}
+                  helperText={validFirstName ? 'Please enter your first name' : ''}
+
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -94,6 +114,9 @@ export default function SignUp() {
                   autoComplete="family-name"
                   value={lastName}
                   onChange={(e) => { setLastName(e.target.value); }}
+                  onBlur={checkLast}
+                  error={validLastName}
+                  helperText={validLastName ? 'Please enter your last name' : ''}
                 />
               </Grid>
               <Grid item xs={12}>

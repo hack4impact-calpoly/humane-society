@@ -19,17 +19,6 @@
   width: 60%;
 }
 
-#signupLogo {
-  position: fixed;
-  top: 130px;
-  width: 15%;
-  left: 800px; 
-
-  /* height: auto;
-  top: 20px;
-  left: 20px; */
-}
-
 p {
   font-size: 14px;
 }
