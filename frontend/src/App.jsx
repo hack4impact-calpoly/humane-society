@@ -5,14 +5,12 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './theme';
 import Login from './components/login';
-import TaskBar from './components/taskbar';
 
 function App() {
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <TaskBar />
           <Routes>
             <Route path="/" element={<p>landing page</p>} />
             <Route path="/login" element={<Login />} exact />
