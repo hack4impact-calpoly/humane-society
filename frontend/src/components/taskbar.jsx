@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Grid } from '@mui/material';
+import { Grid, IconButton } from '@mui/material';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import logo from '../imgs/logo.png';
+import logo from '../imgs/logo.svg';
 import '../css/taskbar.css';
 
 export default function TaskBar() {
@@ -12,7 +12,7 @@ export default function TaskBar() {
         container
         direction="row"
         justifyContent="space-between"
-        alignItems="flex-end"
+        alignItems="center"
       >
         <Grid item xs={1}>
           <img id="logo" src={logo} alt="Woods Human Society Logo" />
@@ -27,7 +27,9 @@ export default function TaskBar() {
           </nav>
         </Grid>
         <Grid item xs={1}>
-          <AccountCircleOutlinedIcon color="primary" />
+          <IconButton aria-label="profile">
+            <AccountCircleOutlinedIcon color="primary" />
+          </IconButton>
         </Grid>
       </Grid>
     </header>
