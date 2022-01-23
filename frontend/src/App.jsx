@@ -1,8 +1,8 @@
-/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import './css/App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
+import Signup from './components/signup';
+import './css/App.css';
 import theme from './theme';
 import Login from './components/login';
 
@@ -14,7 +14,7 @@ function App() {
           <Routes>
             <Route path="/" element={<p>landing page</p>} />
             <Route path="/login" element={<Login />} exact />
-            <Route path="/signup" element={<p>Sign up</p>} />
+            <Route path="/signup" element={<Signup />} />
             <Route path="/forgotpassword" element={<p>forgot password</p>} />
             <Route path="/tasks" />
             <Route path="/availability" />
@@ -26,5 +26,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
