@@ -8,7 +8,6 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-// import MuiPhoneNumber from 'material-ui-phone-number';
 import '../css/login.css';
 
 export default function SignUp() {
@@ -39,9 +38,6 @@ export default function SignUp() {
       setValidPhone(false);
     }
   };
-  // const updatePhone = (value) => {
-  //   setPhoneNumber(value);
-  // };
 
   const checkPassword = () => {
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
@@ -169,12 +165,3 @@ export default function SignUp() {
     </div>
   );
 }
-// <MuiPhoneNumber
-// fullWidth
-// name="phone"
-// label="Phone Number"
-// data-cy="user-phone"
-// defaultCountry="us"
-// value={phoneNumber}
-// onChange={updatePhone}
-// />
