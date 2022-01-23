@@ -25,7 +25,7 @@ p {
 
 
 #hiddenMobile {
-  background-color: #054d75;
+  background-color: #1d4d71;
   justify-content: center;
 }
 
@@ -39,4 +39,5 @@ p {
 #loginLogoSmall {
   margin: auto;
   display: block;
+  background-color: white;
 }

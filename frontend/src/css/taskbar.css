@@ -1,0 +1,29 @@
+.taskBar {
+  height: 10%;
+  width: 100%;
+  background-color: #1d4d71;
+  padding: 20px;
+  padding-top: 30px;
+}
+
+#logo {
+  max-width: 100%;
+  min-width: 100px;
+  background-color: white;
+}
+
+a {
+  padding-left: 8%;
+  padding-right: 8%;
+  color: white;
+  text-decoration: none;
+  font-size: 1em;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+nav {
+  white-space: nowrap;
+}
