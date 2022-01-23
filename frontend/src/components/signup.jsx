@@ -54,7 +54,7 @@ export default function SignUp() {
   };
 
   return (
-    <div className="loginPage">
+    <div className="signinPage">
       <Container component="main" maxWidth="xs">
         <Box
           sx={{
