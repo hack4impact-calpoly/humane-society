@@ -24,6 +24,7 @@
   top: 130px;
   width: 15%;
   left: 800px; 
+  overflow: hidden;
 
   /* height: auto;
   top: 20px;
