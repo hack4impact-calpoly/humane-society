@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -14,19 +15,39 @@ export default function SignUp() {
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
+  const [validEmail, setValidEmail] = useState(false);
+  const [validPhone, setValidPhone] = useState(false);
+  const [validPassword, setValidPassword] = useState(false);
 
-  const verifySignup = () => {
-    // const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    // if (!email.match(validRegex)) {
-    //   alert('Please use a valid email');
-    // } else if (!phoneNumber.match(/\d/g).length === 10) {
-    //   alert('Please use a valid phone number');
-    // } else if (password.length < 8) {
-    //   alert('Please use a password that is longer than 8 characters');
-    // } else {
+  const checkEmail = () => {
+    const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    if (!email.toLowerCase().match(emailRegex) && email.length !== 0) {
+      setValidEmail(true);
+    } else {
+      setValidEmail(false);
+    }
+  };
+
+  const checkPhone = () => {
+    console.log(phoneNumber.match(/\d/g).length);
+    if (!(phoneNumber.match(/\d/g).length === 10) && phoneNumber.length !== 0) {
+      setValidPhone(true);
+    } else {
+      setValidPhone(false);
+    }
+  };
+
+  const checkPassword = () => {
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+    if (!password.match(passwordRegex) && password.length !== 0) {
+      setValidPassword(true);
+    } else {
+      setValidPassword(false);
+    }
+  };
+
+  const signup = () => {
     console.log(firstName, lastName, email, phoneNumber, password);
-    // function call to datdabase here
-    // }
   };
 
   return (
@@ -43,7 +64,7 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Create an account
           </Typography>
-          <Box component="form" noValidate onSubmit={verifySignup} sx={{ mt: 3 }}>
+          <Box component="form" noValidate onSubmit={signup} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -79,8 +100,9 @@ export default function SignUp() {
                   autoComplete="email"
                   value={email}
                   onChange={(e) => { setEmail(e.target.value); }}
-                  error={!email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/) && !email.length === 0}
-                  helperText={!email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/) && !email.length === 0 ? 'Must use valid email' : ''}
+                  onBlur={checkEmail}
+                  error={validEmail}
+                  helperText={validEmail ? 'Must use a valid email' : ''}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -93,7 +115,10 @@ export default function SignUp() {
                   autoComplete="phoneNumber"
                   value={phoneNumber}
                   onChange={(e) => { setPhoneNumber(e.target.value); }}
-                  error={!phoneNumber.length === 0}
+                  onBlur={checkPhone}
+                  error={validPhone}
+                  helperText={validPhone ? 'Must use a valid phone number' : ''}
+
                 />
               </Grid>
               <Grid item xs={12}>
@@ -107,8 +132,9 @@ export default function SignUp() {
                   autoComplete="new-password"
                   value={password}
                   onChange={(e) => { setPassword(e.target.value); }}
-                  error={password.length < 8 && !password.length === 0}
-                  helperText={password.length < 8 && !password.length === 0 ? 'Password must be atleast 8 characters' : ''}
+                  onBlur={checkPassword}
+                  error={validPassword}
+                  helperText={validPassword ? 'Must contain at least one number, one uppercase, one lowercase, and be atleast 8 characters' : ''}
                 />
               </Grid>
             </Grid>
@@ -138,5 +164,3 @@ export default function SignUp() {
     </div>
   );
 }
-//                  error={password.length > 8 && !password.length === 0}
-//                  error={!phoneNumber.match(/\d/g).length === 10 && !phoneNumber.length === 0}
