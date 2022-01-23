@@ -9,6 +9,14 @@
   width: 60%;
 }
 
+#signupLogo {
+  position: fixed;
+  width: 12%;
+  height: auto;
+  top: 20px;
+  left: 20px;
+}
+
 p {
   font-size: 14px;
 }
