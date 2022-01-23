@@ -15,9 +15,13 @@ function App() {
           <TaskBar />
           <Routes>
             <Route path="/" element={<p>landing page</p>} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Login />} exact />
             <Route path="/signup" element={<p>Sign up</p>} />
             <Route path="/forgotpassword" element={<p>forgot password</p>} />
+            <Route path="/tasks" />
+            <Route path="/availability" />
+            <Route path="/request-off" />
+            <Route path="/discussions" />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
