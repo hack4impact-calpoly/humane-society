@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable no-useless-escape */
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
@@ -7,6 +8,7 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+// import MuiPhoneNumber from 'material-ui-phone-number';
 import '../css/login.css';
 
 export default function SignUp() {
@@ -29,13 +31,17 @@ export default function SignUp() {
   };
 
   const checkPhone = () => {
-    console.log(phoneNumber.match(/\d/g).length);
-    if (!(phoneNumber.match(/\d/g).length === 10) && phoneNumber.length !== 0) {
+    const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    console.log(phoneNumber);
+    if (!phoneNumber.match(phoneRegex) && phoneNumber.length !== 0) {
       setValidPhone(true);
     } else {
       setValidPhone(false);
     }
   };
+  // const updatePhone = (value) => {
+  //   setPhoneNumber(value);
+  // };
 
   const checkPassword = () => {
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
@@ -109,16 +115,15 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  name="phoneNumber"
+                  id="phone"
                   label="Phone Number"
-                  id="phoneNumber"
-                  autoComplete="phoneNumber"
+                  name="phone"
+                  autoComplete="phone"
                   value={phoneNumber}
                   onChange={(e) => { setPhoneNumber(e.target.value); }}
                   onBlur={checkPhone}
                   error={validPhone}
                   helperText={validPhone ? 'Must use a valid phone number' : ''}
-
                 />
               </Grid>
               <Grid item xs={12}>
@@ -164,3 +169,12 @@ export default function SignUp() {
     </div>
   );
 }
+// <MuiPhoneNumber
+// fullWidth
+// name="phone"
+// label="Phone Number"
+// data-cy="user-phone"
+// defaultCountry="us"
+// value={phoneNumber}
+// onChange={updatePhone}
+// />
