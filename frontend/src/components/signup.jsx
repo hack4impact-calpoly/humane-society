@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { useState } from 'react';
 import './signup.css'
+//testing to see if commits work
 
 export default function signupPage() {
   // States for registration
