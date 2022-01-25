@@ -19,5 +19,5 @@ const AvailabilitySchema = new mongoose.Schema({
     completedStatusSet: { type: Boolean, required: false, default: false },
 })
 
-const Availability = userConnection.model('availability', UserSchema);
+const Availability = userConnection.model('availability', AvailabilitySchema);
 module.exports = Availability

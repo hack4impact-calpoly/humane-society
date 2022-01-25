@@ -11,15 +11,13 @@ router.post('/', async (req, res) => {
     let completed = false;
     let completedStatusSet = false;
     let availability = Availability;
-    console.log(user)
-    console.log(userName)
-    console.log(email)
+    console.log()
 
     availability.findOne({ 'volunteer': volunteer }).then(function (result) {
         if (result) {
-
-            // update times
-            res.status(404).send("email already in use")
+            availability.times = times;
+            availability.day = day;
+            res.status(404).send("updating..")
         }
         else {
             var doc;
