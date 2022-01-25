@@ -3,12 +3,13 @@ var request = require('supertest');
 const app = express();
 const { MongoClient } = require('mongodb');
 const mongoose = require('mongoose');
+require('dotenv').config()
 
 describe('insert', () => {
     let connection;
     let db;
     beforeAll(async () => {
-        connection = await MongoClient.connect(`mongodb+srv://h4iadmin:WoodsSociety@cluster0.szxqh.mongodb.net/Users?retryWrites=true&w=majority`, {
+        connection = await MongoClient.connect(`mongodb+srv://${process.env.ADMIN_USERNAME}:${process.env.ADMIN_PASSWORD}@cluster0.szxqh.mongodb.net/Users?retryWrites=true&w=majority`, {
             useNewUrlParser: true,
         });
         db = await connection.db(`Users`);

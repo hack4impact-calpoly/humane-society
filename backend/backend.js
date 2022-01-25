@@ -22,7 +22,7 @@ function makeNewConnection(uri) {
 
     return db;
 }
-const userURL = `mongodb+srv://h4iadmin:WoodsSociety@cluster0.szxqh.mongodb.net/Users?retryWrites=true&w=majority`;
+const userURL = `mongodb+srv://${process.env.ADMIN_USERNAME}:${process.env.ADMIN_PASSWORD}@cluster0.szxqh.mongodb.net/Users?retryWrites=true&w=majority`;
 const userConnection = makeNewConnection(userURL);
 
 
