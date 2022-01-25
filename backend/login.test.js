@@ -1,4 +1,6 @@
-const signup = require('./login');
+var request = require('supertest');
+const express = require('express');
+const app = express();
 
 const { MongoClient } = require('mongodb');
 
@@ -13,7 +15,6 @@ describe('insert', () => {
     });
     afterAll(async () => {
         await connection.close();
-        // await db.close();
     });
     it('should insert a doc into collection', async () => {
         const users = db.collection('users');
@@ -25,8 +26,8 @@ describe('insert', () => {
             "email": "test@gmail.com",
             "password": "1234"
         };
-        await users.insertOne(mockUser); // find one
-        const insertedUser = await users.findOne({ email: "test@gmail.com" }); // use login here
-        expect(insertedUser.password).toEqual(mockUser.password)
+        await users.insertOne(mockUser);
+        const insertedUser = request(app).get('/login').send({ userName: "noximus", email: "test@gmail.com", password: "1234" })
+        expect(insertedUser._data.password).toEqual(mockUser.password)
     });
 });
