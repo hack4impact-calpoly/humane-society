@@ -1,6 +1,8 @@
-const signup = require('./signup');
-
+const express = require('express');
+var request = require('supertest');
+const app = express();
 const { MongoClient } = require('mongodb');
+const mongoose = require('mongoose');
 
 describe('insert', () => {
     let connection;
@@ -13,7 +15,6 @@ describe('insert', () => {
     });
     afterAll(async () => {
         await connection.close();
-       // await db.close();
     });
     it('should insert a doc into collection', async () => {
         const users = db.collection('users');
@@ -25,8 +26,13 @@ describe('insert', () => {
             "email": "test@gmail.com",
             "password": "1234"
         };
-        await users.insertOne(mockUser);  // call post function
+        await request(app).post('/signup').send(mockUser)
         const insertedUser = await users.findOne({ userID: 1 });
-        expect(insertedUser).toEqual(mockUser);
+        expect(insertedUser.email).toEqual(mockUser.email);
+        expect(insertedUser.userName).toEqual(mockUser.userName);
+        expect(insertedUser.firstName).toEqual(mockUser.firstName);
+        expect(insertedUser.lastName).toEqual(mockUser.lastName);
+
+        // delete user in db here
     });
 });

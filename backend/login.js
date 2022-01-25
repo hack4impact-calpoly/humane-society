@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
             res.status(404).send("Invalid email")
         }
         else {
-     
+
             if (bcrypt.compareSync(password, result.password)) // compare password
             {
                 console.log("logged in")
@@ -32,7 +32,7 @@ router.post('/', async (req, res) => {
                     userID: userID
                 }
                 // make login token
-               let token = makeToken(data)
+                let token = makeToken(data)
                 result['token'] = token
                 res.send({ result, token })
                 res.status(200).send("valid")
