@@ -2,6 +2,7 @@ const mongoose = require("mongoose")
 const { userConnection } = require('../backend');
 
 const AvailabilitySchema = new mongoose.Schema({
+    day: { type: Date, required: false },
     times: [{ start: { type: Date, required: false }, end: { type: Date, required: false } }],
     volunteer: {
         type: {
