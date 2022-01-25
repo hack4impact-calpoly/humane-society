@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
         }
         else {
             var doc;
-            doc = new user({
+            doc = new availability({
                 day, times, volunteer, usingDefaultTimes, completed, completedStatusSet
             })
 

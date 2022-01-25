@@ -9,11 +9,11 @@ app.use(bodyParser.json());
 
 var signup = require('./signup')
 var login = require('./login')
-var login = require('./availability')
+var availability = require('./UpdateAvailability')
 
 app.use('/signup', signup)
 app.use('/login', login)
-app.use('/availability', UpdateAvailability)
+app.use('/availability', availability)
 
 app.get('/', (req, res) => {
   res.send('Hi from Woods Humane Society!');
