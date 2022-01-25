@@ -2,6 +2,7 @@ const express = require('express');
 var request = require('supertest');
 const app = express();
 const { MongoClient } = require('mongodb');
+const mongoose = require('mongoose');
 
 describe('insert', () => {
     let connection;
@@ -31,5 +32,7 @@ describe('insert', () => {
         expect(insertedUser.userName).toEqual(mockUser.userName);
         expect(insertedUser.firstName).toEqual(mockUser.firstName);
         expect(insertedUser.lastName).toEqual(mockUser.lastName);
+
+        // delete user in db here
     });
 });
