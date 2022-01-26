@@ -1,0 +1,17 @@
+#signupLogo {
+    margin: auto;
+    display: block;
+    width: 80%;
+    padding-bottom: 30px;
+  }
+
+  .signupPage {
+    top: 100px;
+    padding: 7px;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    font-size: 22px;
+    overflow: hidden;
+  }
+  
