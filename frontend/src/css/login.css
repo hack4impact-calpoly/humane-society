@@ -1,0 +1,43 @@
+.loginPage {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.signinPage {
+  top: 240px;
+  padding: 7px;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  font-size: 22px;
+  overflow: hidden;
+}
+
+#loginLogo {
+  width: 60%;
+}
+
+p {
+  font-size: 14px;
+}
+
+
+#hiddenMobile {
+  background-color: #1d4d71;
+  justify-content: center;
+}
+
+#logoSmallContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+#loginLogoSmall {
+  margin: auto;
+  display: block;
+  background-color: white;
+}
