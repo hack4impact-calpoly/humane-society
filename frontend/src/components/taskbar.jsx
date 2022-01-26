@@ -22,18 +22,17 @@ export default function TaskBar() {
         <Grid item xs={1}>
           <img id="logo" src={logo} alt="Woods Human Society Logo" />
         </Grid>
-        <Grid item md={3} />
-        <Grid item xs={7}>
+        <Grid item xs={8}>
           <nav>
             <Link to="/tasks">Tasks</Link>
-            <Link to="/availability">Availability</Link>
             <Link to="/request-off">Request Off</Link>
             <Link to="/discussion">Discussion</Link>
+            <Link to="/availability">Availability</Link>
           </nav>
         </Grid>
         <Grid item xs={1}>
           <IconButton aria-label="profile">
-            <AccountCircleOutlinedIcon color="primary" />
+            <AccountCircleOutlinedIcon color="grey" />
           </IconButton>
         </Grid>
       </Grid>
