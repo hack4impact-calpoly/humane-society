@@ -7,11 +7,11 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var signup = require('./signup')
-var login = require('./login')
+const signup = require('./src/signup');
+const login = require('./src/login');
 
-app.use('/signup', signup)
-app.use('/login', login)
+app.use('/signup', signup);
+app.use('/login', login);
 
 app.get('/', (req, res) => {
   res.send('Hi from Woods Humane Society!');
