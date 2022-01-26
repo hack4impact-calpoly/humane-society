@@ -20,7 +20,7 @@ describe('insert', () => {
     await connection.close();
   });
   it('should insert a doc into collection', async () => {
-    const users = db.collection('users');
+    const users = db.collection('test');
     const mockUser = {
       userID: 1,
       firstName: 'Sage',

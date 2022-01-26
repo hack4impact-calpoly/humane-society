@@ -1,8 +1,9 @@
+/* eslint-disable no-param-reassign */
 const express = require('express');
 
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const { Token, makeToken } = require('../token');
+const { makeToken } = require('../token');
 require('dotenv').config();
 
 const User = require('../models/user');
@@ -17,8 +18,7 @@ router.post('/', async (req, res) => {
     if (!result) {
       console.log('Invalid email');
       res.status(404).send('Invalid email');
-    } else if (bcrypt.compareSync(password, result.password)) // compare password
-    {
+    } else if (bcrypt.compareSync(password, result.password)) {
       console.log('logged in');
       // prepare login data
       const { userID } = result;
