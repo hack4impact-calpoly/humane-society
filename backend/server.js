@@ -7,9 +7,9 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var signup = require('./signup')
-var login = require('./login')
-var availability = require('./UpdateAvailability')
+var signup = require('./src/signup')
+var login = require('./src/login')
+var availability = require('./src/UpdateAvailability')
 
 app.use('/signup', signup)
 app.use('/login', login)

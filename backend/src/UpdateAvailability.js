@@ -2,18 +2,18 @@ const express = require('express');
 const router = express.Router();
 require('dotenv').config()
 
-const Availability = require('./models/availability');
+const Availability = require('../models/availability');
 
 
 router.post('/', async (req, res) => {
-    const { day, times, volunteer } = req.body
+    const { day, times, employee } = req.body
     let usingDefaultTimes = true;
     let completed = false;
     let completedStatusSet = false;
     let availability = Availability;
     console.log()
 
-    availability.findOne({ 'volunteer': volunteer }).then(function (result) {
+    availability.findOne({ 'employee': employee }).then(function (result) {
         if (result) {
             availability.times = times;
             availability.day = day;
@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
         else {
             var doc;
             doc = new availability({
-                day, times, volunteer, usingDefaultTimes, completed, completedStatusSet
+                day, times, employee, usingDefaultTimes, completed, completedStatusSet
             })
 
             doc.save()
