@@ -5,7 +5,8 @@ require('dotenv').config()
 const Availability = require('../models/availability');
 
 
-router.post('/', async (req, res) => {
+
+router.post('/newAvailability', async (req, res) => {
     const { day, times, employee } = req.body
     let usingDefaultTimes = true;
     let completed = false;
@@ -13,14 +14,8 @@ router.post('/', async (req, res) => {
     let availability = Availability;
     console.log()
 
-    availability.findOne({ 'employee': employee }).then(function (result) {
-        if (result) {
-            availability.times = times;
-            availability.day = day;
-            res.status(404).send("updating..")
-        }
-        else {
-            var doc;
+ 
+           var doc;
             doc = new availability({
                 day, times, employee, usingDefaultTimes, completed, completedStatusSet
             })
@@ -28,10 +23,24 @@ router.post('/', async (req, res) => {
             doc.save()
             console.log("availability added")
             res.status(200).send("success")
+    
+
+
+});
+
+router.post('/updateAvailability', async (req, res) => {
+    const { times, _id } = req.body
+    let availability = Availability;
+    console.log()
+    console.log(times)
+
+    availability.updateOne({ '_id': _id },{ times : times }).then(function (result) {
+        if (result) {
+            res.status(200).send("updated successfully")
         }
     }).catch(err => {
         console.log(err)
-        res.status(500).send("error")
+        res.status(500).send("could not update")
     })
         
 
