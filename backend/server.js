@@ -19,13 +19,13 @@ app.get('/', (req, res) => {
 
 app.get('/getAllUsers', async (req, res) =>{
   const allUsers = await User.find({});
-  res.send(allUsers);
+  res.json(allUsers);
 });
 
 app.get('/getUserById/:userId', async (req, res) => {
   const userId = req.params.userId;
-  const user = await User.find({userID: userId});
-  res.send(user);
+  const user = await User.findOne({userID: userId});
+  res.json(user);
 });
 
 app.listen(3001);
