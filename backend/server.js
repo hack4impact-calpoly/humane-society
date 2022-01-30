@@ -9,23 +9,14 @@ app.use(bodyParser.json());
 
 const signup = require('./src/signup');
 const login = require('./src/login');
+const users = require('./src/users.js');
 
 app.use('/signup', signup);
 app.use('/login', login);
+app.use('/users', users);
 
 app.get('/', (req, res) => {
   res.send('Hi from Woods Humane Society!');
-});
-
-app.get('/getAllUsers', async (req, res) =>{
-  const allUsers = await User.find({});
-  res.json(allUsers);
-});
-
-app.get('/getUserById/:userId', async (req, res) => {
-  const userId = req.params.userId;
-  const user = await User.findOne({userID: userId});
-  res.json(user);
 });
 
 app.listen(3001);
