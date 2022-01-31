@@ -28,15 +28,15 @@ describe('get user endpoints', () => {
   });
 
   // This test corresponds to the "/getAllUsers" endpoint
-  /*it('get all users test', async () => {
+  it('get all users test', async () => {
     const users = db.collection('test');
     const expectedAllUsers = [{
       userId: 1,
-      firstName: 'Sage',
-      lastName: 'Meadows',
-      userName: 'noximus',
-      email: 'test@gmail.com',
-      password: '1234',
+      firstName: 'Namey',
+      lastName: 'McNamerson',
+      userName: 'MrName',
+      email: 'test1@gmail.com',
+      password: '12345',
     },
     {
       userId: 2,
@@ -47,9 +47,9 @@ describe('get user endpoints', () => {
       password: 'password',
     }];
     
-    const allUsers = await request(app).get('/getAllUsers').json();
+    const allUsers = await request(app).get('/getUsers/getAllUsers');
 
-    expect(allUsers.length()).toEqual(expectedAllUsers.length);
+    expect(allUsers.length).toEqual(expectedAllUsers.length);
 
     expect(allUsers[0].userID).toEqual(expectedAllUsers[0].userId);
     expect(allUsers[0].firstName).toEqual(expectedAllUsers[0].firstName);
@@ -66,22 +66,22 @@ describe('get user endpoints', () => {
     expect(allUsers[1].password).toEqual(expectedAllUsers[0].password);
 
     done();
-  });*/
+  });
 
   // This test corresponds to the "/getUserById/:userId" endpoint
-  it('get user by userId test', async () => {
+  /*it('get user by userId test', async () => {
     const users = db.collection('test');
     const expectedUserId = 2;
     const expectedTestUser = {
       userId: 2,
-      firstName: 'Cole',
-      lastName: 'Morrison',
-      userName: 'colem18',
-      email: 'test2@gmail.com',
-      password: 'password',
+      firstName: 'Namey',
+      lastName: 'McNamerson',
+      userName: 'MrName',
+      email: 'test1@gmail.com',
+      password: '12345',
     };
 
-    const res = await request(app).get(`/getUserById/${expectedUserId}`);
+    const res = await request(app).get(`/getUsers/getUserById?=${expectedUserId}`);
     const testUser = res.json;
 
     expect(testUser.userID).toEqual(expectedTestUser.userId);
@@ -92,5 +92,5 @@ describe('get user endpoints', () => {
     expect(testUser.password).toEqual(expectedTestUser.password);
 
     done();
-  });
+  });*/
 });

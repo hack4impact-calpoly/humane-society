@@ -11,8 +11,8 @@ router.get('/getAllUsers', async (req, res) => {
     res.json(allUsers);
   });
   
-  router.get('/getUserById/:userId', async (req, res) => {
-    const userId = req.params.userId;
+  router.get('/getUserById', async (req, res) => {
+    const userId = parseInt(req.query.userID);
     const user = await User.findOne({ userID: userId });
     res.json(user);
   });
