@@ -13,13 +13,13 @@ describe('insert', () => {
         connection = await MongoClient.connect(`mongodb+srv://${process.env.ADMIN_USERNAME}:${process.env.ADMIN_PASSWORD}@cluster0.szxqh.mongodb.net/Users?retryWrites=true&w=majority`, {
             useNewUrlParser: true,
         });
-        db = await connection.db('availabilities');
+        db = await connection.db('test');
     });
     afterAll(async () => {
         await connection.close();
     });
     it('should insert a doc into collection', async () => {
-        const availabilities = db.collection('availabilities');
+        const availabilities = db.collection('test');
         const mockAvailability = {
             day: "2020-03-09T22:18:26.625Z",
             times: [],
