@@ -33,7 +33,7 @@ describe('insert', () => {
 
             }
         };
-        await request(app).post('/newAvailability').send(mockAvailability);
+        await request(app).post('/availability/newAvailability').send(mockAvailability);
         const insertedUser = await availabilities.findOne({ userID: 20 });
  /*       expect(insertedUser.day).toEqual(mockAvailability.day);
         expect(insertedUser.times).toEqual(mockAvailability.times);
