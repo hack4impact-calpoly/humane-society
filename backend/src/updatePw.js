@@ -16,14 +16,14 @@ router.put('/', async (req, res) => {
   const update = { password: newPassword };
 
   user.findOneAndUpdate({ email }, update)
-  .then(() => {
-    console.log('password update successful');
-    res.status(200).send('success');
-  })
-  .catch((err) => {
-    console.log(err);
-    res.status(500).send('error');
-  });
+    .then(() => {
+      console.log('password update successful');
+      res.status(200).send('success');
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send('error');
+    });
 });
 
 module.exports = router;

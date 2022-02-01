@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-undef */
 const request = require('supertest');
 const express = require('express');
 require('dotenv').config();
@@ -27,7 +29,7 @@ describe('insert', () => {
       email: 'test@gmail.com',
       password: '1234',
     };
-    const newPassword = '5678'
+    const newPassword = '5678';
     await users.insertOne(mockUser);
     const insertedUser = request(app).put('/updatePw').send({ email: 'test@gmail.com', password: newPassword });
     expect(insertedUser._data.password).toEqual(newPassword);
