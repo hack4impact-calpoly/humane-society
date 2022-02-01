@@ -14,5 +14,22 @@ describe('insert', () => {
     });
     db = await connection.db('Users');
   });
-  
+  afterAll(async () => {
+    await connection.close();
+  });
+  it('should insert a doc into collection', async () => {
+    const users = db.collection('test');
+    const mockUser = {
+      userID: 1,
+      firstName: 'Sage',
+      lastName: 'Meadows',
+      userName: 'noximus',
+      email: 'test@gmail.com',
+      password: '1234',
+    };
+    const newPassword = '5678'
+    await users.insertOne(mockUser);
+    const insertedUser = request(app).put('/updatePw').send({ email: 'test@gmail.com', password: newPassword });
+    expect(insertedUser._data.password).toEqual(newPassword);
+  });
 });
