@@ -1,6 +1,4 @@
 /* eslint-disable no-undef */
-
-// NOTE TO SELF: change to work with availibility
 const express = require('express');
 const request = require('supertest');
 
@@ -15,27 +13,31 @@ describe('insert', () => {
         connection = await MongoClient.connect(`mongodb+srv://${process.env.ADMIN_USERNAME}:${process.env.ADMIN_PASSWORD}@cluster0.szxqh.mongodb.net/Users?retryWrites=true&w=majority`, {
             useNewUrlParser: true,
         });
-        db = await connection.db('Users');
+        db = await connection.db('availabilities');
     });
     afterAll(async () => {
         await connection.close();
     });
     it('should insert a doc into collection', async () => {
-        const users = db.collection('test');
-        const mockUser = {
-            userID: 1,
-            firstName: 'Sage',
-            lastName: 'Meadows',
-            userName: 'noximus',
-            email: 'test@gmail.com',
-            password: '1234',
+        const availabilities = db.collection('availabilities');
+        const mockAvailability = {
+            day: "2020-03-09T22:18:26.625Z",
+            times: [],
+            employee: {
+
+                userID: 20,
+                firstName: "Sage",
+                lastName: "Meadows",
+                userName: "noximus",
+                email: "test@gmail.com"
+
+            }
         };
-        await request(app).post('/signup').send(mockUser);
-        const insertedUser = await users.findOne({ userID: 1 });
-        expect(insertedUser.email).toEqual(mockUser.email);
-        expect(insertedUser.userName).toEqual(mockUser.userName);
-        expect(insertedUser.firstName).toEqual(mockUser.firstName);
-        expect(insertedUser.lastName).toEqual(mockUser.lastName);
+        await request(app).post('/newAvailability').send(mockAvailability);
+        const insertedUser = await availabilities.findOne({ userID: 20 });
+ /*       expect(insertedUser.day).toEqual(mockAvailability.day);
+        expect(insertedUser.times).toEqual(mockAvailability.times);
+        expect(insertedUser.employee).toEqual(mockAvailability.employee);*/
 
         // delete user in db here
     });
