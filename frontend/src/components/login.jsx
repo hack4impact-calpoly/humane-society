@@ -45,6 +45,7 @@ export default function Login() {
             <Grid item sx={{ width: '60%' }}>
               <TextField
                 fullWidth
+                required
                 id="loginEmail"
                 name="email"
                 label="Email"
@@ -56,6 +57,7 @@ export default function Login() {
             <Grid item sx={{ width: '60%' }}>
               <TextField
                 fullWidth
+                required
                 id="loginPassword"
                 name="password"
                 label="Password"
