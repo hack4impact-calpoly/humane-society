@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 
 const signup = require('./src/signup');
 const login = require('./src/login');
-const users = require('./src/getUsers.js');
+const users = require('./src/getUsers');
 
 app.use('/signup', signup);
 app.use('/login', login);
