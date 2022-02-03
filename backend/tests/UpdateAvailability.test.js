@@ -19,26 +19,21 @@ describe('insert', () => {
         await connection.close();
     });
     it('should insert a doc into collection', async () => {
-        const availabilities = db.collection('test');
+        const availabilities = db.collection('avail');
         const mockAvailability = {
             day: "2020-03-09T22:18:26.625Z",
             times: [],
-            employee: {
-
-                userID: 20,
-                firstName: "Sage",
-                lastName: "Meadows",
-                userName: "noximus",
-                email: "test@gmail.com"
-
-            }
+            userID: 20
+            
         };
+        console.log("about to call")
+
         await request(app).post('/availability/newAvailability').send(mockAvailability);
         const insertedUser = await availabilities.findOne({ userID: 20 });
- /*       expect(insertedUser.day).toEqual(mockAvailability.day);
+        expect(insertedUser.day).toEqual(mockAvailability.day);
         expect(insertedUser.times).toEqual(mockAvailability.times);
-        expect(insertedUser.employee).toEqual(mockAvailability.employee);*/
+        expect(insertedUser.userID).toEqual(mockAvailability.userID);
 
-        // delete user in db here
+        // delete availability in db here
     });
 });

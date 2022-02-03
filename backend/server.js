@@ -13,8 +13,7 @@ var availability = require('./src/UpdateAvailability')
 
 app.use('/signup', signup)
 app.use('/login', login)
-app.use('/availability/updateAvailability', availability)
-app.use('/availability/newAvailability', availability)
+app.use('/availability', availability)
 
 app.get('/', (req, res) => {
   res.send('Hi from Woods Humane Society!');

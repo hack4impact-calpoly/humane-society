@@ -7,23 +7,23 @@ const Availability = require('../models/availability');
 
 
 router.post('/newAvailability', async (req, res) => {
-    const { day, times, employee } = req.body
+    const { day, times, userID } = req.body
     let usingDefaultTimes = true;
     let completed = false;
     let completedStatusSet = false;
     let availability = Availability;
-    console.log()
+    console.log("inside function")
 
- 
-           var doc;
-            doc = new availability({
-                day, times, employee, usingDefaultTimes, completed, completedStatusSet
-            })
 
-            doc.save()
-            console.log("availability added")
-            res.status(200).send("success")
-    
+    var doc;
+    doc = new availability({
+        day, times, userID, usingDefaultTimes, completed, completedStatusSet
+    })
+
+    doc.save()
+    console.log("availability added")
+    res.status(200).send("success")
+
 
 
 });
@@ -34,7 +34,7 @@ router.post('/updateAvailability', async (req, res) => {
     console.log()
     console.log(times)
 
-    availability.updateOne({ '_id': _id },{ times : times }).then(function (result) {
+    availability.updateOne({ '_id': _id }, { times: times }).then(function (result) {
         if (result) {
             res.status(200).send("updated successfully")
         }
@@ -42,7 +42,7 @@ router.post('/updateAvailability', async (req, res) => {
         console.log(err)
         res.status(500).send("could not update")
     })
-        
+
 
 });
 
