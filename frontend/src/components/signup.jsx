@@ -1,13 +1,10 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-useless-escape */
 import React, { useState } from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
+import {
+  Button, TextField, Link, Grid, Box, Typography, Container,
+} from '@mui/material';
+import { Auth } from 'aws-amplify';
 import logo from '../imgs/signupLogo.svg';
 import '../css/signup.css';
 
@@ -57,7 +54,7 @@ export default function SignUp() {
   };
 
   const checkPassword = () => {
-    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}(?=.*[!@#$%^&*])/;
     if (!password.match(passwordRegex) && password.length !== 0) {
       setValidPassword(true);
     } else {
@@ -66,7 +63,24 @@ export default function SignUp() {
   };
 
   const signup = () => {
+    if (!validEmail || !validFirstName || !validLastName || !validPhone || !validPassword) {
+      // Need a way to indicate form was not filled correctly after refresh with button
+      return;
+    }
     console.log(firstName, lastName, email, phoneNumber, password);
+    Auth.signUp({
+      email,
+      password,
+      attribute: {
+        given_name: firstName,
+        family_name: lastName,
+        phone_number: phoneNumber,
+      },
+    }).then((result) => {
+      console.log(result);
+    }).catch((error) => {
+      console.log(error);
+    });
   };
 
   return (
@@ -162,7 +176,7 @@ export default function SignUp() {
                   onChange={(e) => { setPassword(e.target.value); }}
                   onBlur={checkPassword}
                   error={validPassword}
-                  helperText={validPassword ? 'Must contain at least one number, one uppercase, one lowercase, and be atleast 8 characters' : ''}
+                  helperText={validPassword ? 'Must contain at least one number, one uppercase, one lowercase, one special character and be atleast 8 characters' : ''}
                 />
               </Grid>
             </Grid>

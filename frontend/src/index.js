@@ -2,16 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './css/index.css';
 import Amplify from 'aws-amplify';
-import config from './config.json';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+require('dotenv').config();
 
 Amplify.configure({
   Auth: {
     mandotorySignId: true,
-    region: config.cognito.REGION,
-    userPoolId: config.cognito.USER_POOL_ID,
-    userPoolWebClientId: config.cognito.APP_CLIENT_ID,
+    region: process.env.REACT_APP_REGION,
+    userPoolId: process.env.REACT_APP_USER_POOL_ID,
+    userPoolWebClientId: process.env.REACT_APP_APP_CLIENT_ID,
   },
 });
 
