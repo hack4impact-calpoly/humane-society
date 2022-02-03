@@ -12,6 +12,7 @@ function App() {
     <div className="App">
       <ThemeProvider theme={theme}>
         <BrowserRouter>
+          <CustomTask />
           <Routes>
             <Route path="/" element={<p>landing page</p>} />
             <Route path="/login" element={<Login />} exact />
@@ -21,7 +22,6 @@ function App() {
             <Route path="/availability" />
             <Route path="/request-off" />
             <Route path="/discussions" />
-            <Route path="/customtask" element={<CustomTask />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

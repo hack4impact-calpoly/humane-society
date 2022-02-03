@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
+// import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -15,7 +15,6 @@ export default function SignUp() {
   const [description, setDescription] = useState('');
   const [validTask, setValidTask] = useState(false);
   const [validDescription, setValidDescription] = useState(false);
-
 
   const checkTask = () => {
     if (newTask.length === 0) {
@@ -52,7 +51,7 @@ export default function SignUp() {
           </Typography>
           <Box component="form" noValidate onSubmit={create} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={12}>
                 <TextField
                   autoComplete="given-name"
                   name="newTask"
@@ -68,7 +67,7 @@ export default function SignUp() {
 
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={12}>
                 <TextField
                   required
                   fullWidth
@@ -81,6 +80,7 @@ export default function SignUp() {
                   error={validDescription}
                   helperText={validDescription ? 'Please enter your last name' : ''}
                 />
+              </Grid>
             </Grid>
             <Button
               type="submit"
@@ -100,4 +100,3 @@ export default function SignUp() {
     </div>
   );
 }
-diff --git a/frontend/src/css/customtask.css b/frontend/src/css/customtask.css
