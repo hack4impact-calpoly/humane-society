@@ -5,6 +5,7 @@ import Signup from './components/signup';
 import './css/App.css';
 import theme from './theme';
 import Login from './components/login';
+import CustomTask from './components/customtask';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/availability" />
             <Route path="/request-off" />
             <Route path="/discussions" />
+            <Route path="/customtask" element={<CustomTask />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
