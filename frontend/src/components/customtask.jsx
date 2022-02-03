@@ -82,18 +82,24 @@ export default function SignUp() {
                 />
               </Grid>
             </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              style={{
-                borderRadius: 8,
-                backgroundColor: '#B0B0B0',
-              }}
-            >
-              Create
-            </Button>
+            <Grid container>
+              <Grid item sm={6}>
+                <Box display="flex" justifyContent="flex-end">
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                    style={{
+                    borderRadius: 8,
+                    backgroundColor: '#B0B0B0',
+                    }}
+                  >
+                    Create
+                  </Button>
+                </Box>
+              </Grid>
+            </Grid>
           </Box>
         </Box>
       </Container>
