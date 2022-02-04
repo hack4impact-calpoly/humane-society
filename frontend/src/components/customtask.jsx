@@ -82,17 +82,17 @@ export default function SignUp() {
                 />
               </Grid>
             </Grid>
-            <Grid container>
-              <Grid item sm={6}>
-                <Box display="flex" justifyContent="flex-end">
+            <Grid container justifyContent="flex-end">
+              <Grid item sm={4}>
+                <Box>
                   <Button
                     type="submit"
                     fullWidth
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
                     style={{
-                    borderRadius: 8,
-                    backgroundColor: '#B0B0B0',
+                      borderRadius: 8,
+                      backgroundColor: '#4aa7ac',
                     }}
                   >
                     Create
