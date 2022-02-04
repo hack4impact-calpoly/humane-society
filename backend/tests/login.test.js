@@ -14,7 +14,7 @@ describe('insert', () => {
     connection = await MongoClient.connect(`mongodb+srv://${process.env.ADMIN_USERNAME}:${process.env.ADMIN_PASSWORD}@cluster0.szxqh.mongodb.net/Users?retryWrites=true&w=majority`, {
       useNewUrlParser: true,
     });
-    db = await connection.db('test');
+    db = await connection.db('Test');
   });
   afterAll(async () => {
     await connection.close();
@@ -31,6 +31,7 @@ describe('insert', () => {
     };
     await users.insertOne(mockUser);
     const insertedUser = request(app).get('/login').send({ userName: 'noximus', email: 'test@gmail.com', password: '1234' });
+    // console.log(insertedUser);
     expect(insertedUser._data.password).toEqual(mockUser.password);
   });
 });
