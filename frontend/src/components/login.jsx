@@ -17,6 +17,8 @@ export default function Login() {
       return;
     }
 
+    // login to mongo first here
+
     const user = new CognitoUser({
       Username: email,
       Pool: userPool,

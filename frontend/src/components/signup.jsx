@@ -64,11 +64,11 @@ export default function SignUp() {
   };
 
   const signup = async () => {
-    /* if (!validEmail || !validFirstName || !validLastName || !validPhone || !validPassword) {
+    if (!validEmail || !validFirstName || !validLastName || !validPhone || !validPassword) {
       console.log(validPassword);
       console.log('invalid');
       return;
-    } */
+    }
 
     // add to mongo first here
 
