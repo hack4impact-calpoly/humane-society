@@ -4,7 +4,8 @@ import React, { useState } from 'react';
 import {
   Button, TextField, Link, Grid, Box, Typography, Container,
 } from '@mui/material';
-import { Auth } from 'aws-amplify';
+import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
+import userPool from '../userPool';
 import logo from '../imgs/signupLogo.svg';
 import '../css/signup.css';
 
@@ -54,7 +55,7 @@ export default function SignUp() {
   };
 
   const checkPassword = () => {
-    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}(?=.*[!@#$%^&*])/;
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}/;
     if (!password.match(passwordRegex) && password.length !== 0) {
       setValidPassword(true);
     } else {
@@ -62,25 +63,33 @@ export default function SignUp() {
     }
   };
 
-  const signup = () => {
+  const signup = async () => {
     if (!validEmail || !validFirstName || !validLastName || !validPhone || !validPassword) {
       // Need a way to indicate form was not filled correctly after refresh with button
+      console.log('invalid');
       return;
     }
-    console.log(firstName, lastName, email, phoneNumber, password);
-    Auth.signUp({
+
+    // add to mongo first here
+
+    userPool.signUp(
       email,
       password,
-      attribute: {
-        given_name: firstName,
-        family_name: lastName,
-        phone_number: phoneNumber,
+      [
+        new CognitoUserAttribute({ Name: 'given_name', Value: firstName }),
+        new CognitoUserAttribute({ Name: 'family_name', Value: lastName }),
+        new CognitoUserAttribute({ Name: 'phone_number', Value: `+1${phoneNumber}` }), // only US numbers valid
+      ],
+      null,
+      (err, data) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(data);
+          // navigate to next page here
+        }
       },
-    }).then((result) => {
-      console.log(result);
-    }).catch((error) => {
-      console.log(error);
-    });
+    );
   };
 
   return (
@@ -191,11 +200,10 @@ export default function SignUp() {
               type="submit"
               fullWidth
               variant="contained"
+              color="secondary"
               sx={{ mt: 3, mb: 2 }}
               style={{
                 borderRadius: 8,
-                backgroundColor: '#21b6ae',
-
               }}
             >
               Create account
