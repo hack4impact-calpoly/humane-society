@@ -31,6 +31,7 @@ describe('insert', () => {
     };
     await users.insertOne(mockUser);
     const insertedUser = request(app).get('/login').send({ userName: 'noximus', email: 'test@gmail.com', password: '1234' });
+    // console.log(insertedUser);
     expect(insertedUser._data.password).toEqual(mockUser.password);
   });
 });
