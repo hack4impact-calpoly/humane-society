@@ -64,11 +64,11 @@ export default function SignUp() {
   };
 
   const signup = async () => {
-    if (!validEmail || !validFirstName || !validLastName || !validPhone || !validPassword) {
-      // Need a way to indicate form was not filled correctly after refresh with button
+    /* if (!validEmail || !validFirstName || !validLastName || !validPhone || !validPassword) {
+      console.log(validPassword);
       console.log('invalid');
       return;
-    }
+    } */
 
     // add to mongo first here
 
@@ -109,7 +109,7 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Create an account
           </Typography>
-          <Box component="form" noValidate onSubmit={signup} sx={{ mt: 3 }}>
+          <Box component="form" noValidate sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -197,7 +197,7 @@ export default function SignUp() {
               </Grid>
             </Grid>
             <Button
-              type="submit"
+              onClick={signup}
               fullWidth
               variant="contained"
               color="secondary"
