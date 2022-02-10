@@ -8,6 +8,9 @@ const UserSchema = new mongoose.Schema({
   userName: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
+  isStudent: { type: Boolean, required: true },
+  studentSchool: String,
+  isAdmin: { type: Boolean, required: true },
 });
 
 const User = userConnection.model('users', UserSchema);
