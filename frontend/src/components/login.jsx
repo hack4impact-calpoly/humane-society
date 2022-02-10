@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import '../css/login.css';
 import { Button, Grid, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
-import logo from '../imgs/logo.png';
-import logoSmall from '../imgs/logo-small.png';
+import logo from '../imgs/logo.svg';
+import logoSmall from '../imgs/logo-small.svg';
 
 export default function Login() {
   const [email, setEmail] = useState('');
