@@ -1,17 +1,40 @@
 import React, { useState } from 'react';
 import '../css/login.css';
 import { Button, Grid, TextField } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../imgs/logo.svg';
 import logoSmall from '../imgs/logo-small.svg';
 
 export default function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [pw, setPw] = useState('');
+  const [invalidLogin, setInvalidLogin] = useState(false);
   const verifyLogin = () => {
     // Add value verification with AWS Amplify here
     console.log('button pressed');
     console.log(`Email=${email} pw=${pw}`);
+
+    const loginBody = {
+      email,
+      password: pw,
+    };
+    fetch('http://localhost:3001/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(loginBody),
+    }).then((result) => {
+      console.log(result);
+      if (result.status === 200) {
+        // success
+        navigate('/');
+      } else {
+        setInvalidLogin(true);
+        console.log('error');
+      }
+    });
   };
   return (
     <div className="loginPage">
@@ -50,7 +73,8 @@ export default function Login() {
                 label="Email"
                 placeholder="Enter your email"
                 value={email}
-                onChange={(e) => { setEmail(e.target.value); }}
+                onChange={(e) => { setEmail(e.target.value); setInvalidLogin(false); }}
+                error={invalidLogin}
               />
             </Grid>
             <Grid item sx={{ width: '60%' }}>
@@ -62,7 +86,9 @@ export default function Login() {
                 type="password"
                 placeholder="Password"
                 value={pw}
-                onChange={(e) => { setPw(e.target.value); }}
+                onChange={(e) => { setPw(e.target.value); setInvalidLogin(false); }}
+                error={invalidLogin}
+                helperText={invalidLogin ? 'Invalid email or password, please try again' : ''}
               />
               <p>
                 <Link to="/forgotpassword" style={{ float: 'right' }}>Forgot Password?</Link>
