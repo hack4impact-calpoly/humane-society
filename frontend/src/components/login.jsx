@@ -10,6 +10,12 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [pw, setPw] = useState('');
   const [invalidLogin, setInvalidLogin] = useState(false);
+
+  const storeUser = (user, token) => {
+    sessionStorage.setItem('userID', user.userID);
+    sessionStorage.setItem('token', token);
+  };
+
   const verifyLogin = () => {
     // Add value verification with AWS Amplify here
     console.log('button pressed');
@@ -29,6 +35,8 @@ export default function Login() {
       console.log(result);
       if (result.status === 200) {
         // success
+        const data = result.json();
+        storeUser(data.result, data.token);
         navigate('/');
       } else {
         setInvalidLogin(true);
