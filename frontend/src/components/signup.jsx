@@ -17,6 +17,7 @@ export default function SignUp() {
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
+  const [student, setStudent] = useState('');
   const [validEmail, setValidEmail] = useState(false);
   const [validPhone, setValidPhone] = useState(false);
   const [validPassword, setValidPassword] = useState(false);
@@ -66,7 +67,7 @@ export default function SignUp() {
   };
 
   const signup = () => {
-    console.log(firstName, lastName, email, phoneNumber, password);
+    console.log(firstName, lastName, email, phoneNumber, password, student);
   };
 
   return (
@@ -88,6 +89,13 @@ export default function SignUp() {
           </Typography>
           <Box component="form" noValidate onSubmit={signup} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
+              <Grid item xs = {12} sm={6}>
+                <Dropdown color="primary" label="Dropdown">
+                  <DropdownItem link="#/link1">Cal Poly, San Luis Obispo</DropdownItem>
+                  <DropdownItem>Cuesta College</DropdownItem>
+                  <DropdownItem>Other</DropdownItem>
+                </Dropdown>
+              </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
