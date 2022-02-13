@@ -10,6 +10,10 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Typography from '@mui/material/Typography';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 import Container from '@mui/material/Container';
 import logo from '../imgs/signupLogo.svg';
 import '../css/signup.css';
@@ -25,7 +29,11 @@ export default function SignUp() {
   const [validPassword, setValidPassword] = useState(false);
   const [validFirstName, setValidFirstName] = useState(false);
   const [validLastName, setValidLastName] = useState(false);
+  const [school, setSchool] = useState('');
 
+  const handleChange = (event) => {
+    setSchool(event.target.value);
+  };
   const checkFirst = () => {
     if (firstName.length === 0) {
       setValidFirstName(true);
@@ -90,6 +98,22 @@ export default function SignUp() {
           </Typography>
           <FormGroup>
             <FormControlLabel control={<Checkbox defaultChecked />} label="I am a student" />
+            <Box sx={{ minWidth: 150 }}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">School</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={school}
+                  label="School"
+                  onChange={handleChange}
+                >
+                  <MenuItem value={10}>Cal Poly, San Luis Obispo</MenuItem>
+                  <MenuItem value={20}>Cuesta College</MenuItem>
+                  <MenuItem value={30}>Other</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
           </FormGroup>
           <Box component="form" noValidate onSubmit={signup} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
