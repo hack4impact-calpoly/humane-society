@@ -7,6 +7,11 @@ const theme = createTheme({
       contrastText: '#ffffff',
     },
   },
+  typography: {
+    button: {
+      textTransform: 'none',
+    },
+  },
 });
 
 export default theme;
