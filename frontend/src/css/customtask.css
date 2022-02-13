@@ -1,0 +1,9 @@
+.customTask {
+    top: 100px;
+    padding: 7px;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    font-size: 22px;
+    overflow: hidden;
+  }
