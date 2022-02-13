@@ -6,10 +6,9 @@ import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
+import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
+import Checkbox from '@mui/material/Checkbox';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import logo from '../imgs/signupLogo.svg';
@@ -27,10 +26,6 @@ export default function SignUp() {
   const [validFirstName, setValidFirstName] = useState(false);
   const [validLastName, setValidLastName] = useState(false);
 
-  const divStyle = {
-    left: '80px',
-    top: '7px',
-  };
   const checkFirst = () => {
     if (firstName.length === 0) {
       setValidFirstName(true);
@@ -93,16 +88,9 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Create an account
           </Typography>
-          <FormControl>
-            <RadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
-              name="radio-buttons-group"
-            >
-              <div style={divStyle}>
-                <FormControlLabel className="radio-btn" control={<Radio />} label="I am a Student" />
-              </div>
-            </RadioGroup>
-          </FormControl>
+          <FormGroup>
+            <FormControlLabel control={<Checkbox defaultChecked />} label="I am a student" />
+          </FormGroup>
           <Box component="form" noValidate onSubmit={signup} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
