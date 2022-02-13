@@ -91,8 +91,8 @@ export default function SignUp() {
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
                     style={{
-                    borderRadius: 8,
-                    backgroundColor: '#B0B0B0',
+                      borderRadius: 8,
+                      backgroundColor: '#B0B0B0',
                     }}
                   >
                     Create

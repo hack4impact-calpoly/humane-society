@@ -5,14 +5,12 @@ import Signup from './components/signup';
 import './css/App.css';
 import theme from './theme';
 import Login from './components/login';
-import CustomTask from './components/customtask';
 
 function App() {
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <CustomTask />
           <Routes>
             <Route path="/" element={<p>landing page</p>} />
             <Route path="/login" element={<Login />} exact />

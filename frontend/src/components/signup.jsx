@@ -6,6 +6,10 @@ import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import logo from '../imgs/signupLogo.svg';
@@ -17,13 +21,16 @@ export default function SignUp() {
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
-  const [student, setStudent] = useState('');
   const [validEmail, setValidEmail] = useState(false);
   const [validPhone, setValidPhone] = useState(false);
   const [validPassword, setValidPassword] = useState(false);
   const [validFirstName, setValidFirstName] = useState(false);
   const [validLastName, setValidLastName] = useState(false);
 
+  const divStyle = {
+    left: '80px',
+    top: '7px',
+  };
   const checkFirst = () => {
     if (firstName.length === 0) {
       setValidFirstName(true);
@@ -38,7 +45,6 @@ export default function SignUp() {
       setValidLastName(false);
     }
   };
-
   const checkEmail = () => {
     const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     if (!email.toLowerCase().match(emailRegex) && email.length !== 0) {
@@ -67,7 +73,7 @@ export default function SignUp() {
   };
 
   const signup = () => {
-    console.log(firstName, lastName, email, phoneNumber, password, student);
+    console.log(firstName, lastName, email, phoneNumber, password);
   };
 
   return (
@@ -87,15 +93,18 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Create an account
           </Typography>
+          <FormControl>
+            <RadioGroup
+              aria-labelledby="demo-radio-buttons-group-label"
+              name="radio-buttons-group"
+            >
+              <div style={divStyle}>
+                <FormControlLabel className="radio-btn" control={<Radio />} label="I am a Student" />
+              </div>
+            </RadioGroup>
+          </FormControl>
           <Box component="form" noValidate onSubmit={signup} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs = {12} sm={6}>
-                <Dropdown color="primary" label="Dropdown">
-                  <DropdownItem link="#/link1">Cal Poly, San Luis Obispo</DropdownItem>
-                  <DropdownItem>Cuesta College</DropdownItem>
-                  <DropdownItem>Other</DropdownItem>
-                </Dropdown>
-              </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
