@@ -22,7 +22,7 @@ router.post('/email-taken', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const {
-    firstName, lastName, userName, email,
+    firstName, lastName, userName, email, isStudent, isAdmin,
   } = req.body;
   const salt = bcrypt.genSaltSync(10);
   const password = bcrypt.hashSync(req.body.password, salt); // creates password hash
@@ -37,8 +37,8 @@ router.post('/', async (req, res) => {
       res.status(404).send('email already in use');
     } else {
       const userID = `_${Math.random().toString(36).substr(2, 9)}`; // random ID
-      const doc = new user({
-        userID, firstName, lastName, userName, email, password,
+      const doc = new User({
+        userID, firstName, lastName, userName, email, password, isStudent, isAdmin,
       });
 
       doc.save();
