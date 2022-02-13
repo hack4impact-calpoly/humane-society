@@ -7,15 +7,15 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var signup = require('./src/signup')
-var login = require('./src/login')
+const signup = require('./src/signup');
+const login = require('./src/login');
 const users = require('./src/getUsers');
-var availability = require('./src/UpdateAvailability')
+const availability = require('./src/UpdateAvailability');
 
-app.use('/signup', signup)
-app.use('/login', login)
+app.use('/signup', signup);
+app.use('/login', login);
 app.use('/getUsers', users);
-app.use('/availability', availability)
+app.use('/availability', availability);
 
 app.get('/', (req, res) => {
   res.send('Hi from Woods Humane Society!');
