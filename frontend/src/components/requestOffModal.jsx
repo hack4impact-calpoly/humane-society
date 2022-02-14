@@ -19,11 +19,23 @@ export default function RequestOffModal() {
   };
 
   const checkStartDate = () => {
-    setValidStart(checkDate(startDate));
+    if (endDate !== '' && checkDate(startDate)) {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      setValidStart(start <= end);
+    } else {
+      setValidStart(checkDate(startDate));
+    }
   };
 
   const checkEndDate = () => {
-    setValidEnd(checkDate(endDate));
+    if (startDate !== '' && checkDate(endDate)) {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      setValidEnd(start <= end);
+    } else {
+      setValidEnd(checkDate(endDate));
+    }
   };
 
   const handleClickOpen = () => {
@@ -130,21 +142,21 @@ export default function RequestOffModal() {
                   border: '2px black solid',
                 }}
                 style={{
-                  borderRadius: 0,
+                  borderRadius: 5,
                 }}
               >
-                Cancel
+                <b>Cancel</b>
               </Button>
               <Button
                 variant="contained"
                 color="secondary"
                 onClick={submitRequest}
                 style={{
-                  borderRadius: 0,
+                  borderRadius: 5,
                   minWidth: '120px',
                 }}
               >
-                Request
+                <b>Request</b>
               </Button>
             </Grid>
           </Grid>

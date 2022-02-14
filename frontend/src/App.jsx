@@ -5,7 +5,6 @@ import Signup from './components/signup';
 import './css/App.css';
 import theme from './theme';
 import Login from './components/login';
-import RequestOffModal from './components/requestOffModal';
 
 function App() {
   return (
@@ -13,7 +12,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<RequestOffModal />} />
+            <Route path="/" element={<p>landing page</p>} />
             <Route path="/login" element={<Login />} exact />
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgotpassword" element={<p>forgot password</p>} />

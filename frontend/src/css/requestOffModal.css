@@ -1,6 +1,6 @@
 .body {
-  width: 400px;
-  height: 300px;
+  min-width: 390px;
+  min-height: 300px;
   padding: 20px;
-  padding-top: 5px;
+  padding-top: 0px;
 }
