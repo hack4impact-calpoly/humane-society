@@ -7,9 +7,24 @@ import '../css/requestOffModal.css';
 
 export default function RequestOffModal() {
   const [open, setOpen] = useState(false);
-  // const [startDate, setStartDate] = useState(''); // set default to today
-  // const [endDate, setendDate] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const [notes, setNotes] = useState('');
+  const [validStart, setValidStart] = useState(null);
+  const [validEnd, setValidEnd] = useState(null);
+
+  const checkDate = (date) => {
+    const dateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+    return dateRegex.test(date);
+  };
+
+  const checkStartDate = () => {
+    setValidStart(checkDate(startDate));
+  };
+
+  const checkEndDate = () => {
+    setValidEnd(checkDate(endDate));
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -17,10 +32,25 @@ export default function RequestOffModal() {
 
   const handleClose = () => {
     setOpen(false);
+    setStartDate('');
+    setEndDate('');
+    setNotes('');
+    setValidStart(null);
+    setValidEnd(null); // clear all states
   };
 
   const submitRequest = () => {
-    // console.log(startDate, endDate, notes);
+    // TODO make sure start < end
+    if (!validStart || !validEnd) {
+      if (!validStart) {
+        setValidStart(false);
+      }
+      if (!validEnd) {
+        setValidEnd(false);
+      }
+      return;
+    }
+    console.log(startDate, endDate, notes);
     handleClose();
   };
 
@@ -34,7 +64,7 @@ export default function RequestOffModal() {
         + Add request off
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle><b>Date(s):</b></DialogTitle>
+        <DialogTitle><b>Date:</b></DialogTitle>
         <DialogContent>
           <Grid
             container
@@ -47,9 +77,33 @@ export default function RequestOffModal() {
               container
               justifyContent="space-between"
             >
-              <p>date1</p>
-              <p>to</p>
-              <p>date2</p>
+              <Grid item>
+                <TextField
+                  id="startDate"
+                  type="date"
+                  variant="standard"
+                  value={startDate}
+                  onChange={(e) => { setStartDate(e.target.value); }}
+                  sx={{ width: 150 }}
+                  error={validStart != null && !validStart}
+                  onBlur={checkStartDate}
+                />
+              </Grid>
+              <Grid item>
+                to
+              </Grid>
+              <Grid item>
+                <TextField
+                  id="endDate"
+                  type="date"
+                  variant="standard"
+                  value={endDate}
+                  onChange={(e) => { setEndDate(e.target.value); }}
+                  sx={{ width: 150 }}
+                  error={validEnd != null && !validEnd}
+                  onBlur={checkEndDate}
+                />
+              </Grid>
             </Grid>
             <Grid item>
               <TextField
@@ -69,10 +123,9 @@ export default function RequestOffModal() {
             >
               <Button
                 variant="outlined"
-                size="small"
                 onClick={handleClose}
                 sx={{
-                  width: 100,
+                  width: 120,
                   color: 'black',
                   border: '2px black solid',
                 }}
@@ -85,11 +138,10 @@ export default function RequestOffModal() {
               <Button
                 variant="contained"
                 color="secondary"
-                size="small"
                 onClick={submitRequest}
                 style={{
                   borderRadius: 0,
-                  minWidth: '100px',
+                  minWidth: '120px',
                 }}
               >
                 Request

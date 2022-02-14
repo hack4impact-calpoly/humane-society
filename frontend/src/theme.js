@@ -8,6 +8,7 @@ const theme = createTheme({
     },
   },
   typography: {
+    fontFamily: 'Lato',
     button: {
       textTransform: 'none',
     },
