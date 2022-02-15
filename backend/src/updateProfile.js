@@ -17,7 +17,7 @@ router.put('/', async (req, res) => {
 
     user.findOneAndUpdate({ userID }, { phoneNumber:  newPhoneNumber })
         .then(() => {
-            console.log('update  successful');
+            console.log('update successful');
             res.status(200).send('success');
         })
         .catch((err) => {
@@ -27,7 +27,7 @@ router.put('/', async (req, res) => {
 
     user.findOneAndUpdate({ userID }, { firstName: newFirstName })
         .then(() => {
-            console.log('update  successful');
+            console.log('update successful');
             res.status(200).send('success');
         })
         .catch((err) => {
@@ -37,7 +37,7 @@ router.put('/', async (req, res) => {
 
     user.findOneAndUpdate({ userID }, { lastName: newLastName })
         .then(() => {
-            console.log('update  successful');
+            console.log('update successful');
             res.status(200).send('success');
         })
         .catch((err) => {
@@ -47,7 +47,7 @@ router.put('/', async (req, res) => {
 
     user.findOneAndUpdate({ userID }, { email: newEmail })
         .then(() => {
-            console.log('update  successful');
+            console.log('update successful');
             res.status(200).send('success');
         })
         .catch((err) => {
@@ -55,7 +55,7 @@ router.put('/', async (req, res) => {
             res.status(500).send('error');
         });
 
-    /* update email in aws cognito */
+    /* update email in aws cognito + email verification */
 
 });
 
