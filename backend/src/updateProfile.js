@@ -54,6 +54,9 @@ router.put('/', async (req, res) => {
             console.log(err);
             res.status(500).send('error');
         });
+
+    /* update email in aws cognito */
+
 });
 
 module.exports = router;
