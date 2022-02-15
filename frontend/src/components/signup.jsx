@@ -64,13 +64,15 @@ export default function SignUp() {
   };
 
   const signup = async () => {
-    if (!validEmail || !validFirstName || !validLastName || !validPhone || !validPassword) {
-      console.log(validPassword);
+    // if any is value is true then we know it is invalid
+    if (validEmail || validFirstName || validLastName || validPhone || validPassword) {
       console.log('invalid');
       return;
     }
-
     // add to mongo first here
+
+    // parse only numbers in phoneNumber
+    setPhoneNumber(phoneNumber.replace(/[^0-9]/g, ''));
 
     userPool.signUp(
       email,
@@ -166,7 +168,7 @@ export default function SignUp() {
                   name="phone"
                   autoComplete="phone"
                   value={phoneNumber}
-                  onChange={(e) => { setPhoneNumber(e.target.value); }}
+                  onChange={(e) => { setPhoneNumber((e.target.value).replace(/[^0-9]/g, '')); }}
                   onBlur={checkPhone}
                   error={validPhone}
                   helperText={validPhone ? 'Must use a valid phone number' : ''}
