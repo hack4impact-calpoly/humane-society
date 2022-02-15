@@ -5,15 +5,13 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import {
+  FormGroup, FormControl, InputLabel, Select, MenuItem,
+} from '@mui/material';
 import Container from '@mui/material/Container';
 import logo from '../imgs/signupLogo.svg';
 import '../css/signup.css';
@@ -40,6 +38,10 @@ export default function SignUp() {
   const checkStudent = () => {
     setIsStudent(!isStudent);
   };
+
+  /* eslint-disable no-unused-vars */
+  const [checkBox, setCheckBox] = useState(false);
+  /* eslint-disable no-unused-vars */
 
   const checkFirst = () => {
     if (firstName.length === 0) {
