@@ -4,17 +4,47 @@ import {
   Button, Grid, TextField, Container,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
+import userPool from '../userPool';
 import logo from '../imgs/logo.svg';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [pw, setPw] = useState('');
 
-  const verifyLogin = () => {
-    // Add value verification with AWS Amplify here
-    console.log('button pressed');
-    console.log(`Email=${email} pw=${pw}`);
+  const login = () => {
+    if (email.length === 0 || pw.length === 0) {
+      console.log('invalid login');
+      return;
+    }
+
+    // login to mongo first here
+
+    const user = new CognitoUser({
+      Username: email,
+      Pool: userPool,
+    });
+
+    const authDetails = new AuthenticationDetails({
+      Username: email,
+      Password: pw,
+    });
+
+    user.authenticateUser(authDetails, {
+      onSuccess: (data) => {
+        console.log('onSuccess: ', data);
+        // retrieve token and navigate to next page here
+      },
+      onFailure: (err) => {
+        console.error('onFailure: ', err);
+      },
+      newPasswordRequired: (data) => {
+        console.log('newPasswordRequired: ', data);
+        // not too sure what this is for
+      },
+    });
   };
+
   return (
     <div className="loginPage">
       <Container component="main" maxWidth="xs">
@@ -39,6 +69,7 @@ export default function Login() {
             <Grid item sx={{ width: '100%' }}>
               <TextField
                 fullWidth
+                required
                 id="loginEmail"
                 name="email"
                 label="Email"
@@ -50,6 +81,7 @@ export default function Login() {
             <Grid item sx={{ width: '100%' }}>
               <TextField
                 fullWidth
+                required
                 id="loginPassword"
                 name="password"
                 label="Password"
@@ -65,13 +97,13 @@ export default function Login() {
           </Grid>
           <Grid item style={{ width: '100%' }}>
             <Button
+              onClick={login}
               variant="contained"
               fullWidth
               style={{
                 borderRadius: 8,
               }}
               color="secondary"
-              onClick={verifyLogin}
             >
               Login
             </Button>
