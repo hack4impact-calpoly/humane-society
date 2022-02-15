@@ -116,9 +116,9 @@ export default function SignUp() {
                     label="School"
                     onChange={updateSchool}
                   >
-                    <MenuItem value={10}>Cal Poly, San Luis Obispo</MenuItem>
-                    <MenuItem value={20}>Cuesta College</MenuItem>
-                    <MenuItem value={30}>Other</MenuItem>
+                    <MenuItem value="Cal Poly, San Luis Obispo">Cal Poly, San Luis Obispo</MenuItem>
+                    <MenuItem value="Cuesta College">Cuesta College</MenuItem>
+                    <MenuItem value="Other">Other</MenuItem>
                   </Select>
                 </FormControl>
               )
