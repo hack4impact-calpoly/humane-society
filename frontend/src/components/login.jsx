@@ -44,11 +44,6 @@ export default function Login() {
   };
 
   const login = () => {
-    if (email.length === 0 || pw.length === 0) {
-      console.log('invalid login');
-      return;
-    }
-
     // login to mongo first here
 
     const loginBody = {
