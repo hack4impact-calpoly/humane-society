@@ -24,16 +24,22 @@ describe('insert', () => {
       userID: 1,
       firstName: 'Sage',
       lastName: 'Meadows',
-      userName: 'noximus',
+      phone: '1523329876',
       email: 'test@gmail.com',
       password: '1234',
+      isStudent: true,
+      studentSchool: 'Cal Poly',
+      isAdmin: false,
     };
     await request(app).post('/signup').send(mockUser);
     const insertedUser = await users.findOne({ userID: 1 });
     expect(insertedUser.email).toEqual(mockUser.email);
-    expect(insertedUser.userName).toEqual(mockUser.userName);
+    expect(insertedUser.phone).toEqual(mockUser.phone);
     expect(insertedUser.firstName).toEqual(mockUser.firstName);
     expect(insertedUser.lastName).toEqual(mockUser.lastName);
+    expect(insertedUser.isStudent).toBe(mockUser.isStudent);
+    expect(insertedUser.studentSchool).toEqual(mockUser.studentSchool);
+    expect(insertedUser.isAdmin).toBe(mockUser.isAdmin);
 
     // delete user in db here
   });
