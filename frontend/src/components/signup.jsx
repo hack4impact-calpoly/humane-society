@@ -30,10 +30,17 @@ export default function SignUp() {
   const [validFirstName, setValidFirstName] = useState(false);
   const [validLastName, setValidLastName] = useState(false);
   const [school, setSchool] = useState('');
+  const [isStudent, setIsStudent] = useState(false);
 
-  const handleChange = (event) => {
+  const updateSchool = (event) => {
     setSchool(event.target.value);
+    console.log(school);
   };
+
+  const checkStudent = () => {
+    setIsStudent(!isStudent);
+  };
+
   const checkFirst = () => {
     if (firstName.length === 0) {
       setValidFirstName(true);
@@ -97,23 +104,24 @@ export default function SignUp() {
             Create an account
           </Typography>
           <FormGroup>
-            <FormControlLabel control={<Checkbox defaultChecked />} label="I am a student" />
-            <Box sx={{ minWidth: 150 }}>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">School</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={school}
-                  label="School"
-                  onChange={handleChange}
-                >
-                  <MenuItem value={10}>Cal Poly, San Luis Obispo</MenuItem>
-                  <MenuItem value={20}>Cuesta College</MenuItem>
-                  <MenuItem value={30}>Other</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
+            <FormControlLabel control={<Checkbox />} label="I am a student" onChange={checkStudent} />
+            {isStudent
+              ? (
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">School</InputLabel>
+                  <Select
+                    value={school}
+                    label="School"
+                    onChange={updateSchool}
+                  >
+                    <MenuItem value={10}>Cal Poly, San Luis Obispo</MenuItem>
+                    <MenuItem value={20}>Cuesta College</MenuItem>
+                    <MenuItem value={30}>Other</MenuItem>
+                  </Select>
+                </FormControl>
+              )
+              : '' }
+
           </FormGroup>
           <Box component="form" noValidate onSubmit={signup} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
