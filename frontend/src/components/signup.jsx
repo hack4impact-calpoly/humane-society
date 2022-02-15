@@ -5,15 +5,10 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import Container from '@mui/material/Container';
 import logo from '../imgs/signupLogo.svg';
 import '../css/signup.css';
@@ -29,11 +24,10 @@ export default function SignUp() {
   const [validPassword, setValidPassword] = useState(false);
   const [validFirstName, setValidFirstName] = useState(false);
   const [validLastName, setValidLastName] = useState(false);
-  const [school, setSchool] = useState('');
+  /* eslint-disable no-unused-vars */
+  const [checkBox, setCheckBox] = useState(false);
+  /* eslint-disable no-unused-vars */
 
-  const handleChange = (event) => {
-    setSchool(event.target.value);
-  };
   const checkFirst = () => {
     if (firstName.length === 0) {
       setValidFirstName(true);
@@ -96,25 +90,7 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Create an account
           </Typography>
-          <FormGroup>
-            <FormControlLabel control={<Checkbox defaultChecked />} label="I am a student" />
-            <Box sx={{ minWidth: 150 }}>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">School</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={school}
-                  label="School"
-                  onChange={handleChange}
-                >
-                  <MenuItem value={10}>Cal Poly, San Luis Obispo</MenuItem>
-                  <MenuItem value={20}>Cuesta College</MenuItem>
-                  <MenuItem value={30}>Other</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-          </FormGroup>
+          <FormControlLabel control={<Checkbox />} label="I am a student" />
           <Box component="form" noValidate onSubmit={signup} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
