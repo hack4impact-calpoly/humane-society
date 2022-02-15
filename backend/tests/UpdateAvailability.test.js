@@ -1,11 +1,10 @@
-/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-undef */
-const request = require('supertest');
 const express = require('express');
-require('dotenv').config();
+const request = require('supertest');
 
 const app = express();
 const { MongoClient } = require('mongodb');
+require('dotenv').config();
 
 describe('insert', () => {
   let connection;
@@ -20,18 +19,20 @@ describe('insert', () => {
     await connection.close();
   });
   it('should insert a doc into collection', async () => {
-    const users = db.collection('test');
-    const mockUser = {
-      userID: 1,
-      firstName: 'Sage',
-      lastName: 'Meadows',
-      userName: 'noximus',
-      email: 'test@gmail.com',
-      password: '1234',
+    const availabilities = db.collection('avail');
+    const mockAvailability = {
+      day: '2020-03-09T22:18:26.625Z',
+      times: [],
+      userID: 20,
+
     };
-    await users.insertOne(mockUser);
-    const insertedUser = request(app).get('/login').send({ userName: 'noximus', email: 'test@gmail.com', password: '1234' });
-    // console.log(insertedUser);
-    expect(insertedUser._data.password).toEqual(mockUser.password);
+
+    await request(app).post('/availability/newAvailability').send(mockAvailability);
+    const insertedUser = await availabilities.findOne({ userID: 20 });
+    expect(insertedUser.day).toEqual(mockAvailability.day);
+    expect(insertedUser.times).toEqual(mockAvailability.times);
+    expect(insertedUser.userID).toEqual(mockAvailability.userID);
+
+    // delete availability in db here
   });
 });

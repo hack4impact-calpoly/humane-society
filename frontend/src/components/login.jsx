@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import '../css/login.css';
-import { Button, Grid, TextField } from '@mui/material';
+import {
+  Button, Grid, TextField, Container,
+} from '@mui/material';
 import { Link } from 'react-router-dom';
 import { CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
 import userPool from '../userPool';
 import logo from '../imgs/logo.svg';
-import logoSmall from '../imgs/logo-small.svg';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -46,16 +47,8 @@ export default function Login() {
 
   return (
     <div className="loginPage">
-      <Grid
-        container
-        direction="row"
-        alignItems="stretch"
-        sx={{ height: '100%' }}
-      >
+      <Container component="main" maxWidth="xs">
         <Grid
-          item
-          sm={12}
-          md={6}
           container
           direction="column"
           justifyContent="center"
@@ -73,7 +66,7 @@ export default function Login() {
             alignItems="center"
             spacing={3}
           >
-            <Grid item sx={{ width: '60%' }}>
+            <Grid item sx={{ width: '100%' }}>
               <TextField
                 fullWidth
                 required
@@ -85,7 +78,7 @@ export default function Login() {
                 onChange={(e) => { setEmail(e.target.value); }}
               />
             </Grid>
-            <Grid item sx={{ width: '60%' }}>
+            <Grid item sx={{ width: '100%' }}>
               <TextField
                 fullWidth
                 required
@@ -102,12 +95,14 @@ export default function Login() {
               </p>
             </Grid>
           </Grid>
-          <Grid item style={{ width: '60%' }}>
+          <Grid item style={{ width: '100%' }}>
             <Button
               onClick={login}
               variant="contained"
               fullWidth
-              size="large"
+              style={{
+                borderRadius: 8,
+              }}
               color="secondary"
             >
               Login
@@ -118,18 +113,7 @@ export default function Login() {
             </p>
           </Grid>
         </Grid>
-        <Grid
-          id="hiddenMobile"
-          item
-          md={6}
-          container
-          sx={{ display: { xs: 'none', sm: 'none', md: 'inline' } }}
-        >
-          <Grid id="logoSmallContainer" item>
-            <img id="loginLogoSmall" src={logoSmall} alt="logosmall" />
-          </Grid>
-        </Grid>
-      </Grid>
+      </Container>
     </div>
   );
 }
