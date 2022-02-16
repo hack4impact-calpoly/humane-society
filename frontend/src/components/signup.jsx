@@ -39,10 +39,6 @@ export default function SignUp() {
     setIsStudent(!isStudent);
   };
 
-  /* eslint-disable no-unused-vars */
-  const [checkBox, setCheckBox] = useState(false);
-  /* eslint-disable no-unused-vars */
-
   const checkFirst = () => {
     if (firstName.length === 0) {
       setValidFirstName(true);
