@@ -106,7 +106,7 @@ export default function SignUp() {
             Create an account
           </Typography>
           <FormGroup>
-            <FormControlLabel control={<Checkbox />} label="I am a student" onChange={checkStudent} />
+            <FormControlLabel id="student" control={<Checkbox />} label="I am a student" onChange={checkStudent} />
             {isStudent
               ? (
                 <FormControl fullWidth>
@@ -123,7 +123,6 @@ export default function SignUp() {
                 </FormControl>
               )
               : '' }
-
           </FormGroup>
           <Box component="form" noValidate onSubmit={signup} sx={{ mt: 3 }}>
             <Grid container spacing={2}>

@@ -14,4 +14,11 @@
     font-size: 22px;
     overflow: hidden;
   }
+
+  #student
+  {
+    top: 100px;
+    float:none;
+    width:390px;
+  }
   
