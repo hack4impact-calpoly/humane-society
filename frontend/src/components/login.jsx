@@ -19,10 +19,6 @@ export default function Login() {
     sessionStorage.setItem('token', token);
   };
 
-  const verifyLogin = () => {
-    // Add value verification with AWS Amplify here
-    console.log('button pressed');
-    console.log(`Email=${email} pw=${pw}`);
   const verifyAWS = () => {
     const user = new CognitoUser({
       Username: email,
