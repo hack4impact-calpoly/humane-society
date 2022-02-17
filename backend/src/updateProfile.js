@@ -1,51 +1,22 @@
 const express = require('express');
+const { emit } = require('process');
 
 const router = express.Router();
 require('dotenv').config();
 
 const User = require('../models/user');
 
-router.put('/', async (req, res) => {
-    const { userID } = req.userID;
-    const newPhoneNumber = req.body.phoneNumber;
-    const newFirstName = req.body.firstName;
-    const newLastName = req.body.lastName;
-    const newEmail = req.body.email;
+router.post('/', async (req, res) => {
+    const { userID, phone, firstName, lastName, email }  = req.body;
 
     const user = User;
     console.log('Updating profile...');
-
-    user.findOneAndUpdate({ userID }, { phoneNumber:  newPhoneNumber })
-        .then(() => {
-            console.log('update successful');
-            res.status(200).send('success');
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).send('error');
-        });
-
-    user.findOneAndUpdate({ userID }, { firstName: newFirstName })
-        .then(() => {
-            console.log('update successful');
-            res.status(200).send('success');
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).send('error');
-        });
-
-    user.findOneAndUpdate({ userID }, { lastName: newLastName })
-        .then(() => {
-            console.log('update successful');
-            res.status(200).send('success');
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).send('error');
-        });
-
-    user.findOneAndUpdate({ userID }, { email: newEmail })
+    console.log(userID)
+    console.log(firstName)
+    user.findOneAndUpdate({ userID }, {
+        phone: phone, firstName: firstName,
+        lastName: lastName, email: email
+    })
         .then(() => {
             console.log('update successful');
             res.status(200).send('success');
