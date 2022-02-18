@@ -1,0 +1,76 @@
+.profilePage {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: 73vh;
+    width: 80%;
+    margin-left: 20%;
+    margin-top: 17vh;
+}
+
+.noEditProfileInput {
+    padding-top: 1.5vh;
+    padding-bottom: 1.5vh;
+    border-width: 1.5px;
+    border-style: solid;
+    margin-top: 0.5%;
+    margin-bottom: 1%;
+    border-color: black;
+}
+
+.editProfileInput {
+    padding-top: 1.5vh;
+    padding-bottom: 1.5vh;
+    border-width: 1.5px;
+    border-style: solid;
+    margin-top: 0.5%;
+    margin-bottom: 1%;
+    border-color: #246386;
+}
+
+.profileText{
+    font-weight: bold;
+}
+
+#pictureAndButton {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 40%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+#nameInputs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 0.5%;
+    width: 40.75%;
+}
+
+#profileInputs {
+    width: 40%;
+}
+
+#bottomButtonBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+    width: 40.5%;
+    margin-top: 2%;
+}
+
+#saveButton {
+    text-transform: none;
+    border-radius: 8px;
+    font-size: 12px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 9px;
+    padding-bottom: 9px;
+}
