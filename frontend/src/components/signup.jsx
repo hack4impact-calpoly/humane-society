@@ -72,7 +72,7 @@ export default function SignUp() {
   };
 
   const checkPassword = () => {
-    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}/;
     if (!password.match(passwordRegex) && password.length !== 0) {
       setValidPassword(true);
     } else {
@@ -80,8 +80,35 @@ export default function SignUp() {
     }
   };
 
-  const signup = () => {
-    console.log(firstName, lastName, email, phoneNumber, password);
+  const signup = async () => {
+    // if any is value is true then we know it is invalid
+    if (validEmail || validFirstName || validLastName || validPhone || validPassword) {
+      console.log('invalid');
+      return;
+    }
+    // add to mongo first here
+
+    // parse only numbers in phoneNumber
+    setPhoneNumber(phoneNumber.replace(/[^0-9]/g, ''));
+
+    userPool.signUp(
+      email,
+      password,
+      [
+        new CognitoUserAttribute({ Name: 'given_name', Value: firstName }),
+        new CognitoUserAttribute({ Name: 'family_name', Value: lastName }),
+        new CognitoUserAttribute({ Name: 'phone_number', Value: `+1${phoneNumber}` }), // only US numbers valid
+      ],
+      null,
+      (err, data) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(data);
+          // navigate to next page here
+        }
+      },
+    );
   };
 
   return (
@@ -177,7 +204,7 @@ export default function SignUp() {
                   name="phone"
                   autoComplete="phone"
                   value={phoneNumber}
-                  onChange={(e) => { setPhoneNumber(e.target.value); }}
+                  onChange={(e) => { setPhoneNumber((e.target.value).replace(/[^0-9]/g, '')); }}
                   onBlur={checkPhone}
                   error={validPhone}
                   helperText={validPhone ? 'Must use a valid phone number' : ''}
@@ -196,7 +223,7 @@ export default function SignUp() {
                   onChange={(e) => { setPassword(e.target.value); }}
                   onBlur={checkPassword}
                   error={validPassword}
-                  helperText={validPassword ? 'Must contain at least one number, one uppercase, one lowercase, and be atleast 8 characters' : ''}
+                  helperText={validPassword ? 'Must contain at least one number, one uppercase, one lowercase, one special character and be atleast 8 characters' : ''}
                 />
               </Grid>
             </Grid>
@@ -208,14 +235,13 @@ export default function SignUp() {
               </Grid>
             </Grid>
             <Button
-              type="submit"
+              onClick={signup}
               fullWidth
               variant="contained"
+              color="secondary"
               sx={{ mt: 3, mb: 2 }}
               style={{
                 borderRadius: 8,
-                backgroundColor: '#21b6ae',
-
               }}
             >
               Create account

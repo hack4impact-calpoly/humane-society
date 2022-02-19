@@ -7,6 +7,12 @@ const theme = createTheme({
       contrastText: '#ffffff',
     },
   },
+  typography: {
+    fontFamily: 'Lato',
+    button: {
+      textTransform: 'none',
+    },
+  },
 });
 
 export default theme;

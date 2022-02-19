@@ -31,8 +31,7 @@ router.post('/', async (req, res) => {
       // make login token
       const token = makeToken(data);
       result.token = token;
-      res.send({ result, token });
-      res.status(200).send('valid');
+      res.status(200).send({ result, token });
     } else {
       res.status(404).send('Invalid email/password');
     }
