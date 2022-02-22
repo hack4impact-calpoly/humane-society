@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import {
   Button, TextField, Link, Grid, Box, Typography, Container,
+  FormGroup, FormControl, InputLabel, Select, MenuItem,
+  Checkbox, FormControlLabel,
 } from '@mui/material';
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
 import userPool from '../userPool';
@@ -20,6 +22,17 @@ export default function SignUp() {
   const [validPassword, setValidPassword] = useState(false);
   const [validFirstName, setValidFirstName] = useState(false);
   const [validLastName, setValidLastName] = useState(false);
+  const [school, setSchool] = useState('');
+  const [isStudent, setIsStudent] = useState(false);
+
+  const updateSchool = (event) => {
+    setSchool(event.target.value);
+    console.log(school);
+  };
+
+  const checkStudent = () => {
+    setIsStudent(!isStudent);
+  };
 
   const checkFirst = () => {
     if (firstName.length === 0) {
@@ -35,7 +48,6 @@ export default function SignUp() {
       setValidLastName(false);
     }
   };
-
   const checkEmail = () => {
     const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     if (!email.toLowerCase().match(emailRegex) && email.length !== 0) {
@@ -111,7 +123,26 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Create an account
           </Typography>
-          <Box component="form" noValidate sx={{ mt: 3 }}>
+          <FormGroup>
+            <FormControlLabel id="student" control={<Checkbox />} label="I am a student" onChange={checkStudent} />
+            {isStudent
+              ? (
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">School</InputLabel>
+                  <Select
+                    value={school}
+                    label="School"
+                    onChange={updateSchool}
+                  >
+                    <MenuItem value="Cal Poly, San Luis Obispo">Cal Poly, San Luis Obispo</MenuItem>
+                    <MenuItem value="Cuesta College">Cuesta College</MenuItem>
+                    <MenuItem value="Other">Other</MenuItem>
+                  </Select>
+                </FormControl>
+              )
+              : '' }
+          </FormGroup>
+          <Box component="form" noValidate onSubmit={signup} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
