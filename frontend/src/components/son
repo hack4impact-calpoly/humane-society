@@ -51,6 +51,7 @@ export default function SignUp() {
       setValidLastName(false);
     }
   };
+
   const checkEmail = () => {
     const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     if (!email.toLowerCase().match(emailRegex) && email.length !== 0) {
@@ -70,7 +71,7 @@ export default function SignUp() {
   };
 
   const checkPassword = () => {
-    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}/;
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
     if (!password.match(passwordRegex) && password.length !== 0) {
       setValidPassword(true);
     } else {
@@ -155,25 +156,6 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Create an account
           </Typography>
-          <FormGroup>
-            <FormControlLabel id="student" control={<Checkbox />} label="I am a student" onChange={checkStudent} />
-            {isStudent
-              ? (
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">School</InputLabel>
-                  <Select
-                    value={school}
-                    label="School"
-                    onChange={updateSchool}
-                  >
-                    <MenuItem value="Cal Poly, San Luis Obispo">Cal Poly, San Luis Obispo</MenuItem>
-                    <MenuItem value="Cuesta College">Cuesta College</MenuItem>
-                    <MenuItem value="Other">Other</MenuItem>
-                  </Select>
-                </FormControl>
-              )
-              : '' }
-          </FormGroup>
           <Box component="form" noValidate onSubmit={signup} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
@@ -216,13 +198,10 @@ export default function SignUp() {
                   name="email"
                   autoComplete="email"
                   value={email}
-                  onChange={(e) => { setEmail(e.target.value); }}
+                  onChange={(e) => { setEmail(e.target.value); setValidSignup(validEmail ? 'Must use a valid email' : ''); }}
                   onBlur={checkEmail}
-                  error={validSignup.length() === 0}
+                  error={validEmail && validSignup}
                   helperText={validSignup}
-                  // this is what i tried prev and had validSignup as a bool
-                  // helperText={validEmail ? 'Must use a valid email'
-                  // : (validSignup ? 'Email already in use' : ')}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -234,7 +213,7 @@ export default function SignUp() {
                   name="phone"
                   autoComplete="phone"
                   value={phoneNumber}
-                  onChange={(e) => { setPhoneNumber((e.target.value).replace(/[^0-9]/g, '')); }}
+                  onChange={(e) => { setPhoneNumber(e.target.value); }}
                   onBlur={checkPhone}
                   error={validPhone}
                   helperText={validPhone ? 'Must use a valid phone number' : ''}
@@ -253,7 +232,7 @@ export default function SignUp() {
                   onChange={(e) => { setPassword(e.target.value); }}
                   onBlur={checkPassword}
                   error={validPassword}
-                  helperText={validPassword ? 'Must contain at least one number, one uppercase, one lowercase, one special character and be atleast 8 characters' : ''}
+                  helperText={validPassword ? 'Must contain at least one number, one uppercase, one lowercase, and be atleast 8 characters' : ''}
                 />
               </Grid>
             </Grid>
@@ -265,13 +244,14 @@ export default function SignUp() {
               </Grid>
             </Grid>
             <Button
-              onClick={signup}
+              type="submit"
               fullWidth
               variant="contained"
-              color="secondary"
               sx={{ mt: 3, mb: 2 }}
               style={{
                 borderRadius: 8,
+                backgroundColor: '#21b6ae',
+
               }}
             >
               Create account
