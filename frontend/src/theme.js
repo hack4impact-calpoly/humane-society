@@ -13,6 +13,18 @@ const theme = createTheme({
       textTransform: 'none',
     },
   },
+  components: {
+    MuiStepIcon: {
+      styleOverrides: {
+        root: {
+          color: '#4aa7ac',
+          '&active': {
+            color: '#4aa7ac',
+          },
+        },
+      },
+    },
+  },
 });
 
 export default theme;

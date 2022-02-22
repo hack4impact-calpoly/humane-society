@@ -1,0 +1,16 @@
+.availability {
+  display: flex;
+  border: 1px solid black;
+  padding: 5%;
+}
+
+.stepper {
+  max-width: 200px;
+  padding-top: 50px;
+  border: 1px solid black;
+}
+
+.mainContent {
+  padding-right: 10%;
+  border: 1px solid black;
+}
