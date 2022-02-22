@@ -1,18 +1,13 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-useless-escape */
 import React, { useState } from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import {
+  Button, TextField, Link, Grid, Box, Typography, Container,
   FormGroup, FormControl, InputLabel, Select, MenuItem,
+  Checkbox, FormControlLabel,
 } from '@mui/material';
-import Container from '@mui/material/Container';
+import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
+import userPool from '../userPool';
 import logo from '../imgs/signupLogo.svg';
 import '../css/signup.css';
 
