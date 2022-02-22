@@ -5,12 +5,7 @@ require('dotenv').config();
 
 const Task = require('../models/task');
 
-router.get('/', async (req, res) => {
-  console.log('made it');
-  res.status(200).send('hellow');
-});
-
-router.post('/newTask', async (req, res) => {
+router.post('/createTask', async (req, res) => {
   const { title, description } = req.body;
   const completed = false;
   const newTask = new Task({
@@ -22,9 +17,9 @@ router.post('/newTask', async (req, res) => {
 
 router.post('/updateTask', async (req, res) => {
   const {
-    taskID, title, description, completed,
+    taskID, title, description,
   } = req.body;
-  await Task.findByIdAndUpdate(taskID, { title, description, completed }).then((result) => {
+  await Task.findByIdAndUpdate(taskID, { title, description }).then((result) => {
     if (result) {
       res.status(200).send('updated successfully');
     }
@@ -45,9 +40,9 @@ router.get('/getTask', async (req, res) => {
   });
 });
 
-router.post('/completeTask', async (req, res) => {
-  const { taskID } = req.body;
-  await Task.findByIdAndUpdate(taskID, { $set: { completed: true } }).then((result) => {
+router.post('/updateStatus', async (req, res) => {
+  const { taskID, completed } = req.body;
+  await Task.findByIdAndUpdate(taskID, { $set: { completed } }).then((result) => {
     if (result) {
       res.status(200).send('updated successfully');
     }
