@@ -13,6 +13,7 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [pw, setPw] = useState('');
   const [invalidLogin, setInvalidLogin] = useState(false);
+  const [confirmedUser, setConfirmedUser] = useState(false);
 
   const storeUser = (user, token) => {
     sessionStorage.setItem('userID', user.userID);
@@ -38,6 +39,7 @@ export default function Login() {
       },
       onFailure: (err) => {
         console.error('onFailure: ', err);
+        setConfirmedUser(false);
         return false;
       },
       newPasswordRequired: (data) => {
@@ -107,7 +109,8 @@ export default function Login() {
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => { setEmail(e.target.value); setInvalidLogin(false); }}
-                error={invalidLogin}
+                error={invalidLogin || confirmedUser}
+                helperText={confirmedUser ? '' : 'Please confirm your email'}
               />
             </Grid>
             <Grid item sx={{ width: '100%' }}>
@@ -121,8 +124,8 @@ export default function Login() {
                 placeholder="Password"
                 value={pw}
                 onChange={(e) => { setPw(e.target.value); setInvalidLogin(false); }}
-                error={invalidLogin}
-                helperText={invalidLogin ? 'Invalid email or password, please try again' : ''}
+                error={invalidLogin && confirmedUser}
+                helperText={invalidLogin && confirmedUser ? 'Invalid email or password, please try again' : ''}
               />
               <p>
                 <Link to="/forgotpassword" style={{ float: 'right' }}>Forgot Password?</Link>

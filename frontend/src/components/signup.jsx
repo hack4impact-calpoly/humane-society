@@ -26,7 +26,7 @@ export default function SignUp() {
   const [validLastName, setValidLastName] = useState(false);
   const [school, setSchool] = useState('');
   const [isStudent, setIsStudent] = useState(false);
-  const [validSignup, setValidSignup] = useState('');
+  const [validSignup, setValidSignup] = useState(false);
 
   const updateSchool = (event) => {
     setSchool(event.target.value);
@@ -77,44 +77,7 @@ export default function SignUp() {
       setValidPassword(false);
     }
   };
-
-  const signup = async () => {
-    // if any is value is true then we know it is invalid
-    if (validEmail || validFirstName || validLastName || validPhone || validPassword) {
-      console.log('invalid');
-      return;
-    }
-    // add to mongo first here
-    const loginBody = {
-      firstName,
-      lastName,
-      phone: phoneNumber,
-      email,
-      isStudent,
-      isAdmin: false,
-      studentSchool: school,
-      password,
-    };
-    fetch('http://localhost:3001/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(loginBody),
-    }).then((result) => {
-      console.log(result);
-      if (result.status === 200) {
-        // success
-        // const data = result.json();
-        navigate('/');
-      } else if (result.status === 404) {
-        setValidSignup('Email already in use');
-        console.log(validSignup);
-        console.log('email in use');
-      } else {
-        console.log('error');
-      }
-    });
+  const addToAWS = () => {
     // parse only numbers in phoneNumber
     setPhoneNumber(phoneNumber.replace(/[^0-9]/g, ''));
 
@@ -130,12 +93,65 @@ export default function SignUp() {
       (err, data) => {
         if (err) {
           console.log(err);
-        } else {
-          console.log(data);
-          // navigate to next page here
+          setValidSignup(true);
         }
+        console.log(data);
       },
     );
+  };
+
+  const signup = async () => {
+    // if any is value is true then we know it is invalid
+    if (validEmail || validFirstName || validLastName || validPhone || validPassword) {
+      console.log('invalid');
+      return;
+    }
+    // add to AWS
+    addToAWS();
+    if (!validSignup) {
+      // add to mongo here
+      console.log('adding to mongo...');
+      const loginBody = {
+        firstName,
+        lastName,
+        phone: phoneNumber,
+        email,
+        isStudent,
+        isAdmin: false,
+        studentSchool: school,
+        password,
+      };
+      fetch('http://localhost:3001/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(loginBody),
+      }).then((result) => {
+        console.log(result);
+        if (result.status === 200) {
+          // success
+          // const data = result.json();
+          navigate('/login');
+        } else if (result.status === 404) {
+          setValidSignup(true);
+          console.log(validSignup);
+          console.log('email in use');
+        } else {
+          console.log('error');
+        }
+      });
+    }
+  };
+
+  const emailHelperText = () => {
+    if (validEmail) {
+      return 'Must use a valid email';
+    }
+    if (validSignup) {
+      return 'Email already in use';
+    }
+    return '';
   };
 
   return (
@@ -218,11 +234,8 @@ export default function SignUp() {
                   value={email}
                   onChange={(e) => { setEmail(e.target.value); }}
                   onBlur={checkEmail}
-                  error={validSignup.length() === 0}
-                  helperText={validSignup}
-                  // this is what i tried prev and had validSignup as a bool
-                  // helperText={validEmail ? 'Must use a valid email'
-                  // : (validSignup ? 'Email already in use' : ')}
+                  error={validEmail || validSignup}
+                  helperText={emailHelperText()}
                 />
               </Grid>
               <Grid item xs={12}>
