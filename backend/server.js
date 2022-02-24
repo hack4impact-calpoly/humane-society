@@ -12,12 +12,15 @@ const login = require('./src/login');
 const users = require('./src/getUsers');
 const availability = require('./src/UpdateAvailability');
 const updateProfile = require('./src/updateProfile');
+const task = require('./src/UpdateTask');
+
 
 app.use('/signup', signup);
 app.use('/login', login);
 app.use('/getUsers', users);
 app.use('/availability', availability);
 app.use('/updateProfile', updateProfile);
+app.use('/task', task);
 
 app.get('/', (req, res) => {
   res.send('Hi from Woods Humane Society!');
