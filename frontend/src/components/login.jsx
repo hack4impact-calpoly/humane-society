@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+/* eslint-disable consistent-return */
+import React, {
+  useState, useRef, useCallback, useEffect,
+} from 'react';
 import {
   Button, Grid, TextField, Container,
 } from '@mui/material';
@@ -13,7 +16,7 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [pw, setPw] = useState('');
   const [invalidLogin, setInvalidLogin] = useState(false);
-  const [confirmedUser, setConfirmedUser] = useState(false);
+  const [confirmedUser, setConfirmedUser] = useState(true);
 
   const storeUser = (user, token) => {
     sessionStorage.setItem('userID', user.userID);
@@ -34,49 +37,76 @@ export default function Login() {
     user.authenticateUser(authDetails, {
       onSuccess: (data) => {
         console.log('onSuccess: ', data);
-        return true;
+        setConfirmedUser(true);
         // retrieve token and navigate to next page here
       },
       onFailure: (err) => {
         console.error('onFailure: ', err);
         setConfirmedUser(false);
-        return false;
       },
       newPasswordRequired: (data) => {
         console.log('newPasswordRequired: ', data);
-        return false;
         // not too sure what this is for
       },
 
     });
   };
 
-  const login = () => {
-    // login to mongo first here
+  // const login = async () => {
+  //   // login to mongo first here
 
+  //   const loginBody = {
+  //     email,
+  //     password: pw,
+  //   };
+  //   verifyAWS();
+  //   if (!confirmedUser) {
+  //     return;
+  //   }
+  //   const response = await fetch('http://localhost:3001/login', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(loginBody),
+  //   });
+  //   const data = await response.json();
+  //   console.log(data);
+  //   storeUser(data.result.userID, data.token);
+  //   navigate('/');
+  // };
+
+  const login = useCallback(async () => {
     const loginBody = {
       email,
       password: pw,
     };
-    fetch('http://localhost:3001/login', {
+    verifyAWS();
+    if (!confirmedUser) {
+      return;
+    }
+    const response = await fetch('http://localhost:3001/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(loginBody),
-    }).then((result) => {
-      console.log(result);
-      if (result.status === 200 && verifyAWS()) {
-        // success
-        const data = result.json();
-        storeUser(data.result, data.token);
-        navigate('/');
-      } else {
-        setInvalidLogin(true);
-        console.log('error');
-      }
     });
-  };
+    const data = await response.json();
+    console.log(data);
+    storeUser(data.result.userID, data.token);
+    navigate('/');
+  }, []);
+
+  const initialRender = useRef(true);
+
+  useEffect(() => {
+    if (initialRender.current) {
+      initialRender.current = false;
+    } else {
+      login();
+    }
+  }, [login]);
 
   return (
     <div className="loginPage">
@@ -108,9 +138,13 @@ export default function Login() {
                 label="Email"
                 placeholder="Enter your email"
                 value={email}
-                onChange={(e) => { setEmail(e.target.value); setInvalidLogin(false); }}
-                error={invalidLogin || confirmedUser}
-                helperText={confirmedUser ? '' : 'Please confirm your email'}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setInvalidLogin(false);
+                  setConfirmedUser(true);
+                }}
+                error={invalidLogin || !confirmedUser}
+                helperText={!confirmedUser ? 'Please confirm your email' : ''}
               />
             </Grid>
             <Grid item sx={{ width: '100%' }}>
