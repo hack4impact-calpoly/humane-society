@@ -1,5 +1,5 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import { React, useState, useEffect } from 'react';
+/* eslint-disable */
+import { React, useState } from 'react';
 import { Button } from '@mui/material';
 import { ViewState, EditingState } from '@devexpress/dx-react-scheduler';
 import {
@@ -14,10 +14,13 @@ import {
   DateNavigator,
   TodayButton,
   EditRecurrenceMenu,
+  DragDropProvider,
+  ConfirmationDialog,
 } from '@devexpress/dx-react-scheduler-material-ui';
 import appointments from './appointments';
 import '../../css/availability.css';
 
+// Change how the appointments look
 function Appointment({ style, children, ...restProps }) {
   return (
     <Appointments.Appointment
@@ -33,6 +36,20 @@ function Appointment({ style, children, ...restProps }) {
   );
 }
 
+const TextEditor = (props) => {
+  // disable the title
+  if (props.type === 'titleTextEditor') {
+    return null;
+  } return <AppointmentForm.TextEditor {...props} />;
+};
+
+const BooleanEditor = (props) => {
+  // Disable all day selector
+  if (props.label === 'All Day')
+    return null;
+  return <AppointmentForm.BooleanEditor {...props} />;
+}
+
 export default function IndicateAvailability() {
   const [data, setData] = useState(appointments); // DEFAULT IS TEST VALUES RIGHT NOW
 
@@ -40,6 +57,7 @@ export default function IndicateAvailability() {
   const curDate = new Date();
   const defaultDate = `${curDate.getFullYear()}-${String(curDate.getMonth() + 1).padStart(2, '0')}-${String(curDate.getDate()).padStart(2, '0')}`;
 
+  // function that handles changes to data, can probably add/change/delete to db here as well
   const commitChanges = ({ added, changed, deleted }) => {
     let newData = data;
     if (added) {
@@ -55,10 +73,6 @@ export default function IndicateAvailability() {
     }
     setData(newData);
   };
-
-  useEffect(() => {
-    console.log('rerendered');
-  }, [data]);
 
   return (
     <div>
@@ -95,11 +109,18 @@ export default function IndicateAvailability() {
           <Appointments
             appointmentComponent={Appointment}
           />
-          <AppointmentTooltip
-            showCloseButton
-            showOpenButton
+          <ConfirmationDialog
+            ignoreCancel
           />
-          <AppointmentForm />
+          <AppointmentTooltip
+            showOpenButton
+            showDeleteButton
+          />
+          <AppointmentForm
+            textEditorComponent={TextEditor}
+            booleanEditorComponent={BooleanEditor}
+          />
+          <DragDropProvider />
         </Scheduler>
       </div>
     </div>
