@@ -1,13 +1,5 @@
-.availability {
-  display: flex;
-  padding: 5%;
-}
-
-.stepper {
-  max-width: 200px;
-  padding-top: 50px;
-}
-
-.mainContent {
-  padding-right: 10%;
+.availabilityCalendar {
+  max-width: 2000px;
+  padding: 10%;
+  padding-top: 5%;
 }

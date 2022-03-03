@@ -1,71 +1,117 @@
+/* eslint-disable */
 import { React, useState } from 'react';
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import { Grid } from '@mui/material';
-import IndicateAvailability from './indicateAvailability';
+import { ViewState, EditingState } from '@devexpress/dx-react-scheduler';
+import {
+  Scheduler,
+  WeekView,
+  MonthView,
+  Appointments,
+  AppointmentTooltip,
+  AppointmentForm,
+  Toolbar,
+  ViewSwitcher,
+  DateNavigator,
+  TodayButton,
+  EditRecurrenceMenu,
+  DragDropProvider,
+  ConfirmationDialog,
+} from '@devexpress/dx-react-scheduler-material-ui';
+import appointments from './appointments';
 import '../../css/availability.css';
 
-const steps = [
-  'Indicate Availabilty',
-  'Indicate Timeframe',
-  'Review and Submit',
-];
+// Change how the appointments look
+function Appointment({ style, children, ...restProps }) {
+  return (
+    <Appointments.Appointment
+      {...restProps}
+      style={{
+        ...style,
+        backgroundColor: '#4aa7ac',
+        borderRadius: '5px',
+      }}
+    >
+      {children}
+    </Appointments.Appointment>
+  );
+}
+
+const TextEditor = (props) => {
+  // disable the title
+  if (props.type === 'titleTextEditor') {
+    return null;
+  } return <AppointmentForm.TextEditor {...props} />;
+};
+
+const BooleanEditor = (props) => {
+  // Disable all day selector
+  if (props.label === 'All Day')
+    return null;
+  return <AppointmentForm.BooleanEditor {...props} />;
+}
 
 export default function Availability() {
-  const [activeStep, setActiveStep] = useState(0);
+  const [data, setData] = useState(appointments); // DEFAULT IS TEST VALUES RIGHT NOW
 
-  /* const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
+  // Have calendar default on current date
+  const curDate = new Date();
+  const defaultDate = `${curDate.getFullYear()}-${String(curDate.getMonth() + 1).padStart(2, '0')}-${String(curDate.getDate()).padStart(2, '0')}`;
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  }; */
-
-  const handleReset = () => {
-    setActiveStep(0);
+  // function that handles changes to data, can probably add/change/delete to db here as well
+  const commitChanges = ({ added, changed, deleted }) => {
+    let newData = data;
+    if (added) {
+      const startingAddedId = newData.length > 0 ? newData[newData.length - 1].id + 1 : 0;
+      newData = [...newData, { id: startingAddedId, ...added }];
+    }
+    if (changed) {
+      newData = newData.map((appointment) => (
+        changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment));
+    }
+    if (deleted !== undefined) {
+      newData = newData.filter((appointment) => appointment.id !== deleted);
+    }
+    setData(newData);
   };
 
   return (
-    <Grid
-      className="availability"
-      container
-    >
-      <Grid item xs={2}>
-        <Box className="stepper">
-          <Stepper
-            activeStep={activeStep}
-            orientation="vertical"
-          >
-            {steps.map((step) => (
-              <Step key={step}>
-                <StepLabel>
-                  {step}
-                </StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          {activeStep === steps.length && (
-            <Paper square elevation={0} sx={{ p: 3 }}>
-              { /* render at end of steps */ }
-              <Typography>All steps completed - you&apos;re finished</Typography>
-              <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-                Reset
-              </Button>
-            </Paper>
-          )}
-        </Box>
-      </Grid>
-      <Grid className="mainContent" item xs={10}>
-        {activeStep === 0 && (<IndicateAvailability />)}
-        {activeStep === 1 && (<p>indicate timeframe</p>)}
-        {activeStep === 2 && (<p>review and submit</p>)}
-      </Grid>
-    </Grid>
+    <div className="availabilityCalendar">
+      <Scheduler data={data} height={630}>
+        <ViewState
+          defaultCurrentViewName="Week"
+          defaultCurrentDate={defaultDate}
+        />
+        <EditingState
+          onCommitChanges={commitChanges}
+        />
+        <EditRecurrenceMenu />
+        <WeekView
+          startDayHour={7}
+          endDayHour={17}
+          cellDuration={60}
+        />
+        <MonthView
+          intervalCount={0.8}
+        />
+        <Toolbar />
+        <DateNavigator />
+        <TodayButton />
+        <ViewSwitcher />
+        <Appointments
+          appointmentComponent={Appointment}
+        />
+        <ConfirmationDialog
+          ignoreCancel
+        />
+        <AppointmentTooltip
+          showOpenButton
+          showDeleteButton
+        />
+        <AppointmentForm
+          textEditorComponent={TextEditor}
+          booleanEditorComponent={BooleanEditor}
+        />
+        <DragDropProvider />
+      </Scheduler>
+    </div>
   );
 }
