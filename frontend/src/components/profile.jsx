@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-useless-escape */
 
-import { Button, IconButton } from '@mui/material';
+import { Button, IconButton, TextField } from '@mui/material';
 import CreateIcon from '@mui/icons-material/Create';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import React, { useState } from 'react';
@@ -26,13 +26,13 @@ export default function Profile() {
       </div>
       <text className="profileText">Name:</text>
       <div id="nameInputs">
-        <input className={edit === true ? 'editProfileInput' : 'noEditProfileInput'} type="text" placeHolder="Volunteer" readOnly={!edit} />
-        <input className={edit === true ? 'editProfileInput' : 'noEditProfileInput'} type="text" placeHolder="Name" readOnly={!edit} />
+        <TextField className={edit === true ? 'editProfileInput' : 'noEditProfileInput'} type="text" placeHolder="Volunteer" disabled={!edit} />
+        <TextField className={edit === true ? 'editProfileInput' : 'noEditProfileInput'} type="text" placeHolder="Name" disabled={!edit} />
       </div>
       <text className="profileText">Email:</text>
-      <input className={edit === true ? 'editProfileInput' : 'noEditProfileInput'} id="profileInputs" type="text" placeHolder="volunteer@gmail.com" readOnly={!edit} />
+      <TextField className={edit === true ? 'editProfileInput' : 'noEditProfileInput'} id="profileInputs" type="text" placeHolder="volunteer@gmail.com" disabled={!edit} />
       <text className="profileText">Phone:</text>
-      <input className={edit === true ? 'editProfileInput' : 'noEditProfileInput'} id="profileInputs" type="text" placeHolder="(123) 456-6890" readOnly={!edit} />
+      <TextField className={edit === true ? 'editProfileInput' : 'noEditProfileInput'} id="profileInputs" type="text" placeHolder="(123) 456-6890" disabled={!edit} />
       <div id="bottomButtonBox">
         {
           (edit === true)
