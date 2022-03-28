@@ -5,6 +5,8 @@ import Signup from './components/signup';
 import './css/App.css';
 import theme from './theme';
 import Login from './components/login';
+import Request from './components/requestOff';
+import Availability from './components/availability/availability';
 
 function App() {
   return (
@@ -17,8 +19,8 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgotpassword" element={<p>forgot password</p>} />
             <Route path="/tasks" />
-            <Route path="/availability" />
-            <Route path="/request-off" />
+            <Route path="/request-off" element={<Request />} />
+            <Route path="/availability" element={<Availability />} />
             <Route path="/discussions" />
           </Routes>
         </BrowserRouter>
