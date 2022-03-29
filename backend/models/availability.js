@@ -6,7 +6,6 @@ const AvailabilitySchema = new mongoose.Schema({
     times: [{ startTime: { type: Date, required: false }, endTime: { type: Date, required: false } }],
     startDate: { type: Date, required: false },
     endDate: { type: Date, required: false },
-
     reoccurrence: { type: Boolean, required: true, default: false },
     recDay: { type: [{ type: Number, min: 0, max: 6 }], required: true },
 });

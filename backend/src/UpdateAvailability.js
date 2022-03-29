@@ -6,16 +6,13 @@ require('dotenv').config();
 const Availability = require('../models/availability');
 
 router.post('/newAvailability', async (req, res) => {
-  const { day, times, userID } = req.body;
-  const usingDefaultTimes = true;
-  const completed = false;
-  const completedStatusSet = false;
+  const { userID, times, startDate, endDate, reoccurrence } = req.body;
   const availability = Availability;
   console.log('inside function');
 
   let doc;
   doc = new availability({
-    day, times, userID, usingDefaultTimes, completed, completedStatusSet,
+    userID, times, startDate, endDate, reoccurrence,
   });
 
   doc.save();
@@ -24,7 +21,7 @@ router.post('/newAvailability', async (req, res) => {
 });
 
 router.post('/updateAvailability', async (req, res) => {
-  const { times, _id } = req.body;
+  const { _id, times } = req.body;
   const availability = Availability;
   console.log(times);
 
