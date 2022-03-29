@@ -2,12 +2,13 @@ const mongoose = require('mongoose');
 const { userConnection } = require('../connection');
 
 const AvailabilitySchema = new mongoose.Schema({
-  day: { type: Date, required: false },
-  times: [{ start: { type: Date, required: false }, end: { type: Date, required: false } }],
-  userID: { type: String, required: true },
-  usingDefaultTimes: { type: Boolean, required: true },
-  completed: { type: Boolean, required: false, default: false },
-  completedStatusSet: { type: Boolean, required: false, default: false },
+    userID: { type: String, required: true },
+    times: [{ startTime: { type: Date, required: false }, endTime: { type: Date, required: false } }],
+    startDate: { type: Date, required: false },
+    endDate: { type: Date, required: false },
+
+    reoccurrence: { type: Boolean, required: true, default: false },
+    recDay: { type: [{ type: Number, min: 0, max: 6 }], required: true },
 });
 
 const Availability = userConnection.model('availability', AvailabilitySchema);
