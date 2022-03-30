@@ -53,4 +53,50 @@ router.post('/deleteAvailability', async (req, res) => {
     });
 });
 
+/* gets the availabilities in a week's time frame */
+router.get('/getAvailabilities', async (req, res) => {
+    const { weekStart, weekEnd } = req.body;
+    const availability = Availability;
+    /* get all availibilies for a in a specified time frame  */
+    availability.find({
+        startDate: {
+            $gte: weekStart,
+            $lt: weekEnd
+        }, endDate: {
+            $gte: weekStart,
+            $lt: weekEnd}
+    }).then((result) => {
+        if (!result) {
+            res.status(404).send('No users found');
+        } else {
+            res.status(200).send(result);
+        }
+    }).catch((err) => {
+        console.log(err);
+        res.status(500).send('error');
+    });
+});
+
+
+/* gets the availabilities for the week for a specific user */
+router.get('/getUserAvailabilities', async (req, res) => {
+    const { userID, weekStart, weekEnd} = req.body;
+    const availability = Availability;
+    /* get all availibilies for a user in a specified time frame  */
+    availability.find({userID: userID, startDate: {
+            $gte: weekStart,
+            $lt: weekEnd}, endDate: {
+            $gte: weekStart,
+            $lt: weekEnd } }).then((result) => {
+        if (!result) {
+            res.status(404).send('No users found');
+        } else {
+            res.status(200).send(result);
+        }
+    }).catch((err) => {
+        console.log(err);
+        res.status(500).send('error');
+    });
+});
+
 module.exports = router;
