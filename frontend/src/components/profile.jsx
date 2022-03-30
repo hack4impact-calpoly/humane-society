@@ -7,12 +7,6 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import React, { useState } from 'react';
 import '../css/profile.css';
 
-let oldFirstName = '';
-let oldLastName = '';
-let oldEmail = '';
-let oldPhone = '';
-let oldSchool = '';
-
 export default function Profile() {
   const [edit, setEdit] = useState(false);
   const [firstName, setFirstName] = useState('Volunteer');
@@ -20,19 +14,24 @@ export default function Profile() {
   const [email, setEmail] = useState('employee@gmail.com');
   const [phone, setPhone] = useState('(123) 456-6890');
   const [school, setSchool] = useState('Cal Poly');
+  const [oldFirst, setOldFirst] = useState('');
+  const [oldLast, setOldLast] = useState('');
+  const [oldEmail, setOldEmail] = useState('');
+  const [oldPhone, setOldPhone] = useState('');
+  const [oldSchool, setOldSchool] = useState('');
 
   function setOld() {
-    oldFirstName = firstName.slice();
-    oldLastName = lastName.slice();
-    oldEmail = email.slice();
-    oldPhone = phone.slice();
-    oldSchool = school.slice();
+    setOldFirst(firstName);
+    setOldLast(lastName);
+    setOldEmail(email);
+    setOldPhone(phone);
+    setOldSchool(school);
     setEdit(true);
   }
 
   function resetFields() {
-    setFirstName(oldFirstName);
-    setLastName(oldLastName);
+    setFirstName(oldFirst);
+    setLastName(oldLast);
     setEmail(oldEmail);
     setPhone(oldPhone);
     setSchool(oldSchool);
