@@ -7,7 +7,7 @@ const AvailabilitySchema = new mongoose.Schema({
     startDate: { type: Date, required: false },
     endDate: { type: Date, required: false },
     reoccurrence: { type: Boolean, required: true, default: false },
-    recDay: { type: [{ type: Number, min: 0, max: 6 }], required: true },
+    recDay:  [{ type: Number, min: 0, max: 6 }],
 });
 
 const Availability = userConnection.model('availability', AvailabilitySchema);
