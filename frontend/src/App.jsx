@@ -5,6 +5,7 @@ import Signup from './components/signup';
 import './css/App.css';
 import theme from './theme';
 import Login from './components/login';
+import Profile from './components/profile';
 import Request from './components/requestOff';
 import Availability from './components/availability/availability';
 
@@ -22,6 +23,7 @@ function App() {
             <Route path="/request-off" element={<Request />} />
             <Route path="/availability" element={<Availability />} />
             <Route path="/discussions" />
+            <Route path="profile" element={<Profile />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
