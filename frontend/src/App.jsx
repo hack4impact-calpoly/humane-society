@@ -6,6 +6,8 @@ import './css/App.css';
 import theme from './theme';
 import Login from './components/login';
 import ForgotPassword from './forgotPassword';
+import PasswordReset from './passwordReset';
+import ResetPassword from './resetPassword';
 
 function App() {
   return (
@@ -17,6 +19,10 @@ function App() {
             <Route path="/login" element={<Login />} exact />
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
+            {/* Chuck this */}
+            <Route path="/passwordreset" element={<PasswordReset />} />
+            {/* Chuck this */}
+            <Route path="/resetpassword" element={<ResetPassword />} />
             <Route path="/tasks" />
             <Route path="/availability" />
             <Route path="/request-off" />

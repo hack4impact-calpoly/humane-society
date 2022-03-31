@@ -5,7 +5,7 @@
     "body-parser": "^1.19.1",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
-    "express": "^4.17.2",
+    "express": "^4.17.3",
     "i": "^0.3.7",
     "jest-environment-node": "^27.4.6",
     "jsonwebtoken": "^8.5.1",
