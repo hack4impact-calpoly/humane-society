@@ -1,13 +1,9 @@
 import React from 'react';
+import './css/App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
-import Signup from './components/signup';
-import './css/App.css';
 import theme from './theme';
 import Login from './components/login';
-import ForgotPassword from './forgotPassword';
-import PasswordReset from './passwordReset';
-import ResetPassword from './resetPassword';
 
 function App() {
   return (
@@ -15,22 +11,14 @@ function App() {
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<p>landing page</p>} />
-            <Route path="/login" element={<Login />} exact />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/forgotpassword" element={<ForgotPassword />} />
-            {/* Chuck this */}
-            <Route path="/passwordreset" element={<PasswordReset />} />
-            {/* Chuck this */}
-            <Route path="/resetpassword" element={<ResetPassword />} />
-            <Route path="/tasks" />
-            <Route path="/availability" />
-            <Route path="/request-off" />
-            <Route path="/discussions" />
+            <Route path="/" element={<Login />} />
+            <Route path="/signup" element={<p>Sign up</p>} />
+            <Route path="/forgotpassword" element={<p>forgot password</p>} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
     </div>
   );
 }
+
 export default App;
