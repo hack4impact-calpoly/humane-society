@@ -106,6 +106,7 @@ export default function SignUp() {
       console.log('invalid');
       return;
     }
+    setValidSignup(false);
     // add to AWS
     addToAWS();
     if (!validSignup) {
