@@ -28,6 +28,10 @@ export default function SignUp() {
   const [isStudent, setIsStudent] = useState(false);
   const [validSignup, setValidSignup] = useState(false);
 
+  // useEffect(() => {
+  //   console.log(validSignup);
+  // }, [validSignup]);
+
   const updateSchool = (event) => {
     setSchool(event.target.value);
     console.log(school);
@@ -77,6 +81,39 @@ export default function SignUp() {
       setValidPassword(false);
     }
   };
+
+  const addToMongo = () => {
+    // add to mongo here
+    console.log('adding to mongo...');
+    const loginBody = {
+      firstName,
+      lastName,
+      phone: phoneNumber,
+      email,
+      isStudent,
+      isAdmin: false,
+      studentSchool: school,
+      password,
+    };
+    fetch('http://localhost:3001/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(loginBody),
+    }).then((result) => {
+      console.log(result);
+      if (result.status === 200) {
+        // success
+        navigate('/login');
+      } else if (result.status === 404) {
+        console.log('email in use');
+      } else {
+        console.log('error');
+      }
+    });
+  };
+
   const addToAWS = () => {
     // parse only numbers in phoneNumber
     setPhoneNumber(phoneNumber.replace(/[^0-9]/g, ''));
@@ -93,9 +130,11 @@ export default function SignUp() {
       (err, data) => {
         if (err) {
           console.log(err);
-          setValidSignup(true);
+          // setValidSignup(true);
+          setValidSignup(() => true);
         }
         console.log(data);
+        addToMongo();
       },
     );
   };
@@ -106,43 +145,10 @@ export default function SignUp() {
       console.log('invalid');
       return;
     }
-    setValidSignup(false);
-    // add to AWS
+
+    setValidSignup(() => false);
+    // add to AWS, will call add to Mongo
     addToAWS();
-    if (!validSignup) {
-      // add to mongo here
-      console.log('adding to mongo...');
-      const loginBody = {
-        firstName,
-        lastName,
-        phone: phoneNumber,
-        email,
-        isStudent,
-        isAdmin: false,
-        studentSchool: school,
-        password,
-      };
-      fetch('http://localhost:3001/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(loginBody),
-      }).then((result) => {
-        console.log(result);
-        if (result.status === 200) {
-          // success
-          // const data = result.json();
-          navigate('/login');
-        } else if (result.status === 404) {
-          setValidSignup(true);
-          console.log(validSignup);
-          console.log('email in use');
-        } else {
-          console.log('error');
-        }
-      });
-    }
   };
 
   const emailHelperText = () => {
