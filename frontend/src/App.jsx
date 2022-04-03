@@ -24,6 +24,7 @@ function App() {
             <Route path="/availability" element={<Availability />} />
             <Route path="/discussions" />
             <Route path="profile" element={<Profile />} />
+            <Route path="*" element={<h1>404 page not found</h1>} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
