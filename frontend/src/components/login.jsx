@@ -46,7 +46,6 @@ export default function Login() {
   };
 
   const verifyAWS = async () => {
-    console.log(await getEmail());
     const user = new CognitoUser({
       Username: await getEmail(),
       Pool: userPool,
@@ -100,11 +99,17 @@ export default function Login() {
   const initialRender = useRef(true);
 
   useEffect(() => {
+    let isCancelled = false;
+
     if (initialRender.current) {
       initialRender.current = false;
-    } else {
+    } else if (!isCancelled) {
       login();
     }
+
+    return () => {
+      isCancelled = true;
+    };
   }, [login]);
 
   return (
