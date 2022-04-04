@@ -28,10 +28,6 @@ export default function SignUp() {
   const [isStudent, setIsStudent] = useState(false);
   const [validSignup, setValidSignup] = useState(false);
 
-  // useEffect(() => {
-  //   console.log(validSignup);
-  // }, [validSignup]);
-
   const updateSchool = (event) => {
     setSchool(event.target.value);
     console.log(school);
@@ -105,7 +101,7 @@ export default function SignUp() {
       console.log(result);
       if (result.status === 200) {
         // success
-        navigate('/login');
+        navigate('/signup/success');
       } else if (result.status === 404) {
         console.log('email in use');
       } else {
