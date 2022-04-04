@@ -45,6 +45,24 @@ export default function Login() {
     sessionStorage.setItem('token', token);
   };
 
+  const createToken = async () => {
+    const loginBody = {
+      email: await getEmail(),
+      password: await getPw(),
+    };
+    const response = await fetch('http://localhost:3001/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(loginBody),
+    });
+    const data = await response.json();
+    console.log(data);
+    storeUser(data.result.userID, data.token);
+    navigate('/');
+  };
+
   const verifyAWS = async () => {
     const user = new CognitoUser({
       Username: await getEmail(),
@@ -60,6 +78,7 @@ export default function Login() {
       onSuccess: (data) => {
         console.log('onSuccess: ', data);
         setConfirmedUser(true);
+        createToken();
         // retrieve token and navigate to next page here
       },
       onFailure: (err) => {
@@ -75,25 +94,7 @@ export default function Login() {
   };
 
   const login = useCallback(async () => {
-    const loginBody = {
-      email: await getEmail(),
-      password: await getPw(),
-    };
     verifyAWS();
-    if (!confirmedUser) {
-      return;
-    }
-    const response = await fetch('http://localhost:3001/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(loginBody),
-    });
-    const data = await response.json();
-    console.log(data);
-    storeUser(data.result.userID, data.token);
-    navigate('/');
   }, []);
 
   const initialRender = useRef(true);
