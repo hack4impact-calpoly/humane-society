@@ -8,6 +8,9 @@ import Login from './components/login';
 import ForgotPassword from './forgotPassword';
 import PasswordReset from './passwordReset';
 import ResetPassword from './resetPassword';
+// import Profile from './components/profile';
+// import Request from './components/requestOff';
+import Availability from './components/availability/availability';
 
 function App() {
   return (
@@ -24,9 +27,10 @@ function App() {
             {/* Chuck this */}
             <Route path="/resetpassword" element={<ResetPassword />} />
             <Route path="/tasks" />
-            <Route path="/availability" />
-            <Route path="/request-off" />
+            {/* <Route path="/request-off" element={<Request />} /> */}
+            <Route path="/availability" element={<Availability />} />
             <Route path="/discussions" />
+            {/* <Route path="profile" element={<Profile />} /> */}
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
