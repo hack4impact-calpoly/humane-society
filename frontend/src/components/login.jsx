@@ -18,20 +18,43 @@ export default function Login() {
   const [invalidLogin, setInvalidLogin] = useState(false);
   const [confirmedUser, setConfirmedUser] = useState(true);
 
+  const getEmail = async () => {
+    let state;
+
+    await setEmail((currentState) => {
+      state = currentState;
+      return currentState;
+    });
+
+    return state;
+  };
+
+  const getPw = async () => {
+    let state;
+
+    await setPw((currentState) => {
+      state = currentState;
+      return currentState;
+    });
+
+    return state;
+  };
+
   const storeUser = (user, token) => {
     sessionStorage.setItem('userID', user.userID);
     sessionStorage.setItem('token', token);
   };
 
-  const verifyAWS = () => {
+  const verifyAWS = async () => {
+    console.log(await getEmail());
     const user = new CognitoUser({
-      Username: email,
+      Username: await getEmail(),
       Pool: userPool,
     });
 
     const authDetails = new AuthenticationDetails({
-      Username: email,
-      Password: pw,
+      Username: await getEmail(),
+      Password: await getPw(),
     });
 
     user.authenticateUser(authDetails, {
@@ -52,34 +75,10 @@ export default function Login() {
     });
   };
 
-  // const login = async () => {
-  //   // login to mongo first here
-
-  //   const loginBody = {
-  //     email,
-  //     password: pw,
-  //   };
-  //   verifyAWS();
-  //   if (!confirmedUser) {
-  //     return;
-  //   }
-  //   const response = await fetch('http://localhost:3001/login', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(loginBody),
-  //   });
-  //   const data = await response.json();
-  //   console.log(data);
-  //   storeUser(data.result.userID, data.token);
-  //   navigate('/');
-  // };
-
   const login = useCallback(async () => {
     const loginBody = {
-      email,
-      password: pw,
+      email: await getEmail(),
+      password: await getPw(),
     };
     verifyAWS();
     if (!confirmedUser) {
