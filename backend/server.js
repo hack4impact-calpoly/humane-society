@@ -12,7 +12,7 @@ const login = require('./src/login');
 const users = require('./src/getUsers');
 const availability = require('./src/UpdateAvailability');
 const updateProfile = require('./src/updateProfile');
-const scheduling = require('./src/Scheduling');
+const schedule = require('./src/Scheduling');
 const task = require('./src/UpdateTask');
 
 
@@ -22,7 +22,7 @@ app.use('/getUsers', users);
 app.use('/availability', availability);
 app.use('/updateProfile', updateProfile);
 app.use('/task', task);
-app.use('/scheduling', scheduling);
+app.use('/schedule', schedule);
 
 
 app.get('/', (req, res) => {

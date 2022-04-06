@@ -3,21 +3,20 @@ const express = require('express');
 const router = express.Router();
 require('dotenv').config();
 
-const Scheduling = require('../models/availability');
+const Scheduling = require('../models/schedule');
 
 
-/* creates a new availability with given attributes */
+/* creates a new schedule with given attributes */
 router.post('/newSchedule', async (req, res) => {
     const { scheduleID, userID, Date, startTime, endTime, Tasks } = req.body;
-    const availability = Availability;
-
+    const schedules = Scheduling;
     let doc;
-    doc = new availability({
+    doc = new schedules({
         scheduleID, userID, Date, startTime, endTime, Tasks,
     });
 
     doc.save();
-    console.log('availability added');
+    console.log('schedule added');
     res.status(200).send('success');
 });
 
@@ -60,13 +59,10 @@ router.get('/getUserSchedules', async (req, res) => {
 /* gets the schedules in a week's time frame */
 router.get('/getWeekSchedules', async (req, res) => {
     const { weekStart, weekEnd } = req.body;
-    const availability = Availability;
+    const schedules = Scheduling;
     /* get all schedules for a in a specified time frame  */
-    availability.find({
-        startTime: {
-            $gte: weekStart,
-            $lt: weekEnd
-        }, endTime: {
+    schedules.find({
+        Date: {
             $gte: weekStart,
             $lt: weekEnd
         }
@@ -81,7 +77,5 @@ router.get('/getWeekSchedules', async (req, res) => {
         res.status(500).send('error');
     });
 });
-
-
 
 module.exports = router;
