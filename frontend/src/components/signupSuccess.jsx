@@ -24,8 +24,12 @@ export default function SignupSuccess() {
             <img id="signupLogo" src={logo} alt="logo" />
           </Grid>
           <Typography component="h1" variant="h5">
-            Account Successfully Created
+            Account Successfully Created!
           </Typography>
+          <Typography component="h1" variant="h5">
+            Check your inbox, a verification email has been sent to your email!
+          </Typography>
+
           <Box component="form" noValidate sx={{ width: 300 }}>
             <Button
               onClick={() => navigate('/login')}
