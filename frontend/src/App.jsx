@@ -5,6 +5,9 @@ import Signup from './components/signup';
 import './css/App.css';
 import theme from './theme';
 import Login from './components/login';
+import ForgotPassword from './forgotPassword';
+import PasswordReset from './passwordReset';
+import ResetPassword from './resetPassword';
 import RequireAuth from './requireAuth';
 import SignupSuccess from './components/signupSuccess';
 import Profile from './components/profile';
@@ -22,7 +25,9 @@ function App() {
             <Route path="/login" element={<Login />} exact />
             <Route path="/signup" element={<Signup />} />
             <Route path="/signup/success" element={<SignupSuccess />} />
-            <Route path="/forgotpassword" element={<p>forgot password</p>} />
+            <Route path="/forgotpassword" element={<ForgotPassword />} />
+            <Route path="/passwordreset" element={<PasswordReset />} />
+            <Route path="/resetpassword" element={<ResetPassword />} />
             { /* Private Routes */ }
             <Route element={<RequireAuth />}>
               <Route path="/tasks" />
