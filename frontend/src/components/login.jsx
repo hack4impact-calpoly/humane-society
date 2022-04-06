@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+/* eslint-disable consistent-return */
+import React, {
+  useState, useRef, useCallback, useEffect,
+} from 'react';
 import {
   Button, Grid, TextField, Container,
 } from '@mui/material';
@@ -13,68 +16,102 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [pw, setPw] = useState('');
   const [invalidLogin, setInvalidLogin] = useState(false);
+  const [confirmedUser, setConfirmedUser] = useState(true);
+
+  const getEmail = async () => {
+    let state;
+
+    await setEmail((currentState) => {
+      state = currentState;
+      return currentState;
+    });
+
+    return state;
+  };
+
+  const getPw = async () => {
+    let state;
+
+    await setPw((currentState) => {
+      state = currentState;
+      return currentState;
+    });
+
+    return state;
+  };
 
   const storeUser = (user, token) => {
     sessionStorage.setItem('userID', user.userID);
     sessionStorage.setItem('token', token);
   };
 
-  const verifyAWS = () => {
+  const createToken = async () => {
+    const loginBody = {
+      email: await getEmail(),
+      password: await getPw(),
+    };
+    const response = await fetch('http://localhost:3001/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(loginBody),
+    });
+    const data = await response.json();
+    console.log(data);
+    storeUser(data.result.userID, data.token);
+    navigate('/');
+  };
+
+  const verifyAWS = async () => {
     const user = new CognitoUser({
-      Username: email,
+      Username: await getEmail(),
       Pool: userPool,
     });
 
     const authDetails = new AuthenticationDetails({
-      Username: email,
-      Password: pw,
+      Username: await getEmail(),
+      Password: await getPw(),
     });
 
     user.authenticateUser(authDetails, {
       onSuccess: (data) => {
         console.log('onSuccess: ', data);
-        return true;
+        setConfirmedUser(true);
+        createToken();
         // retrieve token and navigate to next page here
       },
       onFailure: (err) => {
         console.error('onFailure: ', err);
-        return false;
+        setConfirmedUser(false);
       },
       newPasswordRequired: (data) => {
         console.log('newPasswordRequired: ', data);
-        return false;
         // not too sure what this is for
       },
 
     });
   };
 
-  const login = () => {
-    // login to mongo first here
+  const login = useCallback(async () => {
+    verifyAWS();
+  }, []);
 
-    const loginBody = {
-      email,
-      password: pw,
+  const initialRender = useRef(true);
+
+  useEffect(() => {
+    let isCancelled = false;
+
+    if (initialRender.current) {
+      initialRender.current = false;
+    } else if (!isCancelled) {
+      login();
+    }
+
+    return () => {
+      isCancelled = true;
     };
-    fetch('http://localhost:3001/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(loginBody),
-    }).then((result) => {
-      console.log(result);
-      if (result.status === 200 && verifyAWS()) {
-        // success
-        const data = result.json();
-        storeUser(data.result, data.token);
-        navigate('/');
-      } else {
-        setInvalidLogin(true);
-        console.log('error');
-      }
-    });
-  };
+  }, [login]);
 
   return (
     <div className="loginPage">
@@ -106,8 +143,13 @@ export default function Login() {
                 label="Email"
                 placeholder="Enter your email"
                 value={email}
-                onChange={(e) => { setEmail(e.target.value); setInvalidLogin(false); }}
-                error={invalidLogin}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setInvalidLogin(false);
+                  setConfirmedUser(true);
+                }}
+                error={invalidLogin || !confirmedUser}
+                helperText={!confirmedUser ? 'Please confirm your email' : ''}
               />
             </Grid>
             <Grid item sx={{ width: '100%' }}>
@@ -121,8 +163,8 @@ export default function Login() {
                 placeholder="Password"
                 value={pw}
                 onChange={(e) => { setPw(e.target.value); setInvalidLogin(false); }}
-                error={invalidLogin}
-                helperText={invalidLogin ? 'Invalid email or password, please try again' : ''}
+                error={invalidLogin && confirmedUser}
+                helperText={invalidLogin && confirmedUser ? 'Invalid email or password, please try again' : ''}
               />
               <p>
                 <Link to="/forgotpassword" style={{ float: 'right' }}>Forgot Password?</Link>
