@@ -10,5 +10,13 @@ const SchedulingSchema = new mongoose.Schema({
     Tasks: [{ type: String, required: true }],
 });
 
+SchedulingSchema.pre('validate', function (next) {
+    if (this.startDate > this.endDate) {
+        next(new Error('End Time must be greater than Start Time'));
+    } else {
+        next();
+    }
+});
+
 const Scheduling = userConnection.model('scheduling', SchedulingSchema);
 module.exports = Scheduling;
