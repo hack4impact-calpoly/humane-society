@@ -1,0 +1,95 @@
+.profilePage {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: 73vh;
+    width: 80%;
+    margin-left: 20%;
+    margin-top: 8vh;
+}
+
+.noEditProfileInput {
+    border-width: 1.5px;
+    border-style: solid;
+    border-color: black;
+}
+
+.editProfileInput {
+    border-width: 1.5px;
+    border-style: solid;
+    border-color: #246386;
+}
+
+.profileText{
+    font-weight: bold;
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+}
+
+#pictureAndButton {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 40%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+#nameInputs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 0.5%;
+    width: 40.75%;
+}
+
+#bottomSection {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: flex-end;
+    width: 40.5%;
+    margin-top: 2%;
+}
+
+#buttonBox {
+    display: flex;
+    width: 75%;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#cancelButton {
+    border-color: black;
+    text-transform: none;
+    border-radius: 8px;
+    font-size: 12px;
+    padding-left: 35px;
+    padding-right: 35px;
+    padding-top: 9px;
+    padding-bottom: 9px;
+}
+
+#cancelButton:hover {
+    border-color: black;
+    text-transform: none;
+    border-radius: 8px;
+    font-size: 12px;
+    padding-left: 35px;
+    padding-right: 35px;
+    padding-top: 9px;
+    padding-bottom: 9px;
+}
+
+#saveButton {
+    text-transform: none;
+    border-radius: 8px;
+    font-size: 12px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 9px;
+    padding-bottom: 9px;
+}
