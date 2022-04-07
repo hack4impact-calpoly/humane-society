@@ -1,12 +1,12 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import './css/taskbar.css';
+import '../css/taskbar.css';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
-import Navbar from './navbar';
+import Navbar from '../navbar';
 
 export default function ForgotPassword() {
   return (
