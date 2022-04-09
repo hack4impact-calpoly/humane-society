@@ -29,12 +29,12 @@ function App() {
             <Route path="/forgotpassword" element={<ForgotPassword />} />
             <Route path="/passwordreset" element={<PasswordReset />} />
             <Route path="/resetpassword" element={<ResetPassword />} />
+            <Route path="/contacts" element={<Contacts />} />
             { /* Private Routes */ }
             <Route element={<RequireAuth />}>
               <Route path="/tasks" />
               <Route path="/request-off" element={<Request />} />
               <Route path="/availability" element={<Availability />} />
-              <Route path="/contacts" element={<Contacts />} />
               <Route path="/discussions" />
               <Route path="profile" element={<Profile />} />
             </Route>
