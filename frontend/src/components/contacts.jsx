@@ -19,9 +19,15 @@ const rows = [
 
 export default function Availability() {
     const [users, setUsers] = useState([]);
+    const [rows, setRows] = useState([]);
+    const formatUsers = () =>
+    {
+      /*  let rows = new Array()
 
-    const formatUsers = () => {
-
+        for (let i = 0; i < users.length; i++) {
+            rows.push({ id: users[i].id, name: users[i].name, email: users[i].email, phoneNumber: users[i].phoneNumber})
+        }
+        setRows(rows)*/
     }
     const getUsers = async () => {
         const response = await fetch('http://localhost:3001/getUsers/getAllUsers', {
@@ -30,14 +36,18 @@ export default function Availability() {
                 'Content-Type': 'application/json',
             },
         })
-        if (response.status === 200) {
+        if (response.status === 200)
+        {
             const data = await response.json()
+            console.log(data)
             setUsers(data)
-        } else {
+        } else
+        {
             console.log("could not get users")
         }
     }
 
+  //  formatUsers()
 
     useEffect(() => {
         getUsers()
@@ -53,19 +63,9 @@ export default function Availability() {
                 autoHeight
                 columns={columns}
                 rows={rows}
- 
                 pageSize={5}
                 autoPageSize
             />
         </div></div>
     );
 }
-
-
-
-
-
-
-
-
-
