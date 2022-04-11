@@ -14,7 +14,7 @@ const availability = require('./src/UpdateAvailability');
 const updateProfile = require('./src/updateProfile');
 const schedule = require('./src/Scheduling');
 const task = require('./src/UpdateTask');
-
+const updatePassword = require('./src/updatePw');
 
 app.use('/signup', signup);
 app.use('/login', login);
@@ -23,7 +23,7 @@ app.use('/availability', availability);
 app.use('/updateProfile', updateProfile);
 app.use('/task', task);
 app.use('/schedule', schedule);
-
+app.use('/updatePassword', updatePassword);
 
 app.get('/', (req, res) => {
   res.send('Hi from Woods Humane Society!');
