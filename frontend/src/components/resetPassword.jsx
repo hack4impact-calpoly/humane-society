@@ -5,9 +5,14 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { CognitoUser } from 'amazon-cognito-identity-js';
+import { useNavigate } from 'react-router-dom';
+import userPool from '../userPool';
 import Navbar from '../navbar';
 
 export default function ResetPassword() {
+  const navigate = useNavigate();
+  const [code, setCode] = useState('');
   const [password1, setPassword1] = useState('');
   const [password2, setPassword2] = useState('');
   const [validPassword, setValidPassword] = useState(false);
@@ -22,13 +27,55 @@ export default function ResetPassword() {
     }
   };
 
+  const updateAWS = async () => {
+    // const verificationCode = await getCode();
+    const password = password2;
+    const user = new CognitoUser({
+      Username: localStorage.getItem('woods-humane-email'),
+      Pool: userPool,
+    });
+
+    user.confirmPassword(code, password, {
+      onSuccess: () => {
+        console.log('Password confirmed!');
+      },
+      onFailure: (err) => {
+        console.log('Password not confirmed!');
+        console.log(err);
+      },
+    });
+  };
+
+  const updateMongo = async () => {
+    const updatePwBody = {
+      email: localStorage.getItem('woods-humane-email'),
+      password: password2,
+    };
+    fetch('http://localhost:3001/updatePassword', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatePwBody),
+    }).then((result) => {
+      if (result.status === 200) {
+        // success
+        console.log('success');
+        localStorage.removeItem('woods-humane-email');
+        navigate('/login');
+      } else {
+        console.log('error');
+      }
+    });
+  };
+
   const verifyPassword = () => {
     checkPassword();
     if (validPassword) {
       setSamePassword(false);
     } else if (password1 === password2) {
-      // route to next page, api call to update password
-      //
+      updateAWS();
+      updateMongo();
     } else {
       setSamePassword(true);
     }
@@ -51,6 +98,18 @@ export default function ResetPassword() {
             <Grid container spacing={4}>
               <Grid item xs={12} id="forgotPassword">
                 Reset your password
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="code"
+                  label="Enter your verification code"
+                  type="code"
+                  id="code"
+                  autoComplete="your-code"
+                  onChange={(e) => { setCode(e.target.value); }}
+                />
               </Grid>
               <Grid item xs={12}>
                 <TextField
