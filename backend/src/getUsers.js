@@ -17,6 +17,21 @@ router.get('/getAllUsers', async (req, res) => {
   });
 });
 
+router.get('/getFormattedUsers', async (req, res) => {
+    User.find().then((result) => {
+        if (!result) {
+            res.status(404).send('No Users Found');
+        } else {
+            let rows = new Array()
+
+            for (let i = 0; i < result.length; i++) {
+                rows.push({ id: result[i].userID, name: (result[i].firstName + " " + result[i].lastName) , email: result[i].email, phoneNumber: result[i].phone })
+            }
+            res.status(200).send(rows);
+        }
+    });
+});
+
 router.get('/getUserById', async (req, res) => {
   const { id } = req.body;
 
