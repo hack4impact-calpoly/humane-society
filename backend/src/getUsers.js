@@ -26,7 +26,7 @@ router.get('/getFormattedUsers', async (req, res) => {
             let rows = new Array()
 
             for (let i = 0; i < result.length; i++) {
-                rows.push({ id: result[i].userID, name: (result[i].firstName + " " + result[i].lastName), email: result[i].email, phoneNumber: result[i].phone })
+                rows.push({ id: result[i].userID, name: (result[i].firstName + " " + result[i].lastName), email: result[i].email, phoneNumber: result[i].phone.substring(-1, 3) + "-" + result[i].phone.substring(3, 6) + '-' + result[i].phone.substring(6, 10)})
             }
             res.status(200).send(rows);
         }
