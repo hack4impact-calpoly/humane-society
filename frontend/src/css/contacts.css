@@ -3,3 +3,19 @@
     padding: 10%;
     padding-top: 5%;
 }
+.css-ednt2m-MuiButtonBase-root-MuiButton-root {
+    color: #054D75 !important;
+}
+
+.css-1jbbcbn-MuiDataGrid-columnHeaderTitle {
+    font-weight: bold !important;
+}
+.contactsTitle {
+    font-family: Lato;
+    font-size: 200%;
+    color: #054D75;
+    margin-left: auto;
+    text-align: left;
+    margin-top: auto;
+    font-weight: 600;
+}

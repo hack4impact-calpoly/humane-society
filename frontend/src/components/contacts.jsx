@@ -2,20 +2,21 @@
 import { DataGrid } from '@mui/x-data-grid';
 import React, { useState, useEffect } from 'react';
 import Taskbar from "./taskbar"
-import { DataGridPro, GridLinkOperator, GridToolbar } from '@mui/x-data-grid';
+import { GridLinkOperator, GridToolbar } from '@mui/x-data-grid';
 import '../css/contacts.css';
 
+/* the columns of the contacts data grid */
 const columns = [
-    { field: "name", headerName: "name", flex: 1 },
-    { field: "email", headerName: "email", flex: 1 },
-    { field: "phoneNumber", headerName: "phone number", flex: 1 }
+    { field: "name", headerName: "Name", flex: 1 },
+    { field: "email", headerName: "Email", flex: 1 },
+    { field: "phoneNumber", headerName: "Phone Number", flex: 1 }
 ];
 
+/* the contacts page */
 export default function Contacts() {
     const [rows, setRows] = useState([]);
-
+    /* gets a properly formatted array of users from the backend */
     const getUsers = async () => {
-
         const response = await fetch('http://localhost:3001/getUsers/getFormattedUsers', {
             method: 'GET',
             headers: {
@@ -29,24 +30,24 @@ export default function Contacts() {
         }
     }
 
-
     useEffect(() => {
         getUsers()
     });
-
 
     return (
         <div>
             <Taskbar />
             <div className="contacts">
+                <h3 className="contactsTitle"> Contacts </h3>
                 <DataGrid
-                    
                     autoHeight
                     columns={columns}
                     rows={rows}
                     pageSize={5}
                     autoPageSize
-                    /* stuff used for filtering */
+                    disableSelectionOnClick
+
+                    /* code used for filtering */
                     components={{
                         Toolbar: GridToolbar,
                     }}
@@ -85,10 +86,10 @@ export default function Contacts() {
                                 '& .MuiDataGrid-filterFormColumnInput': { mr: 2, width: 150 },
                                 '& .MuiDataGrid-filterFormOperatorInput': { mr: 2 },
                                 '& .MuiDataGrid-filterFormValueInput': { width: 200 },
+
                             },
                         },
                     }}
-                    
                 />
             </div></div>
     );
