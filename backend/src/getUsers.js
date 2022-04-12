@@ -17,6 +17,7 @@ router.get('/getAllUsers', async (req, res) => {
     });
 });
 
+/* gets all the users into a specific format to be generated on the contacts page */
 router.get('/getFormattedUsers', async (req, res) => {
     User.find().then((result) => {
         if (!result) {
