@@ -10,8 +10,6 @@ const columns = [
     { field: "email", headerName: "email", flex: 1 },
     { field: "phoneNumber", headerName: "phone number", flex: 1 }
 ];
-const VISIBLE_FIELDS = ['name', 'email', 'phone number'];
-
 
 export default function Contacts() {
     const [rows, setRows] = useState([]);
