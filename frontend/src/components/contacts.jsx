@@ -2,6 +2,7 @@
 import { DataGrid } from '@mui/x-data-grid';
 import React, { useState, useEffect } from 'react';
 import Taskbar from "./taskbar"
+import { DataGridPro, GridLinkOperator, GridToolbar } from '@mui/x-data-grid';
 import '../css/contacts.css';
 
 const columns = [
@@ -9,15 +10,10 @@ const columns = [
     { field: "email", headerName: "email", flex: 1 },
     { field: "phoneNumber", headerName: "phone number", flex: 1 }
 ];
-/*const rows = [
-    { id: 0, name: 0, email: "Task 1", phoneNumber: 20 },
-    { id: 1, name: 1, email: "Task 2", phoneNumber: 40 },
-    { id: 2, name: 2, email: "Task 3", phoneNumber: 60 }
-];*/
+const VISIBLE_FIELDS = ['name', 'email', 'phone number'];
 
 
-
-export default function Availability() {
+export default function Contacts() {
     const [rows, setRows] = useState([]);
 
     const getUsers = async () => {
@@ -28,11 +24,9 @@ export default function Availability() {
                 'Content-Type': 'application/json',
             },
         })
-        if (response.status === 200)
-        {
+        if (response.status === 200) {
             setRows(await response.json())
-        } else
-        {
+        } else {
             console.log("could not get users")
         }
     }
@@ -45,15 +39,59 @@ export default function Availability() {
 
     return (
         <div>
-        <Taskbar/>
-        <div className="contacts">
-            <DataGrid
-                autoHeight
-                columns={columns}
-                rows={rows}
-                pageSize={5}
-                autoPageSize
-            />
-        </div></div>
+            <Taskbar />
+            <div className="contacts">
+                <DataGrid
+                    
+                    autoHeight
+                    columns={columns}
+                    rows={rows}
+                    pageSize={5}
+                    autoPageSize
+                    /* stuff used for filtering */
+                    components={{
+                        Toolbar: GridToolbar,
+                    }}
+                    componentsProps={{
+                        filterPanel: {
+                            linkOperators: [GridLinkOperator.And],
+                            columnsSort: 'asc',
+                            filterFormProps: {
+                                linkOperatorInputProps: {
+                                    variant: 'outlined',
+                                    size: 'small',
+                                },
+                                columnInputProps: {
+                                    variant: 'outlined',
+                                    size: 'small',
+                                    sx: { mt: 'auto' },
+                                },
+                                operatorInputProps: {
+                                    variant: 'outlined',
+                                    size: 'small',
+                                    sx: { mt: 'auto' },
+                                },
+                                deleteIconProps: {
+                                    sx: {
+                                        '& .MuiSvgIcon-root': { color: '#d32f2f' },
+                                    },
+                                },
+                            },
+                            sx: {
+                                '& .MuiDataGrid-filterForm': { p: 2 },
+                                '& .MuiDataGrid-filterForm:nth-child(even)': {
+                                    backgroundColor: (theme) =>
+                                        theme.palette.mode === 'dark' ? '#444' : '#f5f5f5',
+                                },
+                                '& .MuiDataGrid-filterFormLinkOperatorInput': { mr: 2 },
+                                '& .MuiDataGrid-filterFormColumnInput': { mr: 2, width: 150 },
+                                '& .MuiDataGrid-filterFormOperatorInput': { mr: 2 },
+                                '& .MuiDataGrid-filterFormValueInput': { width: 200 },
+                            },
+                        },
+                    }}
+                    
+                />
+            </div></div>
     );
 }
