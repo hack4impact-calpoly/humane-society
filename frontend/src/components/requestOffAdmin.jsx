@@ -1,35 +1,12 @@
 import React from 'react';
+import { Button } from '@mui/material/';
 import { DataGrid } from '@mui/x-data-grid';
 import '../css/requestOffAdmin.css';
 import TaskBar from './taskbar';
 
 export default function RequestOffAdmin() {
-  const columns = [
-    {
-      field: 'name',
-      headerName: 'Name',
-      flex: 0.1,
-      minWidth: 250,
-    },
-    {
-      field: 'startDate',
-      headerName: 'Start Date',
-      flex: 0.1,
-      minWidth: 250,
-    },
-    {
-      field: 'endDate',
-      headerName: 'End Date',
-      flex: 0.1,
-      minWidth: 250,
-    },
-    {
-      field: 'notes',
-      headerName: 'Notes',
-      flex: 1,
-      minWidth: 250,
-    },
-  ];
+  const curDate = new Date();
+  console.log(curDate);
 
   const currentRows = [
     {
@@ -83,51 +60,51 @@ export default function RequestOffAdmin() {
     },
   ];
 
-  const approvedRows = [
+  let approvedRows = [
     {
-      id: 1,
+      id: 8,
       name: 'Sam',
       startDate: '1/1/2022',
       endDate: '1/3/2022',
       notes: 'Family emergency',
     },
     {
-      id: 2,
+      id: 9,
       name: 'Bob',
       startDate: '12/10/2021',
       endDate: '12/10/2021',
       notes: '',
     },
     {
-      id: 3,
+      id: 10,
       name: 'Jane',
       startDate: '12/9/2021',
       endDate: '12/10/2021',
       notes: 'Vacation',
     },
     {
-      id: 4,
+      id: 11,
       name: 'Kayla',
       startDate: '12/9/2021',
       endDate: '12/10/2021',
       notes: '',
     },
     {
-      id: 5,
+      id: 12,
       name: 'Jace',
       startDate: '12/9/2021',
       endDate: '12/10/2021',
       notes: '',
     },
     {
-      id: 6,
+      id: 13,
       name: 'Emily',
       startDate: '12/9/2021',
       endDate: '12/10/2021',
       notes: '',
     },
     {
-      id: 7,
+      id: 14,
       name: 'Raymond',
       startDate: '12/9/2021',
       endDate: '12/10/2021',
@@ -137,53 +114,169 @@ export default function RequestOffAdmin() {
 
   const deniedRows = [
     {
-      id: 1,
+      id: 15,
       name: 'Sam',
       startDate: '1/1/2022',
       endDate: '1/3/2022',
       notes: 'Family emergency',
     },
     {
-      id: 2,
+      id: 16,
       name: 'Bob',
       startDate: '12/10/2021',
       endDate: '12/10/2021',
       notes: '',
     },
     {
-      id: 3,
+      id: 17,
       name: 'Jane',
       startDate: '12/9/2021',
       endDate: '12/10/2021',
       notes: 'Vacation',
     },
     {
-      id: 4,
+      id: 18,
       name: 'Kayla',
       startDate: '12/9/2021',
       endDate: '12/10/2021',
       notes: '',
     },
     {
-      id: 5,
+      id: 19,
       name: 'Jace',
       startDate: '12/9/2021',
       endDate: '12/10/2021',
       notes: '',
     },
     {
-      id: 6,
+      id: 20,
       name: 'Emily',
       startDate: '12/9/2021',
       endDate: '12/10/2021',
       notes: '',
     },
     {
-      id: 7,
+      id: 21,
       name: 'Raymond',
       startDate: '12/9/2021',
       endDate: '12/10/2021',
       notes: '',
+    },
+  ];
+
+  const currentColumns = [
+    {
+      field: 'name',
+      headerName: 'Name',
+      flex: 0.1,
+      minWidth: 250,
+    },
+    {
+      field: 'startDate',
+      headerName: 'Start Date',
+      flex: 0.1,
+      minWidth: 200,
+    },
+    {
+      field: 'endDate',
+      headerName: 'End Date',
+      flex: 0.1,
+      minWidth: 200,
+    },
+    {
+      field: 'notes',
+      headerName: 'Notes',
+      flex: 1,
+      minWidth: 250,
+      sortable: false,
+      disableColumnMenu: true,
+    },
+    {
+      field: 'approve',
+      headerName: '',
+      flex: 0.1,
+      minWidth: 150,
+      disableColumnMenu: true,
+      sortable: false,
+      renderCell: (params) => {
+        const onClick = () => {
+          const thisRow = params.row;
+          console.log(thisRow);
+          // const index = currentRows.indexOf(thisRow);
+          // currentRows = currentRows.splice(index, 1);
+          approvedRows = approvedRows.push(thisRow);
+        };
+
+        return (
+          <Button
+            onClick={onClick}
+            variant="contained"
+            fullWidth
+            style={{
+              borderRadius: 8,
+            }}
+            color="secondary"
+          >
+            Approve
+          </Button>
+        );
+      },
+    },
+    {
+      field: 'deny',
+      headerName: '',
+      flex: 0.1,
+      minWidth: 150,
+      sortable: false,
+      disableColumnMenu: true,
+      renderCell: () => {
+        const onClick = (e) => {
+          e.stopPropagation();
+        };
+
+        return (
+          <Button
+            onClick={onClick}
+            variant="outlined"
+            fullWidth
+            style={{
+              borderRadius: 8,
+            }}
+            color="error"
+          >
+            Deny
+          </Button>
+        );
+      },
+    },
+  ];
+
+  const columns = [
+    {
+      field: 'name',
+      headerName: 'Name',
+      flex: 0.1,
+      minWidth: 250,
+    },
+    {
+      field: 'startDate',
+      headerName: 'Start Date',
+      flex: 0.1,
+      minWidth: 200,
+    },
+    {
+      field: 'endDate',
+      headerName: 'End Date',
+      flex: 0.1,
+      minWidth: 200,
+    },
+    {
+      field: 'notes',
+      headerName: 'Notes',
+      flex: 1,
+      minWidth: 250,
+      sortable: false,
+      disableColumnMenu: true,
     },
   ];
 
@@ -198,7 +291,7 @@ export default function RequestOffAdmin() {
         autoHeight
         disableExtendRowFullWidth
         rows={currentRows}
-        columns={columns}
+        columns={currentColumns}
         pageSize={5}
         rowsPerPageOptions={[5, 10, 15]}
       />
