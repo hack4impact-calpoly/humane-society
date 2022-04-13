@@ -1,46 +1,46 @@
 import { React, useState } from 'react';
-import { Button, Switch } from '@mui/material/';
+import { Button, Switch, FormControlLabel } from '@mui/material/';
 import { DataGrid } from '@mui/x-data-grid';
+import Taskbar from './taskbar';
 import '../css/requestOffAdmin.css';
 
-export default function RequestOffAdmin() {
+function RequestOffTables() {
   const curDate = new Date();
-  console.log(curDate);
 
   const curRows = [
     {
       id: 1,
       name: 'Sam',
-      startDate: '1/1/2022',
-      endDate: '1/3/2022',
+      startDate: '5/1/2022',
+      endDate: '5/3/2022',
       notes: 'Family emergency',
     },
     {
       id: 2,
       name: 'Bob',
-      startDate: '12/10/2021',
-      endDate: '12/10/2021',
+      startDate: '6/10/2022',
+      endDate: '6/10/2022',
       notes: '',
     },
     {
       id: 3,
       name: 'Jane',
-      startDate: '12/9/2021',
-      endDate: '12/10/2021',
+      startDate: '6/9/2022',
+      endDate: '6/10/2022',
       notes: 'Vacation',
     },
     {
       id: 4,
       name: 'Kayla',
-      startDate: '12/9/2021',
-      endDate: '12/10/2021',
+      startDate: '6/9/2022',
+      endDate: '6/10/2022',
       notes: '',
     },
     {
       id: 5,
       name: 'Jace',
-      startDate: '12/9/2021',
-      endDate: '12/10/2021',
+      startDate: '6/9/2022',
+      endDate: '6/10/2022',
       notes: '',
     },
     {
@@ -63,36 +63,36 @@ export default function RequestOffAdmin() {
     {
       id: 8,
       name: 'Jonathan',
-      startDate: '1/1/2022',
-      endDate: '1/3/2022',
+      startDate: '5/1/2022',
+      endDate: '5/3/2022',
       notes: 'Family emergency',
     },
     {
       id: 9,
       name: 'Micah',
-      startDate: '12/10/2021',
-      endDate: '12/10/2021',
+      startDate: '6/10/2022',
+      endDate: '6/10/2022',
       notes: '',
     },
     {
       id: 10,
       name: 'Iris',
-      startDate: '12/9/2021',
-      endDate: '12/10/2021',
+      startDate: '6/9/2022',
+      endDate: '6/10/2022',
       notes: 'Vacation',
     },
     {
       id: 11,
       name: 'Cole',
-      startDate: '12/9/2021',
-      endDate: '12/10/2021',
+      startDate: '6/9/2022',
+      endDate: '6/10/2022',
       notes: '',
     },
     {
       id: 12,
       name: 'Sage',
-      startDate: '12/9/2021',
-      endDate: '12/10/2021',
+      startDate: '6/9/2022',
+      endDate: '6/10/2022',
       notes: '',
     },
     {
@@ -115,36 +115,36 @@ export default function RequestOffAdmin() {
     {
       id: 15,
       name: 'Pearce',
-      startDate: '1/1/2022',
-      endDate: '1/3/2022',
+      startDate: '5/1/2022',
+      endDate: '5/3/2022',
       notes: 'Family emergency',
     },
     {
       id: 16,
       name: 'Andrew',
-      startDate: '12/10/2021',
-      endDate: '12/10/2021',
+      startDate: '6/10/2022',
+      endDate: '6/10/2022',
       notes: '',
     },
     {
       id: 17,
       name: 'Nadeem',
-      startDate: '12/9/2021',
-      endDate: '12/10/2021',
+      startDate: '6/9/2022',
+      endDate: '6/10/2022',
       notes: 'Vacation',
     },
     {
       id: 18,
       name: 'Daniel',
-      startDate: '12/9/2021',
-      endDate: '12/10/2021',
+      startDate: '6/9/2022',
+      endDate: '6/10/2022',
       notes: '',
     },
     {
       id: 19,
       name: 'Zerlan',
-      startDate: '12/9/2021',
-      endDate: '12/10/2021',
+      startDate: '6/9/2022',
+      endDate: '6/10/2022',
       notes: '',
     },
     {
@@ -166,6 +166,7 @@ export default function RequestOffAdmin() {
   const [currentRows, setCurrentRows] = useState(curRows);
   const [approvedRows, setApprovedRows] = useState(appRows);
   const [deniedRows, setDeniedRows] = useState(denRows);
+  const [isOngoing, setIsOngoing] = useState(true);
 
   const currentColumns = [
     {
@@ -236,7 +237,6 @@ export default function RequestOffAdmin() {
       renderCell: (params) => {
         const onClick = () => {
           const thisRow = currentRows.find((o) => o.id === params.row.id);
-          console.log(thisRow);
           const index = currentRows.indexOf(thisRow);
           const tempArray = [...currentRows];
           tempArray.splice(index, 1);
@@ -290,17 +290,25 @@ export default function RequestOffAdmin() {
     },
   ];
 
+  const filterRows = (rows) => {
+    if (isOngoing) {
+      return rows.filter((e) => new Date(e.startDate) >= curDate);
+    }
+    return rows.filter((e) => new Date(e.startDate) < curDate);
+  };
+
   return (
     <div style={{
       padding: '30px 50px 50px',
+      textAlign: 'left',
     }}
     >
-      <Switch defaultChecked />
+      <FormControlLabel control={<Switch checked={isOngoing} onChange={(e) => setIsOngoing(e.target.checked)} />} label="Ongoing" />
       <h3>Current</h3>
       <DataGrid
         autoHeight
         disableExtendRowFullWidth
-        rows={currentRows}
+        rows={filterRows(currentRows)}
         columns={currentColumns}
         pageSize={5}
         rowsPerPageOptions={[5, 10, 15]}
@@ -309,7 +317,7 @@ export default function RequestOffAdmin() {
       <DataGrid
         autoHeight
         disableExtendRowFullWidth
-        rows={approvedRows}
+        rows={filterRows(approvedRows)}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5, 10, 15]}
@@ -319,11 +327,20 @@ export default function RequestOffAdmin() {
         sx={{ bgcolor: 'lightgray' }}
         autoHeight
         disableExtendRowFullWidth
-        rows={deniedRows}
+        rows={filterRows(deniedRows)}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5, 10, 15]}
       />
+    </div>
+  );
+}
+
+export default function RequestOffAdmin() {
+  return (
+    <div>
+      <Taskbar />
+      <RequestOffTables />
     </div>
   );
 }
