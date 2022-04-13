@@ -1,14 +1,13 @@
-import React from 'react';
-import { Button } from '@mui/material/';
+import { React, useState } from 'react';
+import { Button, Switch } from '@mui/material/';
 import { DataGrid } from '@mui/x-data-grid';
 import '../css/requestOffAdmin.css';
-import TaskBar from './taskbar';
 
 export default function RequestOffAdmin() {
   const curDate = new Date();
   console.log(curDate);
 
-  const currentRows = [
+  const curRows = [
     {
       id: 1,
       name: 'Sam',
@@ -60,109 +59,113 @@ export default function RequestOffAdmin() {
     },
   ];
 
-  let approvedRows = [
+  const appRows = [
     {
       id: 8,
-      name: 'Sam',
+      name: 'Jonathan',
       startDate: '1/1/2022',
       endDate: '1/3/2022',
       notes: 'Family emergency',
     },
     {
       id: 9,
-      name: 'Bob',
+      name: 'Micah',
       startDate: '12/10/2021',
       endDate: '12/10/2021',
       notes: '',
     },
     {
       id: 10,
-      name: 'Jane',
+      name: 'Iris',
       startDate: '12/9/2021',
       endDate: '12/10/2021',
       notes: 'Vacation',
     },
     {
       id: 11,
-      name: 'Kayla',
+      name: 'Cole',
       startDate: '12/9/2021',
       endDate: '12/10/2021',
       notes: '',
     },
     {
       id: 12,
-      name: 'Jace',
+      name: 'Sage',
       startDate: '12/9/2021',
       endDate: '12/10/2021',
       notes: '',
     },
     {
       id: 13,
-      name: 'Emily',
+      name: 'Sameera',
       startDate: '12/9/2021',
       endDate: '12/10/2021',
       notes: '',
     },
     {
       id: 14,
-      name: 'Raymond',
+      name: 'Tim',
       startDate: '12/9/2021',
       endDate: '12/10/2021',
       notes: '',
     },
   ];
 
-  const deniedRows = [
+  const denRows = [
     {
       id: 15,
-      name: 'Sam',
+      name: 'Pearce',
       startDate: '1/1/2022',
       endDate: '1/3/2022',
       notes: 'Family emergency',
     },
     {
       id: 16,
-      name: 'Bob',
+      name: 'Andrew',
       startDate: '12/10/2021',
       endDate: '12/10/2021',
       notes: '',
     },
     {
       id: 17,
-      name: 'Jane',
+      name: 'Nadeem',
       startDate: '12/9/2021',
       endDate: '12/10/2021',
       notes: 'Vacation',
     },
     {
       id: 18,
-      name: 'Kayla',
+      name: 'Daniel',
       startDate: '12/9/2021',
       endDate: '12/10/2021',
       notes: '',
     },
     {
       id: 19,
-      name: 'Jace',
+      name: 'Zerlan',
       startDate: '12/9/2021',
       endDate: '12/10/2021',
       notes: '',
     },
     {
       id: 20,
-      name: 'Emily',
+      name: 'Jessica',
       startDate: '12/9/2021',
       endDate: '12/10/2021',
       notes: '',
     },
     {
       id: 21,
-      name: 'Raymond',
+      name: 'Joseph',
       startDate: '12/9/2021',
       endDate: '12/10/2021',
       notes: '',
     },
   ];
+
+  const [currentRows, setCurrentRows] = useState(curRows);
+  const [approvedRows, setApprovedRows] = useState(appRows);
+  const [deniedRows, setDeniedRows] = useState(denRows);
 
   const currentColumns = [
     {
@@ -200,11 +203,12 @@ export default function RequestOffAdmin() {
       sortable: false,
       renderCell: (params) => {
         const onClick = () => {
-          const thisRow = params.row;
-          console.log(thisRow);
-          // const index = currentRows.indexOf(thisRow);
-          // currentRows = currentRows.splice(index, 1);
-          approvedRows = approvedRows.push(thisRow);
+          const thisRow = currentRows.find((o) => o.id === params.row.id);
+          const index = currentRows.indexOf(thisRow);
+          const tempArray = [...currentRows];
+          tempArray.splice(index, 1);
+          setCurrentRows(tempArray);
+          setApprovedRows([...approvedRows, thisRow]);
         };
 
         return (
@@ -229,9 +233,15 @@ export default function RequestOffAdmin() {
       minWidth: 150,
       sortable: false,
       disableColumnMenu: true,
-      renderCell: () => {
-        const onClick = (e) => {
-          e.stopPropagation();
+      renderCell: (params) => {
+        const onClick = () => {
+          const thisRow = currentRows.find((o) => o.id === params.row.id);
+          console.log(thisRow);
+          const index = currentRows.indexOf(thisRow);
+          const tempArray = [...currentRows];
+          tempArray.splice(index, 1);
+          setCurrentRows(tempArray);
+          setDeniedRows([...deniedRows, thisRow]);
         };
 
         return (
@@ -282,10 +292,10 @@ export default function RequestOffAdmin() {
 
   return (
     <div style={{
-      padding: '30px 50px 0px',
+      padding: '30px 50px 50px',
     }}
     >
-      <TaskBar />
+      <Switch defaultChecked />
       <h3>Current</h3>
       <DataGrid
         autoHeight
