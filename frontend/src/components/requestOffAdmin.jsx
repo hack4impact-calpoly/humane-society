@@ -7,6 +7,7 @@ import '../css/requestOffAdmin.css';
 function RequestOffTables() {
   const curDate = new Date();
 
+  // start fake data
   const curRows = [
     {
       id: 1,
@@ -162,6 +163,7 @@ function RequestOffTables() {
       notes: '',
     },
   ];
+  // end fake data
 
   const [currentRows, setCurrentRows] = useState(curRows);
   const [approvedRows, setApprovedRows] = useState(appRows);
@@ -204,6 +206,7 @@ function RequestOffTables() {
       sortable: false,
       renderCell: (params) => {
         const onClick = () => {
+          // move corresponding row to approvedRows
           const thisRow = currentRows.find((o) => o.id === params.row.id);
           const index = currentRows.indexOf(thisRow);
           const tempArray = [...currentRows];
@@ -236,6 +239,7 @@ function RequestOffTables() {
       disableColumnMenu: true,
       renderCell: (params) => {
         const onClick = () => {
+          // move corresponding row to deniedRows
           const thisRow = currentRows.find((o) => o.id === params.row.id);
           const index = currentRows.indexOf(thisRow);
           const tempArray = [...currentRows];
@@ -261,6 +265,7 @@ function RequestOffTables() {
     },
   ];
 
+  // general columns
   const columns = [
     {
       field: 'name',
@@ -291,6 +296,8 @@ function RequestOffTables() {
   ];
 
   const filterRows = (rows) => {
+    // filter the rows based on the isOngoing state
+    // if isOngoing is true, show all the requests with a startDate >= curDate
     if (isOngoing) {
       return rows.filter((e) => new Date(e.startDate) >= curDate);
     }
