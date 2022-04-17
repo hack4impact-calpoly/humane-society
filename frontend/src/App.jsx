@@ -15,6 +15,7 @@ import Request from './components/requestOff';
 import Contacts from './components/contacts';
 import Availability from './components/availability/availability';
 import RequestOffAdmin from './components/requestOffAdmin';
+import AdminHomePage from './components/adminHomePage';
 
 function App() {
   return (
@@ -30,6 +31,8 @@ function App() {
             <Route path="/forgotpassword" element={<ForgotPassword />} />
             <Route path="/passwordreset" element={<PasswordReset />} />
             <Route path="/resetpassword" element={<ResetPassword />} />
+            <Route path="/request-off" element={<Request />} />
+            <Route path="/adminhomepage" element={<AdminHomePage />} />
             { /* Private Routes */ }
             <Route element={<RequireAuth />}>
               <Route path="/contacts" element={<Contacts />} />
