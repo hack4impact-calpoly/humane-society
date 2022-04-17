@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Grid } from '@mui/material';
+import { Grid, Button } from '@mui/material';
 import '../css/taskbar.css';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 import { CognitoUser } from 'amazon-cognito-identity-js';
 import { useNavigate } from 'react-router-dom';
 import userPool from '../userPool';
@@ -17,6 +16,7 @@ export default function ResetPassword() {
   const [password2, setPassword2] = useState('');
   const [validPassword, setValidPassword] = useState(false);
   const [samePassword, setSamePassword] = useState(false);
+  const [unsuccessful, setUnsuccessful] = useState(false);
 
   const checkPassword = () => {
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}/;
@@ -25,6 +25,22 @@ export default function ResetPassword() {
     } else {
       setValidPassword(false);
     }
+  };
+
+  const sendEmail = async () => {
+    const user = new CognitoUser({
+      Username: localStorage.getItem('woods-humane-email'),
+      Pool: userPool,
+    });
+
+    user.forgotPassword({
+      onSuccess: (data) => {
+        console.log(`CodeDeliveryData from forgotPassword: ${data}`);
+      },
+      onFailure: (err) => {
+        alert(err.message || JSON.stringify(err));
+      },
+    });
   };
 
   const updateAWS = async () => {
@@ -42,6 +58,7 @@ export default function ResetPassword() {
       onFailure: (err) => {
         console.log('Password not confirmed!');
         console.log(err);
+        setUnsuccessful(true);
       },
     });
   };
@@ -65,6 +82,7 @@ export default function ResetPassword() {
         navigate('/login');
       } else {
         console.log('error');
+        setUnsuccessful(true);
       }
     });
   };
@@ -108,6 +126,8 @@ export default function ResetPassword() {
                   type="code"
                   id="code"
                   autoComplete="your-code"
+                  error={unsuccessful}
+                  helperText={unsuccessful ? 'Oops. Something went wrong, please try again' : ''}
                   onChange={(e) => { setCode(e.target.value); }}
                 />
               </Grid>
@@ -121,7 +141,7 @@ export default function ResetPassword() {
                   id="password"
                   autoComplete="new-password"
                   onChange={(e) => { setPassword1(e.target.value); }}
-                  error={validPassword}
+                  error={validPassword || unsuccessful}
                   helperText={validPassword ? 'Must contain at least one number, one uppercase, one lowercase, one special character and be atleast 8 characters' : ''}
                 />
               </Grid>
@@ -135,7 +155,7 @@ export default function ResetPassword() {
                   id="password"
                   autoComplete="new-password"
                   onChange={(e) => { setPassword2(e.target.value); }}
-                  error={samePassword}
+                  error={samePassword || unsuccessful}
                   helperText={samePassword ? 'Passwords do not match' : ''}
                 />
               </Grid>
@@ -154,6 +174,21 @@ export default function ResetPassword() {
               >
                 Reset Password
               </Button>
+              <Grid item xs={12} id="resendEmailGrid">
+                Didn&apos;t receive an email?
+                <Button
+                  id="resendEmail"
+                  variant="text"
+                  onClick={sendEmail}
+                  style={{
+                    padding: 2,
+                    color: '#069',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Resend email.
+                </Button>
+              </Grid>
             </Grid>
           </Box>
         </Container>

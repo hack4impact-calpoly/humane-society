@@ -4,26 +4,11 @@ import { Grid, Button } from '@mui/material';
 import '../css/taskbar.css';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import { CognitoUser } from 'amazon-cognito-identity-js';
-import userPool from '../userPool';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../navbar';
 
 export default function PasswordReset() {
-  const sendEmail = async () => {
-    const user = new CognitoUser({
-      Username: localStorage.getItem('woods-humane-email'),
-      Pool: userPool,
-    });
-
-    user.forgotPassword({
-      onSuccess: (data) => {
-        console.log(`CodeDeliveryData from forgotPassword: ${data}`);
-      },
-      onFailure: (err) => {
-        alert(err.message || JSON.stringify(err));
-      },
-    });
-  };
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -44,22 +29,21 @@ export default function PasswordReset() {
                 Email has been sent!
               </Grid>
               <Grid item xs={12} id="enterEmailText">
-                Please check your inbox for your verification code
-                and a link to reset your password.
+                Please check your inbox for your verification code.
               </Grid>
-              <Grid item xs={12} id="resendEmailGrid">
-                Didn&apos;t receive an email?
+              <Grid item xs={12} id="resetPasswordGrid">
+                Ready to reset your password?
                 <Button
-                  id="resendEmail"
+                  id="resetPassword"
                   variant="text"
-                  onClick={sendEmail}
+                  onClick={() => navigate('/resetpassword')}
                   style={{
-                    padding: 0,
+                    padding: 2,
                     color: '#069',
                     cursor: 'pointer',
                   }}
                 >
-                  Resend email.
+                  Click here.
                 </Button>
               </Grid>
             </Grid>
