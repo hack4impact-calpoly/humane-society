@@ -27,6 +27,10 @@ export default function ResetPassword() {
     }
   };
 
+  const checkCode = () => {
+    setUnsuccessful(false);
+  };
+
   const sendEmail = async () => {
     const user = new CognitoUser({
       Username: localStorage.getItem('woods-humane-email'),
@@ -43,26 +47,6 @@ export default function ResetPassword() {
     });
   };
 
-  const updateAWS = async () => {
-    // const verificationCode = await getCode();
-    const password = password2;
-    const user = new CognitoUser({
-      Username: localStorage.getItem('woods-humane-email'),
-      Pool: userPool,
-    });
-
-    user.confirmPassword(code, password, {
-      onSuccess: () => {
-        console.log('Password confirmed!');
-      },
-      onFailure: (err) => {
-        console.log('Password not confirmed!');
-        console.log(err);
-        setUnsuccessful(true);
-      },
-    });
-  };
-
   const updateMongo = async () => {
     const updatePwBody = {
       email: localStorage.getItem('woods-humane-email'),
@@ -75,8 +59,8 @@ export default function ResetPassword() {
       },
       body: JSON.stringify(updatePwBody),
     }).then((result) => {
+      console.log(result);
       if (result.status === 200) {
-        // success
         console.log('success');
         localStorage.removeItem('woods-humane-email');
         navigate('/login');
@@ -87,13 +71,33 @@ export default function ResetPassword() {
     });
   };
 
+  const updateAWS = async () => {
+    // const verificationCode = await getCode();
+    const password = password2;
+    const user = new CognitoUser({
+      Username: localStorage.getItem('woods-humane-email'),
+      Pool: userPool,
+    });
+
+    user.confirmPassword(code, password, {
+      onSuccess: () => {
+        console.log('Password confirmed!');
+        updateMongo();
+      },
+      onFailure: (err) => {
+        console.log('Password not confirmed!');
+        console.log(err);
+        setUnsuccessful(true);
+      },
+    });
+  };
+
   const verifyPassword = () => {
     checkPassword();
     if (validPassword) {
       setSamePassword(false);
     } else if (password1 === password2) {
       updateAWS();
-      updateMongo();
     } else {
       setSamePassword(true);
     }
@@ -127,8 +131,9 @@ export default function ResetPassword() {
                   id="code"
                   autoComplete="your-code"
                   error={unsuccessful}
-                  helperText={unsuccessful ? 'Oops. Something went wrong, please try again' : ''}
+                  helperText={unsuccessful ? 'Please request another code, code has expired or is invalid' : ''}
                   onChange={(e) => { setCode(e.target.value); }}
+                  onBlur={checkCode}
                 />
               </Grid>
               <Grid item xs={12}>
