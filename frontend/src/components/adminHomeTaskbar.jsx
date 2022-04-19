@@ -4,7 +4,7 @@ import { Grid, IconButton } from '@mui/material';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import logo from '../imgs/logo.svg';
 
-export default function adminHomePage() {
+export default function adminHomeTaskbar() {
   return (
     <header className="taskBar">
       <Grid

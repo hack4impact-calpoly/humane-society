@@ -33,10 +33,10 @@ function App() {
             <Route path="/resetpassword" element={<ResetPassword />} />
             <Route path="/request-off" element={<Request />} />
             <Route path="/adminhomepage" element={<AdminHomePage />} />
+            <Route path="/availability" element={<Availability />} />
             { /* Private Routes */ }
             <Route element={<RequireAuth />}>
               <Route path="/contacts" element={<Contacts />} />
-              <Route path="/availability" element={<Availability />} />
               <Route path="/tasks" />
               <Route path="/request-off" element={<Request />} />
               <Route path="/request-off-admin" element={<RequestOffAdmin />} />
