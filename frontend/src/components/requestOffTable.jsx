@@ -1,8 +1,14 @@
-import React from 'react';
-import { Button, Grid } from '@mui/material/';
+import React, { useState } from 'react';
+import {
+  Button, Grid, Modal, Box,
+} from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 export default function RequestOffTable() {
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showFailure, setShowFailure] = useState(false);
   const pendingColumns = [
     {
       field: 'id',
@@ -105,6 +111,30 @@ export default function RequestOffTable() {
     },
   ];
 
+  const modalStyle = {
+    display: 'flex',
+    position: 'absolute',
+    top: '20%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 600,
+    height: 250,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    flexDirection: 'column',
+  };
+
+  function displayRequestSuccess() {
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 2000);
+  }
+
+  function displayRequestFailure() {
+    setShowFailure(true);
+    setTimeout(() => setShowFailure(false), 2000);
+  }
+
   return (
     <div style={{
       padding: '30px 50px 0px',
@@ -131,9 +161,35 @@ export default function RequestOffTable() {
               borderRadius: 5,
               maxHeight: '40px',
             }}
+            onClick={() => { displayRequestSuccess(); displayRequestFailure(); }}
           >
             <b>+ Add Request Off</b>
           </Button>
+          <Modal open={showSuccess} onClose={() => setShowSuccess(false)}>
+            <Box style={modalStyle}>
+              <CheckCircleIcon sx={{ color: '#4AA7AC', fontSize: 100 }} />
+              <text style={{
+                fontWeight: 'bold', fontSize: 30, marginTop: 10, marginBottom: 10,
+              }}
+              >
+                Successfully Submitted!
+              </text>
+              <text style={{ fontSize: 15 }}>
+                You&apos;re request off will be reviewed shortly.
+              </text>
+            </Box>
+          </Modal>
+          <Modal open={showFailure} onClose={() => setShowFailure(false)}>
+            <Box style={modalStyle}>
+              <CancelIcon sx={{ color: '#A33D56', fontSize: 100 }} />
+              <text style={{
+                fontWeight: 'bold', fontSize: 30, marginTop: 10, marginBottom: 10,
+              }}
+              >
+                An error has occured.
+              </text>
+            </Box>
+          </Modal>
         </Grid>
         <Grid
           item
