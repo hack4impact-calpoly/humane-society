@@ -34,11 +34,11 @@ function App() {
             <Route path="/request-off" element={<Request />} />
             <Route path="/adminhomepage" element={<AdminHomePage />} />
             <Route path="/availability" element={<Availability />} />
+            <Route path="/request-off" element={<Request />} />
             { /* Private Routes */ }
             <Route element={<RequireAuth />}>
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/tasks" />
-              <Route path="/request-off" element={<Request />} />
               <Route path="/request-off-admin" element={<RequestOffAdmin />} />
               <Route path="/availability" element={<Availability />} />
               <Route path="/discussions" />
