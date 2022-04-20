@@ -4,7 +4,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { CalendarPicker } from '@mui/x-date-pickers/CalendarPicker';
 import Grid from '@mui/material/Grid';
-import '../css/adminCalendar.css';
+import '../../css/adminCalendar.css';
 
 export default function AdminCalendar() {
   const [date, setDate] = React.useState(new Date());

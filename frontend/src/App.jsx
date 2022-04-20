@@ -15,7 +15,7 @@ import Request from './components/requestOff';
 import Contacts from './components/contacts';
 import Availability from './components/availability/availability';
 import RequestOffAdmin from './components/requestOffAdmin';
-import AdminHomePage from './components/adminHomePage';
+import AdminHomePage from './components/adminHomeData/adminHomePage';
 
 function App() {
   return (
