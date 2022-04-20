@@ -7,11 +7,13 @@ import {
   Checkbox, FormControlLabel,
 } from '@mui/material';
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
+import { useNavigate } from 'react-router-dom';
 import userPool from '../userPool';
 import logo from '../imgs/signupLogo.svg';
 import '../css/signup.css';
 
 export default function SignUp() {
+  const navigate = useNavigate();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -24,6 +26,7 @@ export default function SignUp() {
   const [validLastName, setValidLastName] = useState(false);
   const [school, setSchool] = useState('');
   const [isStudent, setIsStudent] = useState(false);
+  const [validSignup, setValidSignup] = useState(false);
 
   const updateSchool = (event) => {
     setSchool(event.target.value);
@@ -75,14 +78,39 @@ export default function SignUp() {
     }
   };
 
-  const signup = async () => {
-    // if any is value is true then we know it is invalid
-    if (validEmail || validFirstName || validLastName || validPhone || validPassword) {
-      console.log('invalid');
-      return;
-    }
-    // add to mongo first here
+  const addToMongo = () => {
+    // add to mongo here
+    console.log('adding to mongo...');
+    const loginBody = {
+      firstName,
+      lastName,
+      phone: phoneNumber,
+      email,
+      isStudent,
+      isAdmin: false,
+      studentSchool: school,
+      password,
+    };
+    fetch('http://localhost:3001/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(loginBody),
+    }).then((result) => {
+      console.log(result);
+      if (result.status === 200) {
+        // success
+        navigate('/signup/success');
+      } else if (result.status === 404) {
+        console.log('email in use');
+      } else {
+        console.log('error');
+      }
+    });
+  };
 
+  const addToAWS = () => {
     // parse only numbers in phoneNumber
     setPhoneNumber(phoneNumber.replace(/[^0-9]/g, ''));
 
@@ -98,12 +126,35 @@ export default function SignUp() {
       (err, data) => {
         if (err) {
           console.log(err);
-        } else {
-          console.log(data);
-          // navigate to next page here
+          // setValidSignup(true);
+          setValidSignup(() => true);
         }
+        console.log(data);
+        addToMongo();
       },
     );
+  };
+
+  const signup = async () => {
+    // if any is value is true then we know it is invalid
+    if (validEmail || validFirstName || validLastName || validPhone || validPassword) {
+      console.log('invalid');
+      return;
+    }
+
+    setValidSignup(() => false);
+    // add to AWS, will call add to Mongo
+    addToAWS();
+  };
+
+  const emailHelperText = () => {
+    if (validEmail) {
+      return 'Must use a valid email';
+    }
+    if (validSignup) {
+      return 'Email already in use';
+    }
+    return '';
   };
 
   return (
@@ -186,8 +237,8 @@ export default function SignUp() {
                   value={email}
                   onChange={(e) => { setEmail(e.target.value); }}
                   onBlur={checkEmail}
-                  error={validEmail}
-                  helperText={validEmail ? 'Must use a valid email' : ''}
+                  error={validEmail || validSignup}
+                  helperText={emailHelperText()}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -223,8 +274,8 @@ export default function SignUp() {
               </Grid>
             </Grid>
             <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="/login" variant="body2">
+              <Grid item xs={12} sx={{ mt: 1 }}>
+                <Link id="toLogin" href="/login" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
