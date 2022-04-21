@@ -12,9 +12,7 @@ import RequireAuth from './requireAuth';
 import SignupSuccess from './components/signupSuccess';
 import Profile from './components/profile';
 import Request from './components/requestOff';
-import Contacts from './components/contacts';
 import Availability from './components/availability/availability';
-import RequestOffAdmin from './components/requestOffAdmin';
 
 function App() {
   return (
@@ -32,11 +30,8 @@ function App() {
             <Route path="/resetpassword" element={<ResetPassword />} />
             { /* Private Routes */ }
             <Route element={<RequireAuth />}>
-              <Route path="/contacts" element={<Contacts />} />
-              <Route path="/availability" element={<Availability />} />
               <Route path="/tasks" />
               <Route path="/request-off" element={<Request />} />
-              <Route path="/request-off-admin" element={<RequestOffAdmin />} />
               <Route path="/availability" element={<Availability />} />
               <Route path="/discussions" />
               <Route path="profile" element={<Profile />} />
