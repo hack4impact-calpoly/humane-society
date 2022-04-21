@@ -40,8 +40,9 @@ export default function Login() {
     return state;
   };
 
-  const storeUser = (user, token) => {
-    sessionStorage.setItem('userID', user.userID);
+  const storeUser = (userID, token) => {
+    localStorage.setItem('userID', userID);
+    sessionStorage.setItem('userID', userID);
     sessionStorage.setItem('token', token);
   };
 
@@ -59,6 +60,7 @@ export default function Login() {
     });
     const data = await response.json();
     console.log(data);
+    console.log(data.result.userID);
     storeUser(data.result.userID, data.token);
     navigate('/');
   };
