@@ -19,18 +19,14 @@ const columns = [
 export default function Contacts() {
     const [rows, setRows] = useState([]);
 
-    const [token, setToken] = useState('');
-
-
     /* gets a properly formatted array of users from the backend */
     const getUsers = async () => {
      
         const loginBody = {
-            token: token,
+            token: localStorage.getItem("token"),
         };
         console.log("hi")
         console.log(loginBody)
-        if (token != '') {
             const response = await fetch('http://localhost:3001/getUsers/getFormattedUsers', {
                 method: 'POST',
                 headers: {
@@ -43,14 +39,13 @@ export default function Contacts() {
             } else {
                 console.log("could not get users")
             }
-        }
+        
     }
 
     useEffect(() => {
-                setToken(localStorage.getItem("token"))
+        getUsers(); 
+    }, [])
 
-        getUsers()
-    });
 
     return (
         <div>

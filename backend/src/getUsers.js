@@ -28,11 +28,8 @@ router.post('/getAllUsers', async (req, res) => {
 /* gets all the users into a specific format to be generated on the contacts page */
 router.post('/getFormattedUsers', async (req, res) => {
     const { token } = req.body;
-    console.log("token in formatted is: " + token)
-
     let userData = Token(token)
     if (userData == null) {
-        console.log("not auth")
         res.status(403).send("Unauthorized user")
         return
     }
