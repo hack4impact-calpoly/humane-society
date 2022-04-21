@@ -12,25 +12,43 @@ const columns = [
     { field: "phoneNumber", headerName: "Phone Number", flex: 1 }
 ];
 
+
+
+
 /* the contacts page */
 export default function Contacts() {
     const [rows, setRows] = useState([]);
+
+    const [token, setToken] = useState('');
+
+
     /* gets a properly formatted array of users from the backend */
     const getUsers = async () => {
-        const response = await fetch('http://localhost:3001/getUsers/getFormattedUsers', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-        if (response.status === 200) {
-            setRows(await response.json())
-        } else {
-            console.log("could not get users")
+     
+        const loginBody = {
+            token: token,
+        };
+        console.log("hi")
+        console.log(loginBody)
+        if (token != '') {
+            const response = await fetch('http://localhost:3001/getUsers/getFormattedUsers', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(loginBody),
+            })
+            if (response.status === 200) {
+                setRows(await response.json())
+            } else {
+                console.log("could not get users")
+            }
         }
     }
 
     useEffect(() => {
+                setToken(localStorage.getItem("token"))
+
         getUsers()
     });
 

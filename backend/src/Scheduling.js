@@ -1,15 +1,22 @@
+/* eslint-disable no-console */
 const express = require('express');
 
 const router = express.Router();
 require('dotenv').config();
 
 const Scheduling = require('../models/schedule');
+const { Token } = require("../token.js");
 
 /* creates a new schedule with given attributes */
 router.post('/newSchedule', async (req, res) => {
   const {
-    scheduleID, userID, Date, startTime, endTime, Tasks,
-  } = req.body;
+    token, scheduleID, userID, Date, startTime, endTime, Tasks,
+    } = req.body;
+    let userData = Token(token)
+    if (userData == null) {
+        res.status(403).send("Unauthorized user")
+        return
+    }
   const schedules = Scheduling;
   let doc;
   doc = new schedules({
@@ -22,8 +29,16 @@ router.post('/newSchedule', async (req, res) => {
 });
 
 /* gets all schedules */
-router.get('/getAllSchedules', async (req, res) => {
-  const schedules = Scheduling;
+router.post('/getAllSchedules', async (req, res) => {
+    const { token } = req.body;
+    let userData = Token(token)
+    if (userData == null) {
+        res.status(403).send("Unauthorized user")
+        return
+    }
+    const schedules = Scheduling;
+
+
   /* get all schedules  */
   schedules.find().then((result) => {
     if (!result) {
@@ -38,8 +53,13 @@ router.get('/getAllSchedules', async (req, res) => {
 });
 
 /* gets the schedules a specific user */
-router.get('/getUserSchedules', async (req, res) => {
-  const { userID } = req.body;
+router.post('/getUserSchedules', async (req, res) => {
+    const { token, userID } = req.body;
+    let userData = Token(token)
+    if (userData == null) {
+        res.status(403).send("Unauthorized user")
+        return
+    }
   const schedules = Scheduling;
   /* get all schedules for a user */
   schedules.find({
@@ -57,8 +77,13 @@ router.get('/getUserSchedules', async (req, res) => {
 });
 
 /* gets the schedules in a week's time frame */
-router.get('/getWeekSchedules', async (req, res) => {
-  const { weekStart, weekEnd } = req.body;
+router.post('/getWeekSchedules', async (req, res) => {
+    const { token, weekStart, weekEnd } = req.body;
+    let userData = Token(token)
+    if (userData == null) {
+        res.status(403).send("Unauthorized user")
+        return
+    }
   const schedules = Scheduling;
   /* get all schedules for a in a specified time frame  */
   schedules.find({

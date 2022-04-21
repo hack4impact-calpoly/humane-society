@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const express = require('express');
 const { emit } = require('process');
 
@@ -5,14 +7,19 @@ const { Auth } = 'aws-amplify';
 
 const router = express.Router();
 require('dotenv').config();
+const { Token } = require("../token.js");
 
 const User = require('../models/user');
 
 router.post('/', async (req, res) => {
   const {
-    userID, phone, firstName, lastName, email,
+    token, userID, phone, firstName, lastName, email,
   } = req.body;
-
+    let userData = Token(token)
+    if (userData == null) {
+        res.status(403).send("Unauthorized user")
+        return
+    }
   const user = User;
   console.log('Updating profile...');
   console.log(userID);
