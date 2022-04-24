@@ -6,17 +6,13 @@ import {
   WeekView,
   MonthView,
   Appointments,
-  AppointmentTooltip,
-  AppointmentForm,
   Toolbar,
   ViewSwitcher,
   DateNavigator,
   TodayButton,
   EditRecurrenceMenu,
-  DragDropProvider,
-  ConfirmationDialog,
 } from '@devexpress/dx-react-scheduler-material-ui';
-import appointments from '../availability/appointments';
+import appointments from './employee';
 import '../../css/adminMainCalendar.css';
 
 // Change how the appointments look
@@ -35,23 +31,15 @@ function Appointment({ style, children, ...restProps }) {
   );
 }
 
-const TextEditor = (props) => {
-  // disable the title
-  if (props.type === 'titleTextEditor') {
-    return null;
-  } return <AppointmentForm.TextEditor {...props} />;
-};
-
-const BooleanEditor = (props) => {
-  // Disable all day selector
-  if (props.label === 'All Day')
-    return null;
-  return <AppointmentForm.BooleanEditor {...props} />;
-}
-
-export default function Availability() {
+export default function AdminMainCalendar() {
   const [data, setData] = useState(appointments); // DEFAULT IS TEST VALUES RIGHT NOW
-
+  function handleChange(value)
+  {
+    <div>
+      <SearchBox onChange={handleChange} />
+      <NameList searchValue={searchValue} />
+    </div>
+  }
   // Have calendar default on current date
   const curDate = new Date();
   const defaultDate = `${curDate.getFullYear()}-${String(curDate.getMonth() + 1).padStart(2, '0')}-${String(curDate.getDate()).padStart(2, '0')}`;
@@ -85,8 +73,9 @@ export default function Availability() {
         />
         <EditRecurrenceMenu />
         <WeekView
-          startDayHour={7}
-          endDayHour={17}
+          startDayHour={6}
+          dataSource={appointments}
+          endDayHour={18}
           cellDuration={60}
         />
         <MonthView
@@ -99,18 +88,6 @@ export default function Availability() {
         <Appointments
           appointmentComponent={Appointment}
         />
-        <ConfirmationDialog
-          ignoreCancel
-        />
-        <AppointmentTooltip
-          showOpenButton
-          showDeleteButton
-        />
-        <AppointmentForm
-          textEditorComponent={TextEditor}
-          booleanEditorComponent={BooleanEditor}
-        />
-        <DragDropProvider />
       </Scheduler>
     </div>
   );
