@@ -6,6 +6,8 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Typography, Grid } from '@mui/material';
 import CircularProgressWithLabel from './circularProgress';
+import Taskbar from './taskbar';
+import '../css/tasks.css';
 
 export default function Task() {
   const [date, setDate] = useState(new Date());
@@ -31,43 +33,67 @@ export default function Task() {
 
   return (
     <div>
-      <CircularProgressWithLabel value={50} />
-      <DatePicker onChange={onChange} selected={date} />
+      <Taskbar />
       <Grid
-        className="dateSelector"
+        className="main"
         container
         direction="row"
-        justifyContent="center"
-        alignItems="center"
       >
-        <Grid item>
-          <IconButton
-            aria-label="back"
-            sx={{ color: '#1d4d71' }}
-            size="large"
-            onClick={setDateBack}
-          >
-            <ArrowBackIosIcon />
-          </IconButton>
+        <Grid item xs={3}>
+          <DatePicker onChange={onChange} selected={date} />
         </Grid>
-        <Grid item>
-          <Typography
-            variant="h5"
-            style={{ fontWeight: 600 }}
-            sx={{ color: '#1d4d71' }}
-          >
-            {`${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`}
-          </Typography>
-        </Grid>
-        <Grid item>
-          <IconButton
-            aria-label="forward"
-            sx={{ color: '#1d4d71' }}
-            size="large"
-            onClick={setDateForward}
-          >
-            <ArrowForwardIosIcon />
-          </IconButton>
+        <Grid
+          item
+          xs={9}
+          container
+          direction="column"
+          justifyContent="sflex-start"
+          alignItems="flex-start"
+        >
+          <Grid item sx={{ paddingBottom: 5 }}>
+            <Grid
+              className="dateSelector"
+              container
+              direction="row"
+              justifyContent="space-evenly"
+              alignItems="center"
+            >
+              <Grid item>
+                <IconButton
+                  aria-label="back"
+                  sx={{ color: '#1d4d71' }}
+                  size="large"
+                  onClick={setDateBack}
+                >
+                  <ArrowBackIosIcon />
+                </IconButton>
+              </Grid>
+              <Grid item>
+                <Typography
+                  variant="h5"
+                  style={{ fontWeight: 600 }}
+                  sx={{ color: '#1d4d71' }}
+                >
+                  {`${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`}
+                </Typography>
+              </Grid>
+              <Grid item>
+                <IconButton
+                  aria-label="forward"
+                  sx={{ color: '#1d4d71' }}
+                  size="large"
+                  onClick={setDateForward}
+                >
+                  <ArrowForwardIosIcon />
+                </IconButton>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item>
+            <CircularProgressWithLabel value={50} />
+            { /* tasks go here */}
+            <p>2/4 tasks completed</p>
+          </Grid>
         </Grid>
       </Grid>
     </div>

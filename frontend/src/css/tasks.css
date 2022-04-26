@@ -1,0 +1,9 @@
+.sdp {
+  --theme-color: #4aa7ac !important; /* light-gray color */
+}
+
+.main {
+  height: 80vh;
+  padding: 5%;
+  padding-top: 10%;
+}
