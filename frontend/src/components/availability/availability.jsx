@@ -16,6 +16,7 @@ import {
   DragDropProvider,
   ConfirmationDialog,
 } from '@devexpress/dx-react-scheduler-material-ui';
+import AdminTaskbar from './../adminTaskbar';
 import appointments from './appointments';
 import '../../css/availability.css';
 
@@ -74,7 +75,9 @@ export default function Availability() {
   };
 
   return (
-    <div className="availabilityCalendar">
+      <div>
+      <AdminTaskbar />
+      <div className="availabilityCalendar">
       <Scheduler data={data} height={630}>
         <ViewState
           defaultCurrentViewName="Week"
@@ -112,6 +115,7 @@ export default function Availability() {
         />
         <DragDropProvider />
       </Scheduler>
+      </div>
     </div>
   );
 }
