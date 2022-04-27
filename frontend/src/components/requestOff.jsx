@@ -1,11 +1,11 @@
 import React from 'react';
 import RequestOffTable from './requestOffTable';
-import TaskBar from './taskbar';
+import AdminTaskbar from './adminTaskbar';
 
 export default function RequestOff() {
   return (
     <div>
-      <TaskBar />
+      <AdminTaskbar />
       <RequestOffTable />
     </div>
   );

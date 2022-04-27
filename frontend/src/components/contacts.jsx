@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { DataGrid } from '@mui/x-data-grid';
 import React, { useState, useEffect } from 'react';
-import Taskbar from "./taskbar"
+import AdminTaskbar from "./adminTaskbar"
 import { GridLinkOperator, GridToolbar } from '@mui/x-data-grid';
 import '../css/contacts.css';
 
@@ -36,7 +36,7 @@ export default function Contacts() {
 
     return (
         <div>
-            <Taskbar />
+            <AdminTaskbar />
             <div className="contacts">
                 <h3 className="contactsTitle"> Contacts </h3>
                 <DataGrid

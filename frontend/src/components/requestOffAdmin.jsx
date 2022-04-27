@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
 import { Button, Switch, FormControlLabel } from '@mui/material/';
 import { DataGrid } from '@mui/x-data-grid';
-import Taskbar from './taskbar';
+import AdminTaskbar from './adminTaskbar';
 import '../css/requestOffAdmin.css';
 
 function RequestOffTables() {
@@ -346,7 +346,7 @@ function RequestOffTables() {
 export default function RequestOffAdmin() {
   return (
     <div>
-      <Taskbar />
+      <AdminTaskbar />
       <RequestOffTables />
     </div>
   );
