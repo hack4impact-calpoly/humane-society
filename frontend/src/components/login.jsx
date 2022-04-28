@@ -26,7 +26,7 @@ export default function Login() {
       return currentState;
     });
 
-    return state;
+    return state.trim();
   };
 
   const getPw = async () => {
