@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable  */
 const express = require('express');
 
 const router = express.Router();

@@ -1,4 +1,4 @@
-/* eslint-disable consistent-return */
+/* eslint-disable  */
 import React, {
   useState, useRef, useCallback, useEffect,
 } from 'react';

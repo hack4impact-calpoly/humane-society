@@ -4,6 +4,7 @@ const router = express.Router();
 require('dotenv').config();
 
 const Availability = require('../models/availability');
+const { Token } = require('../token');
 
 /* creates a new availability with given attributes */
 router.post('/newAvailability', async (req, res) => {
@@ -57,7 +58,7 @@ router.post('/deleteAvailability', async (req, res) => {
 });
 
 /* gets the availabilities in a week's time frame */
-router.get('/getAvailabilities', async (req, res) => {
+router.post('/getAvailabilities', async (req, res) => {
   const { weekStart, weekEnd } = req.body;
   /* get all availibilies for a in a specified time frame  */
   Availability.find({
