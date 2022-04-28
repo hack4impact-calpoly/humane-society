@@ -41,7 +41,6 @@ export default function Login() {
   };
 
   const storeUser = (userID, token) => {
-    localStorage.setItem('userID', userID);
     sessionStorage.setItem('userID', userID);
     sessionStorage.setItem('token', token);
   };
