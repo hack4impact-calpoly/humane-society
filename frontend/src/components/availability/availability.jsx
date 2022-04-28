@@ -19,6 +19,7 @@ import {
 import AdminTaskbar from './../adminTaskbar';
 import appointments from './appointments';
 import '../../css/availability.css';
+import TaskBar from '../taskbar';
 
 // Change how the appointments look
 function Appointment({ style, children, ...restProps }) {
@@ -34,6 +35,17 @@ function Appointment({ style, children, ...restProps }) {
       {children}
     </Appointments.Appointment>
   );
+}
+
+function renderTaskBar(props) {
+    const isAdmin = localStorage.getItem('isAdmin');
+    
+    if (isAdmin == "true") {
+        return <AdminTaskbar />;
+    }
+    else {
+        return <TaskBar />;
+    }
 }
 
 const TextEditor = (props) => {
@@ -75,8 +87,8 @@ export default function Availability() {
   };
 
   return (
-      <div>
-      <AdminTaskbar />
+      <div>   
+      {renderTaskBar()}
       <div className="availabilityCalendar">
       <Scheduler data={data} height={630}>
         <ViewState

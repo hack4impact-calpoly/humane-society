@@ -16,6 +16,14 @@ import Request from './components/requestOff';
 import Availability from './components/availability/availability';
 import Contacts from './components/contacts';
 
+/* only allow admins to see contacts */
+function renderContacts(props) {
+    const isAdmin = localStorage.getItem('isAdmin');
+    
+    if (isAdmin == "true") {
+        return <Route path="/contacts" element={<Contacts />} />
+    }
+}
 function App() {
   return (
     <div className="App">
@@ -30,14 +38,15 @@ function App() {
             <Route path="/forgotpassword" element={<ForgotPassword />} />
             <Route path="/passwordreset" element={<PasswordReset />} />
             <Route path="/resetpassword" element={<ResetPassword />} />
-            <Route path="/contacts" element={<Contacts />} />
             { /* Private Routes */ }
-              <Route path="/contacts" element={<Contacts />} />
+              <Route element={<RequireAuth />}>
               <Route path="/tasks" />
+              {renderContacts()}
               <Route path="/request-off" element={<Request />} />
               <Route path="/availability" element={<Availability />} />
               <Route path="/discussions" />
               <Route path="profile" element={<Profile />} />
+            </Route>
             { /* catch all route */ }
             <Route path="*" element={<h1>404 page not found</h1>} />
           </Routes>
