@@ -58,8 +58,6 @@ export default function Login() {
       body: JSON.stringify(loginBody),
     });
     const data = await response.json();
-    console.log(data);
-    console.log(data.result.userID);
     storeUser(data.result.userID, data.token);
     navigate('/');
   };
