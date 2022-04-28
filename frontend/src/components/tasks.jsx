@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
 import { React, useState } from 'react';
-import DatePicker from 'sassy-datepicker';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { CalendarPicker } from '@mui/x-date-pickers/CalendarPicker';
 import IconButton from '@mui/material/IconButton';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -16,16 +18,12 @@ export default function Task() {
     'July', 'August', 'September', 'October', 'November', 'December',
   ];
 
-  const onChange = (newDate) => {
-    setDate(newDate);
-  };
-
   const setDateBack = () => {
     const yesterday = new Date(new Date().setDate(date.getDate() - 1));
     setDate(yesterday);
   };
 
-  // selected date for calendar doesnt move
+  // when stepping to a new month, returns to current month
   const setDateForward = () => {
     const tomorrow = new Date(new Date().setDate(date.getDate() + 1));
     setDate(tomorrow);
@@ -40,14 +38,16 @@ export default function Task() {
         direction="row"
       >
         <Grid item xs={3}>
-          <DatePicker onChange={onChange} selected={date} />
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <CalendarPicker date={date} onChange={(newDate) => setDate(newDate)} />
+          </LocalizationProvider>
         </Grid>
         <Grid
           item
           xs={9}
           container
           direction="column"
-          justifyContent="sflex-start"
+          justifyContent="flex-start"
           alignItems="flex-start"
         >
           <Grid item sx={{ paddingBottom: 5 }}>

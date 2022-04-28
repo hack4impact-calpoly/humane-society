@@ -15,6 +15,7 @@ import Request from './components/requestOff';
 import Contacts from './components/contacts';
 import Availability from './components/availability/availability';
 import RequestOffAdmin from './components/requestOffAdmin';
+import Task from './components/tasks';
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             { /* Public Routes */ }
-            <Route path="/" element={<p>landing page</p>} />
+            <Route path="/" element={<Task />} />
             <Route path="/login" element={<Login />} exact />
             <Route path="/signup" element={<Signup />} />
             <Route path="/signup/success" element={<SignupSuccess />} />
