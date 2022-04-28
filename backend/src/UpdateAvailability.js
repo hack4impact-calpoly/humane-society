@@ -4,12 +4,18 @@ const router = express.Router();
 require('dotenv').config();
 
 const Availability = require('../models/availability');
+const { Token } = require('../token');
 
 /* creates a new availability with given attributes */
 router.post('/newAvailability', async (req, res) => {
   const {
-    userID, times, startDate, endDate, reoccurrence, recDay,
+    token, userID, times, startDate, endDate, reoccurrence, recDay,
   } = req.body;
+  const userData = Token(token);
+  if (userData == null) {
+    res.status(403).send('Unauthorized user');
+    return;
+  }
   const availability = Availability;
   console.log('inside function');
 
@@ -26,8 +32,13 @@ router.post('/newAvailability', async (req, res) => {
 /* updates a availability based on given attributes */
 router.post('/updateAvailability', async (req, res) => {
   const {
-    _id, times, reoccurrence, recDay,
+    token, _id, times, reoccurrence, recDay,
   } = req.body;
+  const userData = Token(token);
+  if (userData == null) {
+    res.status(403).send('Unauthorized user');
+    return;
+  }
   const availability = Availability;
   console.log(times);
 
@@ -58,7 +69,7 @@ router.post('/deleteAvailability', async (req, res) => {
 });
 
 /* gets the availabilities in a week's time frame */
-router.get('/getAvailabilities', async (req, res) => {
+router.post('/getAvailabilities', async (req, res) => {
   const { weekStart, weekEnd } = req.body;
   const availability = Availability;
   /* get all availibilies for a in a specified time frame  */
@@ -84,7 +95,7 @@ router.get('/getAvailabilities', async (req, res) => {
 });
 
 /* gets the availabilities for the week for a specific user */
-router.get('/getUserAvailabilities', async (req, res) => {
+router.post('/getUserAvailabilities', async (req, res) => {
   const { userID, weekStart, weekEnd } = req.body;
   const availability = Availability;
   /* get all availibilies for a user in a specified time frame  */

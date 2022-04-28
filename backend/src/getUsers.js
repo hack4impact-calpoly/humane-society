@@ -3,11 +3,19 @@
 const express = require('express');
 
 const router = express.Router();
+const { Token } = require('../token');
+
 require('dotenv').config();
 
 const User = require('../models/user');
 
-router.get('/getAllUsers', async (req, res) => {
+router.post('/getAllUsers', async (req, res) => {
+  const { token } = req.body;
+  const userData = Token(token);
+  if (userData == null) {
+    res.status(403).send('Unauthorized user');
+    return;
+  }
   User.find().then((result) => {
     if (!result) {
       res.status(404).send('No Users Found');
@@ -18,7 +26,13 @@ router.get('/getAllUsers', async (req, res) => {
 });
 
 /* gets all the users into a specific format to be generated on the contacts page */
-router.get('/getFormattedUsers', async (req, res) => {
+router.post('/getFormattedUsers', async (req, res) => {
+  const { token } = req.body;
+  const userData = Token(token);
+  if (userData == null) {
+    res.status(403).send('Unauthorized user');
+    return;
+  }
   User.find().then((result) => {
     if (!result) {
       res.status(404).send('No Users Found');
@@ -36,9 +50,13 @@ router.get('/getFormattedUsers', async (req, res) => {
   });
 });
 
-router.get('/getUserById', async (req, res) => {
-  const { id } = req.body;
-
+router.post('/getUserById', async (req, res) => {
+  const { token, id } = req.body;
+  const userData = Token(token);
+  if (userData == null) {
+    res.status(403).send('Unauthorized user');
+    return;
+  }
   User.findOne({ userID: id }).then((result) => {
     if (!result) {
       res.status(404).send('Invalid User ID');
