@@ -41,8 +41,8 @@ export default function Login() {
   };
 
   const storeUser = (user, token) => {
-    sessionStorage.setItem('userID', user.userID);
-    sessionStorage.setItem('token', token);
+    localStorage.setItem('userID', user.userID);
+    localStorage.setItem('token', token);
   };
 
   const createToken = async () => {
