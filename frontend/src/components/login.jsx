@@ -40,11 +40,9 @@ export default function Login() {
     return state;
   };
 
-  const storeUser = (user, token) => {
-    sessionStorage.setItem('userID', user.userID);
-      sessionStorage.setItem('token', token);
-      localStorage.setItem('userID', user.userID);
-      localStorage.setItem('token', token);
+  const storeUser = (userID, token) => {
+    sessionStorage.setItem('userID', userID);
+    sessionStorage.setItem('token', token);
   };
 
   const createToken = async () => {
@@ -60,7 +58,6 @@ export default function Login() {
       body: JSON.stringify(loginBody),
     });
     const data = await response.json();
-    console.log(data);
     storeUser(data.result.userID, data.token);
     navigate('/');
   };
