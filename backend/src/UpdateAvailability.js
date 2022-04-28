@@ -4,34 +4,35 @@ const router = express.Router();
 require('dotenv').config();
 
 const Availability = require('../models/availability');
+const { Token } = require('../token');
 
 /* creates a new availability with given attributes */
 router.post('/newAvailability', async (req, res) => {
   const {
-    userID, times, startDate, endDate, reoccurrence, recDay,
+    userID, startDate, endDate, rRule, exDate,
   } = req.body;
-  const availability = Availability;
-  console.log('inside function');
 
-  let doc;
-  doc = new availability({
-    userID, times, startDate, endDate, reoccurrence, recDay,
+  const doc = new Availability({
+    userID, startDate, endDate, rRule, exDate,
   });
 
   doc.save();
+  // console.log(doc._id);
   console.log('availability added');
-  res.status(200).send('success');
+  res.status(200).send(doc);
 });
 
 /* updates a availability based on given attributes */
 router.post('/updateAvailability', async (req, res) => {
   const {
-    _id, times, reoccurrence, recDay,
+    _id, startDate, endDate, rRule, exDate,
   } = req.body;
-  const availability = Availability;
-  console.log(times);
-
-  availability.updateOne({ _id }, { times, reoccurrence, recDay }).then((result) => {
+  Availability.updateOne({ _id }, {
+    $push: { exDate },
+    $set: {
+      startDate, endDate, rRule,
+    },
+  }).then((result) => {
     if (result) {
       res.status(200).send('updated successfully');
     }
@@ -44,10 +45,9 @@ router.post('/updateAvailability', async (req, res) => {
 /* deletes a availibility document based on userID */
 router.post('/deleteAvailability', async (req, res) => {
   const { _id } = req.body;
-  const availability = Availability;
   const mongodb = require('mongodb');
 
-  availability.deleteOne({ _id: new mongodb.ObjectID(_id) }).then((result) => {
+  Availability.deleteOne({ _id: new mongodb.ObjectID(_id) }).then((result) => {
     if (result) {
       res.status(200).send('deleted successfully');
     }
@@ -58,11 +58,10 @@ router.post('/deleteAvailability', async (req, res) => {
 });
 
 /* gets the availabilities in a week's time frame */
-router.get('/getAvailabilities', async (req, res) => {
+router.post('/getAvailabilities', async (req, res) => {
   const { weekStart, weekEnd } = req.body;
-  const availability = Availability;
   /* get all availibilies for a in a specified time frame  */
-  availability.find({
+  Availability.find({
     startDate: {
       $gte: weekStart,
       $lt: weekEnd,
@@ -84,20 +83,37 @@ router.get('/getAvailabilities', async (req, res) => {
 });
 
 /* gets the availabilities for the week for a specific user */
-router.get('/getUserAvailabilities', async (req, res) => {
-  const { userID, weekStart, weekEnd } = req.body;
-  const availability = Availability;
+// router.post('/getUserAvailabilities', async (req, res) => {
+//   const { userID, weekStart, weekEnd } = req.body;
+//   const availability = Availability;
+//   /* get all availibilies for a user in a specified time frame  */
+//   availability.find({
+//     userID,
+//     startDate: {
+//       $gte: weekStart,
+//       $lt: weekEnd,
+//     },
+//     endDate: {
+//       $gte: weekStart,
+//       $lt: weekEnd,
+//     },
+//   }).then((result) => {
+//     if (!result) {
+//       res.status(404).send('No users found');
+//     } else {
+//       res.status(200).send(result);
+//     }
+//   }).catch((err) => {
+//     console.log(err);
+//     res.status(500).send('error');
+//   });
+// });
+
+router.post('/getUserAvailabilities', async (req, res) => {
+  const { userID } = req.body;
   /* get all availibilies for a user in a specified time frame  */
-  availability.find({
+  Availability.find({
     userID,
-    startDate: {
-      $gte: weekStart,
-      $lt: weekEnd,
-    },
-    endDate: {
-      $gte: weekStart,
-      $lt: weekEnd,
-    },
   }).then((result) => {
     if (!result) {
       res.status(404).send('No users found');

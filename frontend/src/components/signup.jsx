@@ -273,10 +273,12 @@ export default function SignUp() {
                 />
               </Grid>
             </Grid>
-            <Grid alignContent="right">
-              <Link href="/login" variant="body2">
-                Already have an account? Sign in
-              </Link>
+            <Grid container justifyContent="flex-end">
+              <Grid item xs={12} sx={{ mt: 1 }}>
+                <Link id="toLogin" href="/login" variant="body2">
+                  Already have an account? Sign in
+                </Link>
+              </Grid>
             </Grid>
             <Button
               onClick={signup}

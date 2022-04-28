@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Grid } from '@mui/material';
 import '../css/taskbar.css';
 import Box from '@mui/material/Box';
@@ -6,9 +7,36 @@ import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
+import { CognitoUser } from 'amazon-cognito-identity-js';
+import userPool from '../userPool';
 import Navbar from '../navbar';
 
 export default function ForgotPassword() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+
+  const storeEmail = () => {
+    localStorage.setItem('woods-humane-email', email);
+  };
+
+  const sendEmail = async () => {
+    const user = new CognitoUser({
+      Username: email,
+      Pool: userPool,
+    });
+
+    user.forgotPassword({
+      onSuccess: (data) => {
+        console.log(`CodeDeliveryData from forgotPassword: ${data}`);
+        storeEmail();
+        navigate('/passwordreset');
+      },
+      onFailure: (err) => {
+        alert(err.message || JSON.stringify(err));
+      },
+    });
+  };
+
   return (
     <div>
       <Navbar />
@@ -39,6 +67,7 @@ export default function ForgotPassword() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  onChange={(e) => { setEmail(e.target.value); }}
                 />
               </Grid>
               <Button
@@ -52,6 +81,7 @@ export default function ForgotPassword() {
                   backgroundColor: '#21b6ae',
 
                 }}
+                onClick={sendEmail}
               >
                 Send
               </Button>
