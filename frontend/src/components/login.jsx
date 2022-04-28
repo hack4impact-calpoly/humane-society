@@ -26,7 +26,7 @@ export default function Login() {
       return currentState;
     });
 
-    return state;
+    return state.trim();
   };
 
   const getPw = async () => {
@@ -48,6 +48,7 @@ export default function Login() {
     localStorage.setItem('userID', user.userID);
     localStorage.setItem('token', token);
     localStorage.setItem('isAdmin', user.isAdmin);
+
   };
 
   const createToken = async () => {
@@ -65,6 +66,7 @@ export default function Login() {
     const data = await response.json();
     console.log(data);
     storeUser(data.result, data.token);
+
     navigate('/');
   };
 

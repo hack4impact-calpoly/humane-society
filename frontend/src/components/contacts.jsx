@@ -27,13 +27,21 @@ const columns = [
 /* the contacts page */
 export default function Contacts() {
     const [rows, setRows] = useState([]);
+
     /* gets a properly formatted array of users from the backend */
     const getUsers = async () => {
+
+        const loginBody = {
+            token: localStorage.getItem("token"),
+        };
+        console.log("hi")
+        console.log(loginBody)
         const response = await fetch('http://localhost:3001/getUsers/getFormattedUsers', {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
+            body: JSON.stringify(loginBody),
         })
         if (response.status === 200) {
             setRows(await response.json())
@@ -43,8 +51,8 @@ export default function Contacts() {
     }
 
     useEffect(() => {
-        getUsers()
-    });
+        getUsers();
+    }, [])
 
     return (
         <div>

@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { ViewState, EditingState } from '@devexpress/dx-react-scheduler';
 import {
   Scheduler,
@@ -20,6 +20,7 @@ import AdminTaskbar from './../adminTaskbar';
 import appointments from './appointments';
 import '../../css/availability.css';
 import TaskBar from '../taskbar';
+
 
 // Change how the appointments look
 function Appointment({ style, children, ...restProps }) {
@@ -63,27 +64,98 @@ const BooleanEditor = (props) => {
 }
 
 export default function Availability() {
-  const [data, setData] = useState(appointments); // DEFAULT IS TEST VALUES RIGHT NOW
+  const getAppointments = async () => {
+    const availabilityBody = {
+      userID: localStorage.getItem('userID')
+    };
+
+    const response = await fetch('http://localhost:3001/availability/getUserAvailabilities', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(availabilityBody),
+    })
+    var data = await response.json();
+    data = data.map((availability) => (
+      {
+        id: availability._id,
+        userID: availability.userID,
+        rRule: availability.rRule,
+        exDate: availability.exDate.join(','),
+        startDate: new Date(availability.startDate),
+        endDate: new Date(availability.endDate)
+      }))
+    return data
+  }
+
+  const [data, setData] = useState([]);
+
+  useEffect( () => {
+    getAppointments().then((data) => {
+      setData(data)
+    })
+  }, [])
 
   // Have calendar default on current date
   const curDate = new Date();
   const defaultDate = `${curDate.getFullYear()}-${String(curDate.getMonth() + 1).padStart(2, '0')}-${String(curDate.getDate()).padStart(2, '0')}`;
 
   // function that handles changes to data, can probably add/change/delete to db here as well
-  const commitChanges = ({ added, changed, deleted }) => {
+  const commitChanges = async ({ added, changed, deleted }) => {
     let newData = data;
     if (added) {
-      const startingAddedId = newData.length > 0 ? newData[newData.length - 1].id + 1 : 0;
-      newData = [...newData, { id: startingAddedId, ...added }];
+      const appointmentBody = { userID: localStorage.getItem('userID'), ...added };
+      const response = await fetch('http://localhost:3001/availability/newAvailability', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(appointmentBody),
+      })
+      const result = await response.json();
+      newData = [...newData, {id: result._id, ...added }]
+      setData(newData);
     }
     if (changed) {
-      newData = newData.map((appointment) => (
-        changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment));
+      const appointmentID = Object.keys(changed)[0]
+      const oldAppointment = newData.filter((appointment) => (changed[appointment.id]))[0]
+      const appointmentBody = {
+        _id: appointmentID, ...oldAppointment, ...changed[appointmentID],
+      }
+      fetch('http://localhost:3001/availability/updateAvailability', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(appointmentBody),
+      }).then((result) => {
+        if (result.status === 200) {
+          newData = newData.map((appointment) => (
+            changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment));
+          setData(newData);
+        } else {
+          console.log('error; could not update');
+        }
+      })
+      
     }
     if (deleted !== undefined) {
-      newData = newData.filter((appointment) => appointment.id !== deleted);
+      fetch('http://localhost:3001/availability/deleteAvailability', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({_id: deleted}),
+      }).then((result) => {
+        if (result.status === 200) {
+          newData = newData.filter((appointment) => appointment.id !== deleted);
+          setData(newData);
+        } else {
+          console.log('error; could not delete');
+        }
+      })
     }
-    setData(newData);
   };
 
   return (
