@@ -13,6 +13,7 @@ import SignupSuccess from './components/signupSuccess';
 import Profile from './components/profile';
 import Request from './components/requestOff';
 import Availability from './components/availability/availability';
+import TestTasks from './components/testTasks';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Route path="/forgotpassword" element={<ForgotPassword />} />
             <Route path="/passwordreset" element={<PasswordReset />} />
             <Route path="/resetpassword" element={<ResetPassword />} />
+            <Route path="/testtasks" element={<TestTasks />} />
             { /* Private Routes */ }
             <Route element={<RequireAuth />}>
               <Route path="/tasks" />
