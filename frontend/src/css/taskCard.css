@@ -1,0 +1,19 @@
+#checkAndName {
+    display: flex;
+    flex-direction: row;
+}
+
+#name {
+    margin-left: 10%;
+}
+
+#desc {
+    display: flex;
+    justify-content: start;
+    margin-left: 4%;
+}
+
+#lowerBorder {
+    border-bottom: 2;
+    border-color: gray;
+}
