@@ -1,5 +1,8 @@
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-param-reassign */
 /* eslint-disable react/prop-types */
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { CalendarPicker } from '@mui/x-date-pickers/CalendarPicker';
@@ -8,25 +11,83 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Typography, Grid } from '@mui/material';
 import CircularProgressWithLabel from './circularProgress';
+import TaskCard from './taskCard';
 import Taskbar from './taskbar';
 import '../css/tasks.css';
 
+const testTasks = [
+  {
+    title: 'task1',
+    desc: 'task1 desc',
+  },
+  {
+    title: 'task2',
+    desc: 'task2 desc',
+  },
+  {
+    title: 'task3',
+    desc: 'task3 desc',
+  },
+  {
+    title: 'task4',
+    desc: 'task4 desc',
+  },
+  {
+    title: 'task5',
+    desc: 'task5 desc',
+  },
+];
+
 export default function Task() {
   const [date, setDate] = useState(new Date());
+  const [tasks, setTasks] = useState(testTasks);
+  const [checked, setChecked] = useState(new Map());
+  const [completion, setCompletion] = useState(0);
+  useEffect(() => {
+    // fetch date's tasks and update state
+    // setTasks(testTasks);
+  }, [date]);
+  useEffect(() => {
+    // determine completion progress
+    const numTasks = tasks.length;
+    let numComplete = 0;
+    checked.forEach((key, value) => {
+      if (value) {
+        numComplete += 1;
+      }
+    });
+    setCompletion(Math.floor((numComplete / numTasks) * 100));
+  }, [checked]);
 
   const months = ['January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December',
   ];
 
   const setDateBack = () => {
-    const yesterday = new Date(new Date().setDate(date.getDate() - 1));
+    const yesterday = new Date(date);
+    yesterday.setDate(yesterday.getDate() - 1);
     setDate(yesterday);
   };
 
-  // when stepping to a new month, returns to current month
   const setDateForward = () => {
-    const tomorrow = new Date(new Date().setDate(date.getDate() + 1));
+    const tomorrow = new Date(date);
+    tomorrow.setDate(tomorrow.getDate() + 1);
     setDate(tomorrow);
+  };
+
+  const getChecked = (title) => {
+    const isChecked = checked.get(title);
+    return isChecked || false;
+  };
+
+  const onCheckedChange = (title, isChecked) => {
+    const temp = new Map(checked);
+    if (isChecked) {
+      temp.set(title, isChecked);
+    } else {
+      temp.delete(title);
+    }
+    setChecked(temp);
   };
 
   return (
@@ -44,11 +105,11 @@ export default function Task() {
         </Grid>
         <Grid
           item
-          xs={9}
+          xs={3}
           container
           direction="column"
           justifyContent="flex-start"
-          alignItems="flex-start"
+          alignItems="center"
         >
           <Grid item sx={{ paddingBottom: 5 }}>
             <Grid
@@ -90,10 +151,21 @@ export default function Task() {
             </Grid>
           </Grid>
           <Grid item>
-            <CircularProgressWithLabel value={50} />
-            { /* tasks go here */}
-            <p>2/4 tasks completed</p>
+            <CircularProgressWithLabel value={completion} />
           </Grid>
+        </Grid>
+        <Grid item xs={6} sx={{ paddingTop: 5, paddingBottom: 3 }}>
+          <p>2/4 tasks completed</p>
+          {tasks.map((task, index) => (
+            <div key={index}>
+              <TaskCard
+                name={task.title}
+                description={task.desc}
+                checked={getChecked(task.title)}
+                setChecked={onCheckedChange}
+              />
+            </div>
+          ))}
         </Grid>
       </Grid>
     </div>
