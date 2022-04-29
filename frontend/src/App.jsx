@@ -15,13 +15,26 @@ import Profile from './components/profile';
 import Request from './components/requestOff';
 import Availability from './components/availability/availability';
 import Contacts from './components/contacts';
+import { Fragment } from 'react';
 
-/* only allow admins to see contacts */
-function renderContacts(props) {
+/* only allow admins and employees to see certain pages */
+function determineRoutes(props) {
     const isAdmin = localStorage.getItem('isAdmin');
     
     if (isAdmin == "true") {
-        return <Route path="/contacts" element={<Contacts />} />
+        return (
+            <Fragment>
+            <Route path="/contacts" element={<Contacts />} />
+            </Fragment >
+        )
+    }
+    else {
+        return
+        (
+            <Fragment>
+             <Route path="/discussions" />
+            </Fragment>
+        )
     }
 }
 function App() {
@@ -40,11 +53,10 @@ function App() {
             <Route path="/resetpassword" element={<ResetPassword />} />
             { /* Private Routes */ }
               <Route element={<RequireAuth />}>
-              <Route path="/tasks" />
-              {renderContacts()}
-              <Route path="/request-off" element={<Request />} />
+              {determineRoutes()}
               <Route path="/availability" element={<Availability />} />
-              <Route path="/discussions" />
+              <Route path="/tasks" />
+              <Route path="/request-off" element={<Request />} />
               <Route path="profile" element={<Profile />} />
             </Route>
             { /* catch all route */ }
