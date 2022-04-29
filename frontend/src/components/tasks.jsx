@@ -41,23 +41,12 @@ const testTasks = [
 export default function Task() {
   const [date, setDate] = useState(new Date());
   const [tasks, setTasks] = useState(testTasks);
-  const [checked, setChecked] = useState(new Map());
+  const [checked, setChecked] = useState(new Map()); // will need to loop over tasks to init map
   const [completion, setCompletion] = useState(0);
   useEffect(() => {
     // fetch date's tasks and update state
     // setTasks(testTasks);
   }, [date]);
-  useEffect(() => {
-    // determine completion progress
-    const numTasks = tasks.length;
-    let numComplete = 0;
-    checked.forEach((key, value) => {
-      if (value) {
-        numComplete += 1;
-      }
-    });
-    setCompletion(Math.floor((numComplete / numTasks) * 100));
-  }, [checked]);
 
   const months = ['January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December',
@@ -76,8 +65,19 @@ export default function Task() {
   };
 
   const getChecked = (title) => {
+    // returns if a task is checked, false if not in checked map
     const isChecked = checked.get(title);
     return isChecked || false;
+  };
+
+  const getNumComplete = () => {
+    let numComplete = 0;
+    checked.forEach((key, value) => {
+      if (value) {
+        numComplete += 1;
+      }
+    });
+    return numComplete;
   };
 
   const onCheckedChange = (title, isChecked) => {
@@ -90,6 +90,13 @@ export default function Task() {
     setChecked(temp);
   };
 
+  useEffect(() => {
+    // determine completion progress when checked is changed
+    const numTasks = tasks.length;
+    const numComplete = getNumComplete();
+    setCompletion(Math.floor((numComplete / numTasks) * 100));
+  }, [checked]);
+
   return (
     <div>
       <Taskbar />
@@ -100,7 +107,7 @@ export default function Task() {
       >
         <Grid item xs={3}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <CalendarPicker date={date} onChange={(newDate) => setDate(newDate)} />
+            <CalendarPicker date={date} onChange={(newDate) => setDate(newDate)} color="secondary" />
           </LocalizationProvider>
         </Grid>
         <Grid
@@ -111,7 +118,7 @@ export default function Task() {
           justifyContent="flex-start"
           alignItems="center"
         >
-          <Grid item sx={{ paddingBottom: 5 }}>
+          <Grid item sx={{ paddingBottom: 10 }}>
             <Grid
               className="dateSelector"
               container
@@ -131,7 +138,7 @@ export default function Task() {
               </Grid>
               <Grid item>
                 <Typography
-                  variant="h5"
+                  variant="h4"
                   style={{ fontWeight: 600 }}
                   sx={{ color: '#1d4d71' }}
                 >
@@ -155,7 +162,7 @@ export default function Task() {
           </Grid>
         </Grid>
         <Grid item xs={6} sx={{ paddingTop: 5, paddingBottom: 3 }}>
-          <p>2/4 tasks completed</p>
+          <p id="subtitle">{`${getNumComplete()}/${tasks.length} tasks completed`}</p>
           {tasks.map((task, index) => (
             <div key={index}>
               <TaskCard

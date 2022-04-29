@@ -12,9 +12,7 @@ import RequireAuth from './requireAuth';
 import SignupSuccess from './components/signupSuccess';
 import Profile from './components/profile';
 import Request from './components/requestOff';
-import Contacts from './components/contacts';
 import Availability from './components/availability/availability';
-import RequestOffAdmin from './components/requestOffAdmin';
 import Task from './components/tasks';
 
 function App() {
@@ -24,7 +22,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             { /* Public Routes */ }
-            <Route path="/" element={<Task />} />
+            <Route path="/" element={<p>landing page</p>} />
             <Route path="/login" element={<Login />} exact />
             <Route path="/signup" element={<Signup />} />
             <Route path="/signup/success" element={<SignupSuccess />} />
@@ -33,11 +31,8 @@ function App() {
             <Route path="/resetpassword" element={<ResetPassword />} />
             { /* Private Routes */ }
             <Route element={<RequireAuth />}>
-              <Route path="/contacts" element={<Contacts />} />
-              <Route path="/availability" element={<Availability />} />
-              <Route path="/tasks" />
+              <Route path="/tasks" element={<Task />} />
               <Route path="/request-off" element={<Request />} />
-              <Route path="/request-off-admin" element={<RequestOffAdmin />} />
               <Route path="/availability" element={<Availability />} />
               <Route path="/discussions" />
               <Route path="profile" element={<Profile />} />

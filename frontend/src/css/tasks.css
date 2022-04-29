@@ -1,5 +1,11 @@
 .main {
   height: 80vh;
   padding: 5%;
-  padding-top: 7%;
+}
+
+#subtitle {
+  font-size: 20px;
+  color: #054D75;
+  font-weight: 600;
+  text-align: right;
 }
