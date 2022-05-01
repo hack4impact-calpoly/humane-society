@@ -44,8 +44,7 @@ function App() {
               {renderContacts()}
               <Route path="/request-off" element={<Request />} />
               <Route path="/availability" element={<Availability />} />
-              <Route path="/discussions" />
-              <Route path="profile" element={<Profile />} />
+              <Route path="/profile" element={<Profile />} />
             </Route>
             { /* catch all route */ }
             <Route path="*" element={<h1>404 page not found</h1>} />
