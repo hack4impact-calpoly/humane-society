@@ -22,6 +22,11 @@ export default function DropDownMenu() {
     setAnchorEl(null);
   };
 
+  const logout = () => {
+    localStorage.clear();
+    console.log('user logged out');
+  };
+
   return (
     <div>
       <Tooltip title="Account settings">
@@ -74,7 +79,7 @@ export default function DropDownMenu() {
           <Avatar />
           Profile
         </MenuItem>
-        <MenuItem component={Link} to="/logout">
+        <MenuItem component={Link} to="/login" onClick={logout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
