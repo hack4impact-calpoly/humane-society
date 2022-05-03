@@ -13,6 +13,7 @@ import SignupSuccess from './components/signupSuccess';
 import Profile from './components/profile';
 import Request from './components/requestOff';
 import Availability from './components/availability/availability';
+import Task from './components/tasks';
 
 function App() {
   return (
@@ -30,7 +31,7 @@ function App() {
             <Route path="/resetpassword" element={<ResetPassword />} />
             { /* Private Routes */ }
             <Route element={<RequireAuth />}>
-              <Route path="/tasks" />
+              <Route path="/tasks" element={<Task />} />
               <Route path="/request-off" element={<Request />} />
               <Route path="/availability" element={<Availability />} />
               <Route path="/discussions" />
