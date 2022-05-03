@@ -4,8 +4,7 @@
 }
 
 #subtitle {
-  font-size: 20px;
+  font-size: 1.5vmax 1vmin;
   color: #054D75;
   font-weight: 600;
-  text-align: right;
 }

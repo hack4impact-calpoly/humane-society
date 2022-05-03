@@ -104,15 +104,18 @@ export default function Task() {
         className="main"
         container
         direction="row"
+        spacing={0.5}
       >
-        <Grid item xs={3}>
+        <Grid item lg={3} sx={{ display: { xs: 'none', md: 'none', lg: 'block' } }}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <CalendarPicker date={date} onChange={(newDate) => setDate(newDate)} color="secondary" />
           </LocalizationProvider>
         </Grid>
         <Grid
           item
-          xs={3}
+          lg={3}
+          md={4}
+          xs={4}
           container
           direction="column"
           justifyContent="flex-start"
@@ -125,6 +128,7 @@ export default function Task() {
               direction="row"
               justifyContent="space-evenly"
               alignItems="center"
+              wrap="nowrap"
             >
               <Grid item>
                 <IconButton
@@ -138,7 +142,7 @@ export default function Task() {
               </Grid>
               <Grid item>
                 <Typography
-                  variant="h4"
+                  variant="h5"
                   style={{ fontWeight: 600 }}
                   sx={{ color: '#1d4d71' }}
                 >
@@ -161,8 +165,10 @@ export default function Task() {
             <CircularProgressWithLabel value={completion} />
           </Grid>
         </Grid>
-        <Grid item xs={6} sx={{ paddingTop: 5, paddingBottom: 3 }}>
-          <p id="subtitle">{`${getNumComplete()}/${tasks.length} tasks completed`}</p>
+        <Grid item lg={6} md={8} xs={8} sx={{ paddingTop: 5, paddingBottom: 3 }}>
+          <Typography variant="body1" id="subtitle" align="right">
+            {`${getNumComplete()}/${tasks.length} tasks completed`}
+          </Typography>
           {tasks.map((task, index) => (
             <div key={index}>
               <TaskCard
