@@ -15,15 +15,8 @@ import Profile from './components/profile';
 import Request from './components/requestOff';
 import Availability from './components/availability/availability';
 import Contacts from './components/contacts';
+import RequestOffAdmin from './components/requestOffAdmin';
 
-/* only allow admins to see contacts */
-function renderContacts(props) {
-    const isAdmin = localStorage.getItem('isAdmin');
-    
-    if (isAdmin == "true") {
-        return <Route path="/contacts" element={<Contacts />} />
-    }
-}
 function App() {
   return (
     <div className="App">
@@ -39,13 +32,13 @@ function App() {
             <Route path="/passwordreset" element={<PasswordReset />} />
             <Route path="/resetpassword" element={<ResetPassword />} />
             { /* Private Routes */ }
-              <Route element={<RequireAuth />}>
-              <Route path="/tasks" />
-              {renderContacts()}
-              <Route path="/request-off" element={<Request />} />
+            <Route element={<RequireAuth />}>
+              <Route requiredUser path="/tasks" />
               <Route path="/availability" element={<Availability />} />
-              <Route path="/discussions" />
+              <Route path="/requestoff" element={<Request/>} />             
               <Route path="profile" element={<Profile />} />
+              <Route path="/contacts" element={<Contacts />} /> 
+              <Route path="/requestoff-admin" element={<RequestOffAdmin/>} />
             </Route>
             { /* catch all route */ }
             <Route path="*" element={<h1>404 page not found</h1>} />
