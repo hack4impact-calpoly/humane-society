@@ -1,3 +1,11 @@
 .adminCalendar {
     left: -20px;
   }
+
+  .availabilityCalendar {
+    left: -80px;
+    max-width: 500px;
+    padding-left: 30%;
+    left: 100px;
+    top: -430px;
+}
