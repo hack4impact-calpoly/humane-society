@@ -1,6 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import * as React from 'react';
-import { useState } from 'react';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { ViewState, EditingState } from '@devexpress/dx-react-scheduler';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -21,24 +20,9 @@ import '../../css/adminCalendar.css';
 
 export default function AllCalendars() {
   const [date, setDate] = React.useState(new Date());
-  const [data, setData] = useState(appointments);
   const curDate = new Date();
   const defaultDate = `${curDate.getFullYear()}-${String(curDate.getMonth() + 1).padStart(2, '0')}-${String(curDate.getDate()).padStart(2, '0')}`;
-  const commitChanges = ({ added, changed, deleted }) => {
-    let newData = data;
-    if (added) {
-      const startingAddedId = newData.length > 0 ? newData[newData.length - 1].id + 1 : 0;
-      newData = [...newData, { id: startingAddedId, ...added }];
-    }
-    if (changed) {
-      newData = newData.map((appointment) => (
-        changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment));
-    }
-    if (deleted !== undefined) {
-      newData = newData.filter((appointment) => appointment.id !== deleted);
-    }
-    setData(newData);
-  };
+
   return (
     <div style={{
       padding: '100px 10px 0px',
@@ -57,7 +41,7 @@ export default function AllCalendars() {
           defaultCurrentDate={defaultDate}
         />
         <EditingState
-          onCommitChanges={commitChanges}
+          onChange={(newDate) => setDate(newDate)}
         />
         <EditRecurrenceMenu />
         <WeekView
