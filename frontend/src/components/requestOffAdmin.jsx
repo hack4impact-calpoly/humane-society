@@ -1,8 +1,21 @@
 import { React, useState } from 'react';
 import { Button, Switch, FormControlLabel } from '@mui/material/';
 import { DataGrid } from '@mui/x-data-grid';
-import Taskbar from './taskbar';
+import AdminTaskbar from './adminTaskbar';
+import TaskBar from './taskbar';
 import '../css/requestOffAdmin.css';
+
+function renderTaskBar(props) {
+    const isAdmin = localStorage.getItem('isAdmin');
+
+    if (isAdmin == "true") {
+        return <AdminTaskbar />;
+    }
+    else {
+        return <TaskBar />;
+    }
+}
+
 
 function RequestOffTables() {
   const curDate = new Date();
@@ -346,7 +359,7 @@ function RequestOffTables() {
 export default function RequestOffAdmin() {
   return (
     <div>
-      <Taskbar />
+      {renderTaskBar()}
       <RequestOffTables />
     </div>
   );

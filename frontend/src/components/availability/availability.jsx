@@ -16,7 +16,11 @@ import {
   DragDropProvider,
   ConfirmationDialog,
 } from '@devexpress/dx-react-scheduler-material-ui';
+import AdminTaskbar from './../adminTaskbar';
 import appointments from './appointments';
+import '../../css/availability.css';
+import TaskBar from '../taskbar';
+
 
 // Change how the appointments look
 function Appointment({ style, children, ...restProps }) {
@@ -32,6 +36,17 @@ function Appointment({ style, children, ...restProps }) {
       {children}
     </Appointments.Appointment>
   );
+}
+
+function renderTaskBar(props) {
+    const isAdmin = localStorage.getItem('isAdmin');
+    
+    if (isAdmin == "true") {
+        return <AdminTaskbar />;
+    }
+    else {
+        return <TaskBar />;
+    }
 }
 
 const TextEditor = (props) => {
@@ -144,7 +159,9 @@ export default function Availability() {
   };
 
   return (
-    <div className="availabilityCalendar">
+      <div>   
+      {renderTaskBar()}
+      <div className="availabilityCalendar">
       <Scheduler data={data} height={630}>
         <ViewState
           defaultCurrentViewName="Week"
@@ -182,6 +199,7 @@ export default function Availability() {
         />
         <DragDropProvider />
       </Scheduler>
+      </div>
     </div>
   );
 }

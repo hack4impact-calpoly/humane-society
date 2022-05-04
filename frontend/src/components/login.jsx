@@ -1,4 +1,4 @@
-/* eslint-disable  */
+/* eslint-disable */
 import React, {
   useState, useRef, useCallback, useEffect,
 } from 'react';
@@ -40,9 +40,15 @@ export default function Login() {
     return state;
   };
 
-  const storeUser = (user, token) => {
+    const storeUser = (user, token) => {
+    console.log(user.userID);
+    sessionStorage.setItem('userID', user.userID);
+    sessionStorage.setItem('token', token);
+    sessionStorage.setItem('isAdmin', user.isAdmin);
     localStorage.setItem('userID', user.userID);
     localStorage.setItem('token', token);
+    localStorage.setItem('isAdmin', user.isAdmin);
+
   };
 
   const createToken = async () => {
@@ -58,7 +64,9 @@ export default function Login() {
       body: JSON.stringify(loginBody),
     });
     const data = await response.json();
-    storeUser(data.result.userID, data.token);
+    console.log(data);
+    storeUser(data.result, data.token);
+
     navigate('/');
   };
 

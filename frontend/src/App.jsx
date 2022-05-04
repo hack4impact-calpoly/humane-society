@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
@@ -13,8 +14,17 @@ import SignupSuccess from './components/signupSuccess';
 import Profile from './components/profile';
 import Request from './components/requestOff';
 import Availability from './components/availability/availability';
+import Contacts from './components/contacts';
 import Task from './components/tasks';
 
+/* only allow admins to see contacts */
+function renderContacts(props) {
+    const isAdmin = localStorage.getItem('isAdmin');
+    
+    if (isAdmin == "true") {
+        return <Route path="/contacts" element={<Contacts />} />
+    }
+}
 function App() {
   return (
     <div className="App">
@@ -30,12 +40,12 @@ function App() {
             <Route path="/passwordreset" element={<PasswordReset />} />
             <Route path="/resetpassword" element={<ResetPassword />} />
             { /* Private Routes */ }
-            <Route element={<RequireAuth />}>
+              <Route element={<RequireAuth />}>
+              {renderContacts()}
               <Route path="/tasks" element={<Task />} />
               <Route path="/request-off" element={<Request />} />
               <Route path="/availability" element={<Availability />} />
-              <Route path="/discussions" />
-              <Route path="profile" element={<Profile />} />
+              <Route path="/profile" element={<Profile />} />
             </Route>
             { /* catch all route */ }
             <Route path="*" element={<h1>404 page not found</h1>} />
