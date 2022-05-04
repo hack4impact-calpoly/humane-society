@@ -15,6 +15,7 @@ import Profile from './components/profile';
 import Request from './components/requestOff';
 import Availability from './components/availability/availability';
 import Contacts from './components/contacts';
+import Task from './components/tasks';
 
 /* only allow admins to see contacts */
 function renderContacts(props) {
@@ -40,8 +41,8 @@ function App() {
             <Route path="/resetpassword" element={<ResetPassword />} />
             { /* Private Routes */ }
               <Route element={<RequireAuth />}>
-              <Route path="/tasks" />
               {renderContacts()}
+              <Route path="/tasks" element={<Task />} />
               <Route path="/request-off" element={<Request />} />
               <Route path="/availability" element={<Availability />} />
               <Route path="/profile" element={<Profile />} />
