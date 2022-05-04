@@ -6,8 +6,7 @@ import { CalendarPicker } from '@mui/x-date-pickers/CalendarPicker';
 import Grid from '@mui/material/Grid';
 import '../../css/adminCalendar.css';
 
-export default function AdminCalendar() {
-  const [date, setDate] = React.useState(new Date());
+export default function AdminCalendar({date, onChange}) {
   return (
     <div style={{
       padding: '100px 10px 0px',

@@ -12,10 +12,13 @@ import {
   TodayButton,
   EditRecurrenceMenu,
 } from '@devexpress/dx-react-scheduler-material-ui';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { CalendarPicker } from '@mui/x-date-pickers/CalendarPicker';
+import Grid from '@mui/material/Grid';
 import appointments from './employee';
 import '../../css/adminMainCalendar.css';
 
-// Change how the appointments look
 function Appointment({ style, children, ...restProps }) {
   return (
     <Appointments.Appointment
@@ -33,6 +36,11 @@ function Appointment({ style, children, ...restProps }) {
 
 export default function AdminMainCalendar() {
   const [data, setData] = useState(appointments); // DEFAULT IS TEST VALUES RIGHT NOW
+  const [date, setDate] = React.useState(new Date());
+  
+  const onChange = (newDate) => {
+    setDate(newDate);
+  };
   function handleChange(value)
   {
     <div>
@@ -89,6 +97,19 @@ export default function AdminMainCalendar() {
           appointmentComponent={Appointment}
         />
       </Scheduler>
+      <div style={{
+      padding: '100px 10px 0px',
+      }}
+      >
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={3}>
+              <CalendarPicker date={date} onChange={(newDate) => setDate(newDate)} />
+            </Grid>
+          </Grid>
+        </LocalizationProvider>
+      </div>
     </div>
+    
   );
 }
