@@ -16,10 +16,9 @@ import {
   DragDropProvider,
   ConfirmationDialog,
 } from '@devexpress/dx-react-scheduler-material-ui';
-import AdminTaskbar from './../adminTaskbar';
-import appointments from './appointments';
-import '../../css/availability.css';
-import TaskBar from '../taskbar';
+import AdminTaskbar from './adminTaskbar';
+import '../css/availability.css';
+import TaskBar from './taskbar';
 
 
 // Change how the appointments look
@@ -101,7 +100,7 @@ export default function Availability() {
   const curDate = new Date();
   const defaultDate = `${curDate.getFullYear()}-${String(curDate.getMonth() + 1).padStart(2, '0')}-${String(curDate.getDate()).padStart(2, '0')}`;
 
-  // function that handles changes to data, can probably add/change/delete to db here as well
+  // function that handles changes to data
   const commitChanges = async ({ added, changed, deleted }) => {
     let newData = data;
     if (added) {
@@ -162,7 +161,7 @@ export default function Availability() {
       <div>   
       {renderTaskBar()}
       <div className="availabilityCalendar">
-      <Scheduler data={data} height={630}>
+      <Scheduler data={data} height={610}>
         <ViewState
           defaultCurrentViewName="Week"
           defaultCurrentDate={defaultDate}
