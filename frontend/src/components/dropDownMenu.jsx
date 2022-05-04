@@ -9,6 +9,7 @@ import {
   ListItemIcon,
 } from '@mui/material';
 import Logout from '@mui/icons-material/Logout';
+import userPool from '../userPool';
 
 export default function DropDownMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -23,8 +24,14 @@ export default function DropDownMenu() {
   };
 
   const logout = () => {
-    localStorage.clear();
-    console.log('user logged out');
+    const user = userPool.getCurrentUser();
+    if (user) {
+      user.signOut();
+      localStorage.clear();
+      console.log('user logged out');
+    } else {
+      console.log('error signing out user');
+    }
   };
 
   return (
