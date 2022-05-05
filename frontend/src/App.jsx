@@ -19,74 +19,49 @@ import { Fragment } from 'react';
 import Task from './components/tasks';
 import RequestAdmin from './components/requestOffAdmin';
 
-/* only allow admins and employees to see certain pages */
-function determineRoutes(props) {
+/* helps to only allow admins and employees to see certain pages */
+function isAdmin(props) {
     const isAdmin = localStorage.getItem('isAdmin');
-    
+
     if (isAdmin == "true") {
-        console.log("0")
-
-        return
-        (
-            <Fragment>
-                <Route path="/contacts" element={<Contacts />} />
-                <Route path="/request-off-admin" element={<RequestAdmin />} />
-                <Route path="/adminhomepage" />
-                <Route path="/admin-tasks" />
-            </Fragment >
-        )
+        return true
     }
-    
-}
-
-function determineRoutes1(props) {
-    const isAdmin = localStorage.getItem('isAdmin');
-
-    if (isAdmin == "false") {
-        console.log("0")
-
-        return
-        (
-            <Fragment>
-                <Route path="/availability" element={<Availability />} />
-                <Route path="/tasks" element={<Task />} />
-                <Route path="/request-off" element={<Request />} />
-            </Fragment>
-        )
-    }
-    console.log("3")
+    return false
 
 }
-
-
 
 function App() {
-  return (
-    <div className="App">
-      <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <Routes>
-            { /* Public Routes */ }
-            <Route path="/" element={<p>landing page</p>} />
-            <Route path="/login" element={<Login />} exact />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/signup/success" element={<SignupSuccess />} />
-            <Route path="/forgotpassword" element={<ForgotPassword />} />
-            <Route path="/passwordreset" element={<PasswordReset />} />
-            <Route path="/resetpassword" element={<ResetPassword />} />
-            { /* Private Routes */ }
-              <Route element={<RequireAuth />}>
-                {determineRoutes1()}
-              
-
-              <Route path="/profile" element={<Profile />} />
-            </Route>
-            { /* catch all route */ }
-            <Route path="*" element={<h1>404 page not found</h1>} />
-          </Routes>
-        </BrowserRouter>
-      </ThemeProvider>
-    </div>
-  );
+    return (
+        <div className="App">
+            <ThemeProvider theme={theme}>
+                <BrowserRouter>
+                    <Routes>
+                        { /* Public Routes */}
+                        <Route path="/" element={<p>landing page</p>} />
+                        <Route path="/login" element={<Login />} exact />
+                        <Route path="/signup" element={<Signup />} />
+                        <Route path="/signup/success" element={<SignupSuccess />} />
+                        <Route path="/forgotpassword" element={<ForgotPassword />} />
+                        <Route path="/passwordreset" element={<PasswordReset />} />
+                        <Route path="/resetpassword" element={<ResetPassword />} />
+                        { /* Private Routes */}
+                        <Route element={<RequireAuth />}>
+                            {isAdmin() ? (<Fragment> <Route path="/contacts" element={<Contacts />} />
+                                <Route path="/request-off-admin" element={<RequestAdmin />} />
+                                <Route path="/adminhomepage" />
+                                <Route path="/admin-tasks" />  </Fragment>) :
+                                (<Fragment>
+                                    <Route path="/availability" element={<Availability />} />
+                                    <Route path="/tasks" element={<Task />} />
+                                    <Route path="/request-off" element={<Request />} />
+                                    <Route path="/profile" element={<Profile />} /> </Fragment>)}
+                        </Route>
+                        { /* catch all route */}
+                        <Route path="*" element={<h1>404 page not found</h1>} />
+                    </Routes>
+                </BrowserRouter>
+            </ThemeProvider>
+        </div>
+    );
 }
 export default App;
