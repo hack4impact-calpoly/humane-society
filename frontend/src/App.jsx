@@ -17,27 +17,49 @@ import Availability from './components/availability/availability';
 import Contacts from './components/contacts';
 import { Fragment } from 'react';
 import Task from './components/tasks';
+import RequestAdmin from './components/requestOffAdmin';
 
 /* only allow admins and employees to see certain pages */
 function determineRoutes(props) {
     const isAdmin = localStorage.getItem('isAdmin');
     
     if (isAdmin == "true") {
-        return (
-            <Fragment>
-            <Route path="/contacts" element={<Contacts />} />
-            </Fragment >
-        )
-    }
-    else {
+        console.log("0")
+
         return
         (
             <Fragment>
-             <Route path="/discussions" />
+                <Route path="/contacts" element={<Contacts />} />
+                <Route path="/request-off-admin" element={<RequestAdmin />} />
+                <Route path="/adminhomepage" />
+                <Route path="/admin-tasks" />
+            </Fragment >
+        )
+    }
+    
+}
+
+function determineRoutes1(props) {
+    const isAdmin = localStorage.getItem('isAdmin');
+
+    if (isAdmin == "false") {
+        console.log("0")
+
+        return
+        (
+            <Fragment>
+                <Route path="/availability" element={<Availability />} />
+                <Route path="/tasks" element={<Task />} />
+                <Route path="/request-off" element={<Request />} />
             </Fragment>
         )
     }
+    console.log("3")
+
 }
+
+
+
 function App() {
   return (
     <div className="App">
@@ -54,11 +76,9 @@ function App() {
             <Route path="/resetpassword" element={<ResetPassword />} />
             { /* Private Routes */ }
               <Route element={<RequireAuth />}>
+                {determineRoutes1()}
+              
 
-              {determineRoutes()}
-              <Route path="/tasks" element={<Task />} />
-              <Route path="/request-off" element={<Request />} />
-              <Route path="/availability" element={<Availability />} />
               <Route path="/profile" element={<Profile />} />
             </Route>
             { /* catch all route */ }
