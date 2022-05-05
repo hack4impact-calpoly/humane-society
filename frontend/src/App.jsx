@@ -54,19 +54,12 @@ function App() {
             <Route path="/resetpassword" element={<ResetPassword />} />
             { /* Private Routes */ }
               <Route element={<RequireAuth />}>
-<<<<<<< HEAD
+
               {determineRoutes()}
-              <Route path="/availability" element={<Availability />} />
-              <Route path="/tasks" />
-              <Route path="/request-off" element={<Request />} />
-              <Route path="profile" element={<Profile />} />
-=======
-              {renderContacts()}
               <Route path="/tasks" element={<Task />} />
               <Route path="/request-off" element={<Request />} />
               <Route path="/availability" element={<Availability />} />
               <Route path="/profile" element={<Profile />} />
->>>>>>> 247c95b83a366017c7d5d40bffd6c0d167add66c
             </Route>
             { /* catch all route */ }
             <Route path="*" element={<h1>404 page not found</h1>} />
