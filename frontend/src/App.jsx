@@ -46,15 +46,19 @@ function App() {
                         <Route path="/resetpassword" element={<ResetPassword />} />
                         { /* Private Routes */}
                         <Route element={<RequireAuth />}>
-                            {isAdmin() ? (<Fragment> <Route path="/contacts" element={<Contacts />} />
-                                <Route path="/request-off-admin" element={<RequestAdmin />} />
-                                <Route path="/adminhomepage" />
-                                <Route path="/admin-tasks" />  </Fragment>) :
+                            {isAdmin() ?
+                                (<Fragment> <Route path="/contacts" element={<Contacts />} />
+                                     <Route path="/request-off-admin" element={<RequestAdmin />} />
+                                     <Route path="/adminhomepage" />
+                                     <Route path="/admin-tasks" />
+                                </Fragment>)
+                                :
                                 (<Fragment>
                                     <Route path="/availability" element={<Availability />} />
                                     <Route path="/tasks" element={<Task />} />
                                     <Route path="/request-off" element={<Request />} />
-                                    <Route path="/profile" element={<Profile />} /> </Fragment>)}
+                                    <Route path="/profile" element={<Profile />} />
+                                </Fragment>)}
                         </Route>
                         { /* catch all route */}
                         <Route path="*" element={<h1>404 page not found</h1>} />
