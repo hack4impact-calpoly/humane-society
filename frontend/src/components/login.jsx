@@ -64,10 +64,12 @@ export default function Login() {
       body: JSON.stringify(loginBody),
     });
     const data = await response.json();
-    console.log(data);
-    storeUser(data.result, data.token);
-
-    navigate('/');
+    storeUser(data.result.userID, data.token);
+    if (data.result.isAdmin) {
+      navigate('/adminhomepage')
+    } else {
+      navigate('/availability');
+    }
   };
 
   const verifyAWS = async () => {
