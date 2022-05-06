@@ -41,7 +41,6 @@ export default function Login() {
   };
 
     const storeUser = (user, token) => {
-    console.log(user.userID);
     sessionStorage.setItem('userID', user.userID);
     sessionStorage.setItem('token', token);
     sessionStorage.setItem('isAdmin', user.isAdmin);
