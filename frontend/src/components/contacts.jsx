@@ -2,20 +2,8 @@
 import { DataGrid } from '@mui/x-data-grid';
 import React, { useState, useEffect } from 'react';
 import AdminTaskbar from "./adminTaskbar"
-import TaskBar from "./taskbar"
 import { GridLinkOperator, GridToolbar } from '@mui/x-data-grid';
 import '../css/contacts.css';
-
-function renderTaskBar(props) {
-    const isAdmin = localStorage.getItem('isAdmin');
-
-    if (isAdmin == "true") {
-        return <AdminTaskbar />;
-    }
-    else {
-        return <TaskBar />;
-    }
-}
 
 /* the columns of the contacts data grid */
 const columns = [
@@ -56,7 +44,7 @@ export default function Contacts() {
 
     return (
         <div>
-            {renderTaskBar()}
+            <AdminTaskbar />
             <div className="contacts">
                 <h3 className="contactsTitle"> Contacts </h3>
                 <DataGrid

@@ -13,7 +13,7 @@ import RequireAuth from './requireAuth';
 import SignupSuccess from './components/signupSuccess';
 import Profile from './components/profile';
 import Request from './components/requestOff';
-import Availability from './components/availability/availability';
+import Availability from './components/availability';
 import Contacts from './components/contacts';
 import { Fragment } from 'react';
 import Task from './components/tasks';
