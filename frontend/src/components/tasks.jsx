@@ -1,7 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-param-reassign */
-/* eslint-disable react/prop-types */
+/* eslint-disable */
 import { React, useState, useEffect } from 'react';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -39,13 +38,82 @@ const testTasks = [
 ];
 
 export default function Task() {
+  const dateEquals = (other) => {
+    return date.getFullYear() === other.getFullYear() &&
+    date.getMonth() === other.getMonth() &&
+    date.getDate() === other.getDate();
+  }
+
+  const getSchedules = async () => {
+    const scheduleBody = {
+      token: localStorage.getItem('token'),
+      userID: '1',
+    };
+
+    const response = await fetch('http://localhost:3001/schedule/getUserSchedules', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(scheduleBody),
+    });
+    let data = await response.json();
+    return data;
+  };
+
+  const getTasks = async () => {
+    // BUG: ONLY FINDS ONE SCHEDULE FOR A DATE. NEED TO GET ALL SCHEDULES FOR A DATE
+    const schedule = userSchedules.find((o) => dateEquals(new Date(o.Date)));
+    console.log(schedule);
+    if (schedule == null) {
+      // clear tasks if no schedule exists for a date
+      return [];
+    } else {
+      const newTasks = [];
+      schedule.Tasks.forEach((taskID) => {
+        const taskBody = {
+          token: localStorage.getItem('token'),
+          taskID,
+        };
+
+        fetch('http://localhost:3001/task/getTask', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(taskBody),
+        }).then((res) => {
+          return res.json();
+        }).then((data) => {
+          newTasks.push(data);
+        });
+      });
+      return newTasks;
+    }
+  };
+
   const [date, setDate] = useState(new Date());
-  const [tasks, setTasks] = useState(testTasks);
+  const [tasks, setTasks] = useState([]);
   const [checked, setChecked] = useState(new Map()); // will need to loop over tasks to init map
   const [completion, setCompletion] = useState(0);
+
+  let userSchedules = null;
+
   useEffect(() => {
     // fetch date's tasks and update state
-    // setTasks(testTasks);
+    if (userSchedules == null) {
+      getSchedules().then((data) => {
+        userSchedules = data;
+        getTasks().then((tasks) => {
+          setTasks(tasks);
+        });
+      });
+    } else {
+      // get day's task when schedules already fetched
+      getTasks().then((tasks) => {
+        setTasks(tasks);
+      });
+    }    
   }, [date]);
 
   const months = ['January', 'February', 'March', 'April', 'May', 'June',
