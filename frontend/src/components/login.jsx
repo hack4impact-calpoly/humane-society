@@ -41,9 +41,6 @@ export default function Login() {
   };
 
     const storeUser = (user, token) => {
-    sessionStorage.setItem('userID', user.userID);
-    sessionStorage.setItem('token', token);
-    sessionStorage.setItem('isAdmin', user.isAdmin);
     localStorage.setItem('userID', user.userID);
     localStorage.setItem('token', token);
     localStorage.setItem('isAdmin', user.isAdmin);
@@ -63,7 +60,7 @@ export default function Login() {
       body: JSON.stringify(loginBody),
     });
     const data = await response.json();
-    storeUser(data.result.userID, data.token);
+    storeUser(data.result, data.token);
     if (data.result.isAdmin) {
       navigate('/adminhomepage')
     } else {
