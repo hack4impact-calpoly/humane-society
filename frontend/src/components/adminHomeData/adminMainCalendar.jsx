@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { React, useState } from 'react';
+import React, { useState } from 'react';
 import { ViewState, EditingState } from '@devexpress/dx-react-scheduler';
 import {
   Scheduler,
@@ -36,7 +36,7 @@ function Appointment({ style, children, ...restProps }) {
 
 export default function AdminMainCalendar() {
   const [data, setData] = useState(appointments); // DEFAULT IS TEST VALUES RIGHT NOW
-  const [date, setDate] = React.useState(new Date());
+  const [date, setDate] = useState(new Date());
   
   const onChange = (newDate) => {
     setDate(newDate);
@@ -98,10 +98,10 @@ export default function AdminMainCalendar() {
           appointmentComponent={Appointment}
         />
       </Scheduler>
-      <div style={{
+      {/* <div style={{
       padding: '100px 10px 0px',
-      }}
-      >
+      }} */}
+      {/* >
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={3}>
@@ -109,7 +109,7 @@ export default function AdminMainCalendar() {
             </Grid>
           </Grid>
         </LocalizationProvider>
-      </div>
+      </div> */}
     </div>
     
   );

@@ -6,7 +6,7 @@ import { CalendarPicker } from '@mui/x-date-pickers/CalendarPicker';
 import Grid from '@mui/material/Grid';
 import '../../css/adminCalendar.css';
 
-export default function AdminCalendar({date, onChange}) {
+export default function AdminCalendar(date, setDate) {
   return (
     <div style={{
       padding: '100px 10px 0px',

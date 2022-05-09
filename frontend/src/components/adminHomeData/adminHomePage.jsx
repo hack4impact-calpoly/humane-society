@@ -2,7 +2,7 @@ import React from 'react';
 import AdminHomeTaskbar from './adminHomeTaskbar';
 import AllCalendars from './allCalendars';
 
-export default function RequestOff() {
+export default function AdminHomePage() {
   return (
     <div>
       <AdminHomeTaskbar />
