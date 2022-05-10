@@ -51,6 +51,7 @@ export default function Task() {
       // clear tasks if no schedules exists for a date
       setTasks([]);
     } else {
+      const newTasks = [];
       curSchedules.Tasks.forEach((taskID) => {
         const taskBody = {
           token: localStorage.getItem('token'),
@@ -65,9 +66,9 @@ export default function Task() {
         }).then((res) => {
           return res.json();
         }).then((data) => {
-          const temp = [...tasks];
-          temp.push(data);
-          setTasks(temp);
+          newTasks.push(data);
+          console.log(newTasks);
+          setTasks(newTasks);
         });
       });
     }
