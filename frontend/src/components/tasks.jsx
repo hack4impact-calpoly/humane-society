@@ -14,30 +14,13 @@ import TaskCard from './taskCard';
 import Taskbar from './taskbar';
 import '../css/tasks.css';
 
-const testTasks = [
-  {
-    title: 'task1',
-    desc: 'task1 desc',
-  },
-  {
-    title: 'task2',
-    desc: 'task2 desc',
-  },
-  {
-    title: 'task3',
-    desc: 'task3 desc',
-  },
-  {
-    title: 'task4',
-    desc: 'task4 desc',
-  },
-  {
-    title: 'task5',
-    desc: 'task5 desc',
-  },
-];
-
 export default function Task() {
+  const [date, setDate] = useState(new Date());
+  const [tasks, setTasks] = useState([]);
+  const [checked, setChecked] = useState(new Map()); // will need to loop over tasks to init map
+  const [completion, setCompletion] = useState(0);
+  let schedules = null;
+
   const dateEquals = (other) => {
     return date.getFullYear() === other.getFullYear() &&
     date.getMonth() === other.getMonth() &&
@@ -63,19 +46,16 @@ export default function Task() {
 
   const getTasks = async () => {
     // BUG: ONLY FINDS ONE SCHEDULE FOR A DATE. NEED TO GET ALL SCHEDULES FOR A DATE
-    const schedule = userSchedules.find((o) => dateEquals(new Date(o.Date)));
-    console.log(schedule);
-    if (schedule == null) {
-      // clear tasks if no schedule exists for a date
-      return [];
+    const curSchedules = schedules.find((o) => dateEquals(new Date(o.Date)));
+    if (curSchedules == null) {
+      // clear tasks if no schedules exists for a date
+      setTasks([]);
     } else {
-      const newTasks = [];
-      schedule.Tasks.forEach((taskID) => {
+      curSchedules.Tasks.forEach((taskID) => {
         const taskBody = {
           token: localStorage.getItem('token'),
           taskID,
         };
-
         fetch('http://localhost:3001/task/getTask', {
           method: 'POST',
           headers: {
@@ -85,35 +65,25 @@ export default function Task() {
         }).then((res) => {
           return res.json();
         }).then((data) => {
-          newTasks.push(data);
+          const temp = [...tasks];
+          temp.push(data);
+          setTasks(temp);
         });
       });
-      return newTasks;
     }
   };
 
-  const [date, setDate] = useState(new Date());
-  const [tasks, setTasks] = useState([]);
-  const [checked, setChecked] = useState(new Map()); // will need to loop over tasks to init map
-  const [completion, setCompletion] = useState(0);
-
-  let userSchedules = null;
-
   useEffect(() => {
     // fetch date's tasks and update state
-    if (userSchedules == null) {
-      getSchedules().then((data) => {
-        userSchedules = data;
-        getTasks().then((tasks) => {
-          setTasks(tasks);
-        });
+    if (schedules == null) {
+      getSchedules()
+      .then((data) => {
+        schedules = data;
+        getTasks()
       });
     } else {
-      // get day's task when schedules already fetched
-      getTasks().then((tasks) => {
-        setTasks(tasks);
-      });
-    }    
+      getTasks()
+    }  
   }, [date]);
 
   const months = ['January', 'February', 'March', 'April', 'May', 'June',
@@ -159,11 +129,10 @@ export default function Task() {
   };
 
   useEffect(() => {
-    // determine completion progress when checked is changed
-    const numTasks = tasks.length;
+    const numTasks = tasks.length ? tasks.length : 1;
     const numComplete = getNumComplete();
     setCompletion(Math.floor((numComplete / numTasks) * 100));
-  }, [checked]);
+  }, [checked])
 
   return (
     <div>
@@ -241,7 +210,7 @@ export default function Task() {
             <div key={index}>
               <TaskCard
                 name={task.title}
-                description={task.desc}
+                description={task.description}
                 checked={getChecked(task.title)}
                 setChecked={onCheckedChange}
               />
