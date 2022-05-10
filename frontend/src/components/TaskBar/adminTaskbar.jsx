@@ -3,8 +3,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Grid } from '@mui/material';
 import DropDownMenu from './dropDownMenu';
-import logo from '../imgs/logo.svg';
-import '../css/taskbar.css';
+import logo from '../../imgs/logo.svg';
+import '../../css/taskbar.css';
 
 export default function AdminTaskbar() {
     return (
@@ -20,10 +20,10 @@ export default function AdminTaskbar() {
                 </Grid>
                 <Grid item xs={8}>
                     <nav>
-                        <Link to="/tasks">Tasks</Link>
-                        <Link to="/request-off">Request Off</Link>
+                        <Link to="/adminhomepage">Schedule</Link>
+                        <Link to="/tasks-admin">Assign Tasks</Link>
+                        <Link to="/request-off-admin">Request Off</Link>
                         <Link to="/contacts">Contacts</Link>
-                        <Link to="/availability">Availability</Link>
                     </nav>
                 </Grid>
                 <Grid item xs={1}>

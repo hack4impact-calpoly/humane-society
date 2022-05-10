@@ -3,8 +3,6 @@ require('dotenv').config();
 
 // makes login tokens
 const Token = function (token) {
-    console.log("verifying")
-  console.log("token is: " + token)
   const decoded = jwt.verify(token, process.env.JWT_KEY);
   return decoded;
 };

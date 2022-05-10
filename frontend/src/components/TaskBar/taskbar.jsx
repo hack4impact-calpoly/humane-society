@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Grid } from '@mui/material';
 import DropDownMenu from './dropDownMenu';
-import logo from '../imgs/logo.svg';
-import '../css/taskbar.css';
+import logo from '../../imgs/logo.svg';
+import '../../css/taskbar.css';
 
 export default function TaskBar() {
   return (

@@ -17,7 +17,7 @@ import {
   ConfirmationDialog,
 } from '@devexpress/dx-react-scheduler-material-ui';
 import '../css/availability.css';
-import TaskBar from './taskbar';
+import TaskBar from './TaskBar/taskbar';
 
 
 // Change how the appointments look
@@ -53,7 +53,8 @@ const BooleanEditor = (props) => {
 export default function Availability() {
   const getAppointments = async () => {
     const availabilityBody = {
-      userID: localStorage.getItem('userID')
+      userID: localStorage.getItem('userID'),
+      token: ocalStorage.getItem('token')
     };
 
     const response = await fetch('http://localhost:3001/availability/getUserAvailabilities', {
