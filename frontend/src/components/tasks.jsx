@@ -19,7 +19,7 @@ export default function Task() {
   const [tasks, setTasks] = useState([]);
   const [checked, setChecked] = useState(new Map()); // will need to loop over tasks to init map
   const [completion, setCompletion] = useState(0);
-  let schedules = null;
+  const [schedules, setSchedules] = useState(null);
 
   const dateEquals = (other) => {
     return date.getFullYear() === other.getFullYear() &&
@@ -28,9 +28,13 @@ export default function Task() {
   }
 
   const getSchedules = async () => {
+    if (schedules != null) {
+      return schedules;
+    };
+
     const scheduleBody = {
       token: localStorage.getItem('token'),
-      userID: '1',
+      userID: '1', // ! USER 1 FOR TESTING PURPOSES
     };
 
     const response = await fetch('http://localhost:3001/schedule/getUserSchedules', {
@@ -44,48 +48,75 @@ export default function Task() {
     return data;
   };
 
-  const getTasks = async () => {
-    // BUG: ONLY FINDS ONE SCHEDULE FOR A DATE. NEED TO GET ALL SCHEDULES FOR A DATE
-    const curSchedules = schedules.find((o) => dateEquals(new Date(o.Date)));
+  const getTasks = async (sched) => {
+    // FIX: ONLY FINDS ONE SCHEDULE FOR A DATE. NEED TO GET ALL SCHEDULES FOR A DATE
+    const curSchedules = sched.find((o) => dateEquals(new Date(o.Date)));
+    const newTasks = [];
     if (curSchedules == null) {
-      // clear tasks if no schedules exists for a date
-      setTasks([]);
-    } else {
-      const newTasks = [];
-      curSchedules.Tasks.forEach((taskID) => {
-        const taskBody = {
-          token: localStorage.getItem('token'),
-          taskID,
-        };
-        fetch('http://localhost:3001/task/getTask', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(taskBody),
-        }).then((res) => {
-          return res.json();
-        }).then((data) => {
-          newTasks.push(data);
-          console.log(newTasks);
-          setTasks(newTasks);
-        });
-      });
+      return newTasks;
     }
+    curSchedules.Tasks.forEach((taskID) => {
+      const taskBody = {
+        token: localStorage.getItem('token'),
+        taskID,
+      };
+      fetch('http://localhost:3001/task/getTask', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(taskBody),
+      }).then((res) => {
+        return res.json();
+      }).then((data) => {
+        newTasks.push(data);
+        // setTasks(newTasks);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    });
+    return newTasks;
   };
 
+  const initChecked = (tks) => {
+    const newMap = new Map();
+    console.log(tks);
+    // const temp = [...tasks];
+    tks.forEach((task) => {
+      console.log(task); // Loop not executing??
+      newMap.set(task.title, (task.completed === 'true'));
+    });
+    console.log(newMap);
+    setChecked(newMap);
+  }
+
   useEffect(() => {
-    // fetch date's tasks and update state
-    if (schedules == null) {
-      getSchedules()
+    // fetch schedule, then fetch tasks and init checked
+    getSchedules()
+    .then((data) => {
+      setSchedules(data);
+      return data;
+    })
+    .then((data) => {
+      getTasks(data)
       .then((data) => {
-        schedules = data;
-        getTasks()
+        setTasks(data);
+        initChecked(data);
       });
-    } else {
-      getTasks()
-    }  
+    });
   }, [date]);
+
+  /*useEffect(() => {
+    const newMap = new Map();
+    console.log(tasks);
+    const temp = [...tasks];
+    temp.forEach((task) => {
+      newMap.set(task.title, (task.completed === 'true'));
+    });
+    console.log(newMap);
+    setChecked(newMap);
+  }, [tasks])*/
 
   const months = ['January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December',
@@ -112,7 +143,7 @@ export default function Task() {
   const getNumComplete = () => {
     let numComplete = 0;
     checked.forEach((key, value) => {
-      if (value) {
+      if (value === true) {
         numComplete += 1;
       }
     });
@@ -121,11 +152,7 @@ export default function Task() {
 
   const onCheckedChange = (title, isChecked) => {
     const temp = new Map(checked);
-    if (isChecked) {
-      temp.set(title, isChecked);
-    } else {
-      temp.delete(title);
-    }
+    temp.set(title, isChecked);
     setChecked(temp);
   };
 
