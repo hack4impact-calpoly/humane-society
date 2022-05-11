@@ -12,7 +12,6 @@ router.put('/', async (req, res) => {
   const newPassword = bcrypt.hashSync(req.body.password, salt);
 
   const user = User;
-  console.log('Updating password...');
   const update = { password: newPassword };
 
   user.findOneAndUpdate({ email }, update)

@@ -1,4 +1,4 @@
-/* eslint-disable consistent-return */
+/* eslint-disable */
 import React, {
   useState, useRef, useCallback, useEffect,
 } from 'react';
@@ -26,7 +26,7 @@ export default function Login() {
       return currentState;
     });
 
-    return state;
+    return state.trim();
   };
 
   const getPw = async () => {
@@ -40,9 +40,11 @@ export default function Login() {
     return state;
   };
 
-  const storeUser = (user, token) => {
-    sessionStorage.setItem('userID', user.userID);
-    sessionStorage.setItem('token', token);
+    const storeUser = (user, token) => {
+    localStorage.setItem('userID', user.userID);
+    localStorage.setItem('token', token);
+    localStorage.setItem('isAdmin', user.isAdmin);
+
   };
 
   const createToken = async () => {
@@ -58,9 +60,12 @@ export default function Login() {
       body: JSON.stringify(loginBody),
     });
     const data = await response.json();
-    console.log(data);
-    storeUser(data.result.userID, data.token);
-    navigate('/');
+    storeUser(data.result, data.token);
+    if (data.result.isAdmin) {
+      navigate('/adminhomepage')
+    } else {
+      navigate('/availability');
+    }
   };
 
   const verifyAWS = async () => {

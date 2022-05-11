@@ -1,16 +1,11 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Grid, IconButton } from '@mui/material';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import logo from '../imgs/logo.svg';
-import '../css/taskbar.css';
+import { Link } from 'react-router-dom';
+import { Grid } from '@mui/material';
+import DropDownMenu from './dropDownMenu';
+import logo from '../../imgs/logo.svg';
+import '../../css/taskbar.css';
 
 export default function TaskBar() {
-  const location = useLocation();
-  const path = location.pathname;
-  if (path === '/login' || path === '/signup' || path === 'forgotpassword') {
-    return null;
-  }
   return (
     <header className="taskBar">
       <Grid
@@ -31,9 +26,7 @@ export default function TaskBar() {
           </nav>
         </Grid>
         <Grid item xs={1}>
-          <IconButton aria-label="profile">
-            <AccountCircleOutlinedIcon color="grey" />
-          </IconButton>
+          <DropDownMenu />
         </Grid>
       </Grid>
     </header>
