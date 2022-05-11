@@ -31,15 +31,14 @@ function App() {
             <Route path="/forgotpassword" element={<ForgotPassword />} />
             <Route path="/passwordreset" element={<PasswordReset />} />
             <Route path="/resetpassword" element={<ResetPassword />} />
-            <Route path="/request-off" element={<Request />} />
-            <Route path="/adminhomepage" element={<AdminHomePage />} />
-            <Route path="/availability" element={<Availability />} />
-            <Route path="/request-off" element={<Request />} />
             { /* Private Routes */ }
             <Route element={<RequireAuth />}>
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/tasks" />
               <Route path="/request-off-admin" element={<RequestOffAdmin />} />
+              <Route path="/request-off" element={<Request />} />
+              <Route path="/adminhomepage" element={<AdminHomePage />} />
+              <Route path="/availability" element={<Availability />} />
               <Route path="/availability" element={<Availability />} />
               <Route path="/discussions" />
               <Route path="profile" element={<Profile />} />
