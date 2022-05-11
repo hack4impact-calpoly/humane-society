@@ -54,7 +54,7 @@ export default function Availability() {
   const getAppointments = async () => {
     const availabilityBody = {
       userID: localStorage.getItem('userID'),
-      token: ocalStorage.getItem('token')
+      token: localStorage.getItem('token')
     };
 
     const response = await fetch('http://localhost:3001/availability/getUserAvailabilities', {
