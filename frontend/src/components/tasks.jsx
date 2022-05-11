@@ -19,7 +19,7 @@ export default function Task() {
   const [tasks, setTasks] = useState([]);
   const [checked, setChecked] = useState(new Map()); // will need to loop over tasks to init map
   const [completion, setCompletion] = useState(0);
-  const [schedules, setSchedules] = useState(null);
+  const [schedules, setSchedules] = useState([]);
 
   const dateEquals = (other) => {
     return date.getFullYear() === other.getFullYear() &&
@@ -28,10 +28,6 @@ export default function Task() {
   }
 
   const getSchedules = async () => {
-    if (schedules != null) {
-      return schedules;
-    };
-
     const scheduleBody = {
       token: localStorage.getItem('token'),
       userID: '1', // ! USER 1 FOR TESTING PURPOSES
@@ -44,29 +40,38 @@ export default function Task() {
       },
       body: JSON.stringify(scheduleBody),
     });
-    let data = await response.json();
+    const data = await response.json();
     return data;
   };
 
   const getTasks = async (sched) => {
-    // FIX: ONLY FINDS ONE SCHEDULE FOR A DATE. NEED TO GET ALL SCHEDULES FOR A DATE
+    // ! FIX: ONLY FINDS ONE SCHEDULE FOR A DATE. NEED TO GET ALL SCHEDULES FOR A DATE
     const curSchedules = sched.find((o) => dateEquals(new Date(o.Date)));
     const newTasks = [];
     if (curSchedules == null) {
       return newTasks;
     }
-    curSchedules.Tasks.forEach((taskID) => {
+
+    curSchedules.Tasks.forEach(async (taskID) => {
       const taskBody = {
         token: localStorage.getItem('token'),
         taskID,
       };
-      fetch('http://localhost:3001/task/getTask', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(taskBody),
-      }).then((res) => {
+      try {
+        const response = await fetch('http://localhost:3001/task/getTask', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(taskBody),
+        });
+        const data = await response.json();
+        newTasks.push(data);
+      } catch (err) {
+        console.log(err);
+      }
+      
+      /* .then((res) => {
         return res.json();
       }).then((data) => {
         newTasks.push(data);
@@ -74,7 +79,7 @@ export default function Task() {
       })
       .catch((err) => {
         console.log(err);
-      });
+      }); */
     });
     return newTasks;
   };
@@ -84,8 +89,8 @@ export default function Task() {
     console.log(tks);
     // const temp = [...tasks];
     tks.forEach((task) => {
-      console.log(task); // Loop not executing??
-      newMap.set(task.title, (task.completed === 'true'));
+      // console.log(task); // Loop not executing??
+      newMap.set(task.title, (task.completed));
     });
     console.log(newMap);
     setChecked(newMap);
@@ -102,7 +107,7 @@ export default function Task() {
       getTasks(data)
       .then((data) => {
         setTasks(data);
-        initChecked(data);
+        initChecked(tasks);
       });
     });
   }, [date]);
