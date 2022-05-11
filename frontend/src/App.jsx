@@ -19,6 +19,7 @@ import { Fragment } from 'react';
 import Task from './components/tasks';
 import RequestAdmin from './components/requestOffAdmin';
 import AdminHomePage from './components/adminHomeData/adminHomePage';
+import AdminTasks from './components/admintasks';
 
 /* helps to only allow admins and employees to see certain pages */
 function isAdmin() {
@@ -51,7 +52,7 @@ function App() {
                                 (<Fragment> <Route path="/contacts" element={<Contacts />} />
                                      <Route path="/request-off-admin" element={<RequestAdmin />} />
                                      <Route path="/adminhomepage" element={<AdminHomePage />} />
-                                     <Route path="/admin-tasks" />
+                                    <Route path="/tasks-admin" element={<AdminTasks />}/>
                                 </Fragment>)
                                 :
                                 (<Fragment>
