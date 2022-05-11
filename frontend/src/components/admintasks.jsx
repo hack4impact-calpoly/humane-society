@@ -10,31 +10,27 @@ import IconButton from '@mui/material/IconButton';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Typography, Grid } from '@mui/material';
+import CircularProgressWithLabel from './circularProgress';
 import TaskCard from './taskCard';
+import EmployeeCard from './employeeCard';
+
 import AdminTaskBar from './TaskBar/adminTaskbar';
 import '../css/tasks.css';
 
 const testTasks = [
     {
-        title: 'task1',
-        desc: 'task1 desc',
+        name: 'Sage',
+        time: '8-9',
     },
     {
-        title: 'task2',
-        desc: 'task2 desc',
+        name: 'Tom',
+        time: '10-11',
     },
     {
-        title: 'task3',
-        desc: 'task3 desc',
+        name: 'Dave',
+        time: '5-6',
     },
-    {
-        title: 'task4',
-        desc: 'task4 desc',
-    },
-    {
-        title: 'task5',
-        desc: 'task5 desc',
-    },
+   
 ];
 
 export default function Task() {
@@ -42,6 +38,29 @@ export default function Task() {
     const [tasks, setTasks] = useState(testTasks);
     const [checked, setChecked] = useState(new Map()); // will need to loop over tasks to init map
     const [completion, setCompletion] = useState(0);
+
+
+    const getUsers = async () => {
+
+        const loginBody = {
+            token: localStorage.getItem("token"),
+        };
+        console.log("hi")
+        console.log(loginBody)
+        const response = await fetch('http://localhost:3001/getUsers/getFormattedUsers', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(loginBody),
+        })
+        if (response.status === 200) {
+            setRows(await response.json())
+        } else {
+            console.log("could not get users")
+        }
+    }
+
     useEffect(() => {
         // fetch date's tasks and update state
         // setTasks(testTasks);
@@ -160,10 +179,48 @@ export default function Task() {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid item>
-                    </Grid>
+
+                </Grid>
+                <Grid item lg={6} md={8} xs={8} sx={{ paddingTop: 5, paddingBottom: 3 }}>
+                    <Typography
+                        variant="h5"
+                        style={{ fontWeight: 600 }}
+                        sx={{ color: '#1d4d71' }}
+                    >
+                        {`${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`}
+                    </Typography>
+
+                    {tasks.map((task, index) => (
+                        <div key={index}>
+                            <EmployeeCard
+                                name={task.name}
+                                time={task.time}
+                                clicked={false}
+                              setClicked={false}
+                            />
+                        </div>
+                    ))}
                 </Grid>
 
+{/*                <Grid item lg={6} md={8} xs={8} sx={{ paddingTop: 5, paddingBottom: 3 }}>
+                    <Typography
+                        variant="h5"
+                        style={{ fontWeight: 600 }}
+                        sx={{ color: '#1d4d71' }}
+                    >
+                        {`Employee Name: `}
+                    </Typography>
+                    {tasks.map((task, index) => (
+                        <div key={index}>
+                            <TaskCard
+                                name={task.title}
+                                description={task.desc}
+                                checked={getChecked(task.title)}
+                                setChecked={onCheckedChange}
+                            />
+                        </div>
+                    ))}
+                </Grid>*/}
             </Grid>
         </div>
     );
