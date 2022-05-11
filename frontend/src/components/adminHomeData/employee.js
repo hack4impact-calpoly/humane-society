@@ -12,7 +12,7 @@ const appointments = [
   }, {
     title: 'Sam',
     startDate: new Date(2022, 2, 1, 10, 0),
-    endDate: new Date(2022, 2, 1, 15, 0),
+    endDate: new Date(2022, 2, 1, 14, 0),
     id: 3,
   }, {
     title: 'Joe',
