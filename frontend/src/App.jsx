@@ -18,9 +18,10 @@ import Contacts from './components/contacts';
 import { Fragment } from 'react';
 import Task from './components/tasks';
 import RequestAdmin from './components/requestOffAdmin';
+import AdminHomePage from './components/adminHomeData/adminHomePage';
 
 /* helps to only allow admins and employees to see certain pages */
-function isAdmin(props) {
+function isAdmin() {
     const isAdmin = localStorage.getItem('isAdmin');
 
     if (isAdmin == "true") {
@@ -49,7 +50,7 @@ function App() {
                             {isAdmin() ?
                                 (<Fragment> <Route path="/contacts" element={<Contacts />} />
                                      <Route path="/request-off-admin" element={<RequestAdmin />} />
-                                     <Route path="/adminhomepage" />
+                                     <Route path="/adminhomepage" element={<AdminHomePage />} />
                                      <Route path="/admin-tasks" />
                                 </Fragment>)
                                 :
