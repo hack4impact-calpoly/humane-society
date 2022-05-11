@@ -14,7 +14,7 @@ import {
 import appointments from './employee';
 import '../../css/adminCalendar.css';
 
-export default function AllCalendars() {
+export default function AdminCalendar() {
   // eslint-disable-next-line no-unused-vars
   const [date, setDate] = useState(new Date());
   const curDate = new Date();

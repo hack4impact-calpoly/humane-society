@@ -1,12 +1,12 @@
 import React from 'react';
 import AdminHomeTaskbar from './adminHomeTaskbar';
-import AllCalendars from './allCalendars';
+import AdminCalendar from './adminCalendar';
 
 export default function AdminHomePage() {
   return (
     <div>
       <AdminHomeTaskbar />
-      <AllCalendars />
+      <AdminCalendar />
     </div>
   );
 }
