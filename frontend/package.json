@@ -33,6 +33,7 @@
     "follow-redirects": "^1.14.7",
     "i": "^0.3.7",
     "is-binary-path": "^2.1.0",
+    "jest-cli": "^28.1.0",
     "jest-config": "^28.1.0",
     "jsonwebtoken": "^8.5.1",
     "locate-path": "^7.1.0",
