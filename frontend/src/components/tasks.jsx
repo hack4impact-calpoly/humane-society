@@ -19,69 +19,33 @@ export default function Task() {
   const [tasks, setTasks] = useState([]);
   const [checked, setChecked] = useState(new Map()); // will need to loop over tasks to init map
   const [completion, setCompletion] = useState(0);
-  const [schedules, setSchedules] = useState([]);
-
-  const dateEquals = (other) => {
-    return date.getFullYear() === other.getFullYear() &&
-    date.getMonth() === other.getMonth() &&
-    date.getDate() === other.getDate();
-  }
-
-  const getSchedules = async () => {
-    const scheduleBody = {
+  
+  const getTasks = async () => {
+    const startDate = new Date(date);
+    startDate.setUTCHours(0,0,0,0);
+    console.log(startDate);
+    const endDate = new Date(date);
+    endDate.setUTCHours(23,59,59,999);
+    const taskBody = {
       token: localStorage.getItem('token'),
-      userID: '1', // ! USER 1 FOR TESTING PURPOSES
+      userID: '1',
+      startDate: startDate.toISOString().slice(0, -1) + '+00:00',
+      endDate: endDate.toISOString().slice(0, -1) + '+00:00'
     };
-
-    const response = await fetch('http://localhost:3001/schedule/getUserSchedules', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(scheduleBody),
-    });
-    const data = await response.json();
-    return data;
-  };
-
-  const getTasks = async (sched) => {
-    // ! FIX: ONLY FINDS ONE SCHEDULE FOR A DATE. NEED TO GET ALL SCHEDULES FOR A DATE
-    const curSchedules = sched.find((o) => dateEquals(new Date(o.Date)));
-    const newTasks = [];
-    if (curSchedules == null) {
-      return newTasks;
+    try {
+      const response = await fetch('http://localhost:3001/task/getTasks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(taskBody),
+      });
+      const data = await response.json();
+      console.log(data);
+      setTasks(data);
+    } catch (err) {
+      console.log(err);
     }
-
-    curSchedules.Tasks.forEach(async (taskID) => {
-      const taskBody = {
-        token: localStorage.getItem('token'),
-        taskID,
-      };
-      try {
-        const response = await fetch('http://localhost:3001/task/getTask', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(taskBody),
-        });
-        const data = await response.json();
-        newTasks.push(data);
-      } catch (err) {
-        console.log(err);
-      }
-      
-      /* .then((res) => {
-        return res.json();
-      }).then((data) => {
-        newTasks.push(data);
-        // setTasks(newTasks);
-      })
-      .catch((err) => {
-        console.log(err);
-      }); */
-    });
-    return newTasks;
   };
 
   const initChecked = (tks) => {
@@ -97,31 +61,9 @@ export default function Task() {
   }
 
   useEffect(() => {
-    // fetch schedule, then fetch tasks and init checked
-    getSchedules()
-    .then((data) => {
-      setSchedules(data);
-      return data;
-    })
-    .then((data) => {
-      getTasks(data)
-      .then((data) => {
-        setTasks(data);
-        initChecked(tasks);
-      });
-    });
+    getTasks()
+    console.log(date);
   }, [date]);
-
-  /*useEffect(() => {
-    const newMap = new Map();
-    console.log(tasks);
-    const temp = [...tasks];
-    temp.forEach((task) => {
-      newMap.set(task.title, (task.completed === 'true'));
-    });
-    console.log(newMap);
-    setChecked(newMap);
-  }, [tasks])*/
 
   const months = ['January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December',
