@@ -33,7 +33,7 @@ function TaskCard({
         </CardContent>
         <Collapse in={expand}>
           <CardContent>
-            <text id="desc">{description}</text>
+            <p id="desc">{description}</p>
           </CardContent>
         </Collapse>
       </Card>

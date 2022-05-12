@@ -38,7 +38,7 @@ function App() {
                 <BrowserRouter>
                     <Routes>
                         { /* Public Routes */}
-                        <Route path="/" element={<p>landing page</p>} />
+                        <Route path="/" element={<Signup />} />
                         <Route path="/login" element={<Login />} exact />
                         <Route path="/signup" element={<Signup />} />
                         <Route path="/signup/success" element={<SignupSuccess />} />
