@@ -22,7 +22,7 @@ export default function CircularProgressWithLabel(props) {
           justifyContent: 'center',
         }}
       >
-        <Typography variant="h4" component="div">
+        <Typography variant="h5" component="div">
           {`${Math.round(props.value)}%`}
           <br />
           Completed
