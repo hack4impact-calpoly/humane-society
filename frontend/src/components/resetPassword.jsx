@@ -52,7 +52,7 @@ export default function ResetPassword() {
       email: localStorage.getItem('woods-humane-email'),
       password: password2,
     };
-    fetch('http://localhost:3001/updatePassword', {
+    fetch(`${process.env.REACT_APP_SERVER_URL}updatePassword`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

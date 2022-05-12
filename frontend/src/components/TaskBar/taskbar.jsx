@@ -21,7 +21,6 @@ export default function TaskBar() {
           <nav>
             <Link to="/tasks">Tasks</Link>
             <Link to="/request-off">Request Off</Link>
-            <Link to="/discussion">Discussion</Link>
             <Link to="/availability">Availability</Link>
           </nav>
         </Grid>

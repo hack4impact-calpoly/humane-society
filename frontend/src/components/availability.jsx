@@ -57,7 +57,7 @@ export default function Availability() {
       token: localStorage.getItem('token')
     };
 
-    const response = await fetch('http://localhost:3001/availability/getUserAvailabilities', {
+    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}availability/getUserAvailabilities`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

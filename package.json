@@ -6,15 +6,7 @@
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@mui/material": "^5.4.2",
-<<<<<<< HEAD
-    "@mui/x-date-pickers": "^5.0.0-alpha.1",
-    "@shelf/jest-mongodb": "^2.2.0",
-    "date-fns": "^2.28.0",
-    "devextreme": "19.1.14",
-    "devextreme-react": "19.1.14"
-=======
     "@shelf/jest-mongodb": "^2.2.0",
     "prop-types": "^15.8.1"
->>>>>>> 1e0711d89dbecc56d32258ca8d4d0150d2b8c78b
   }
 }
