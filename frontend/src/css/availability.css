@@ -1,6 +1,8 @@
 .availabilityCalendar {
   max-width: 2000px;
-  padding: 10%;
+  /* padding: 10%; */
   padding-top: 3%;
   padding-bottom: 2%;
+  padding-right: 10%;
+  padding-left: 10%;
 }
