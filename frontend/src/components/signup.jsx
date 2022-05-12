@@ -91,7 +91,7 @@ export default function SignUp() {
       studentSchool: school,
       password,
     };
-    fetch('http://localhost:3001/signup', {
+    fetch(`${process.env.REACT_APP_SERVER_URL}signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

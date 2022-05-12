@@ -9,6 +9,7 @@ require('dotenv').config();
 const User = require('../models/user');
 
 router.post('/', async (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
   const { user, email, password } = req.body;
 
   const userObj = User;
@@ -22,7 +23,6 @@ router.post('/', async (req, res) => {
       console.log('logged in');
       // prepare login data
       const { userID } = result;
-      console.log(userID);
       const data = {
         email,
         user,

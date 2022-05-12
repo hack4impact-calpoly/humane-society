@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Grid } from '@mui/material';
 import DropDownMenu from './dropDownMenu';
-import logo from '../imgs/logo.svg';
-import '../css/taskbar.css';
+import logo from '../../imgs/logo.svg';
+import '../../css/taskbar.css';
 
 export default function TaskBar() {
   return (
@@ -21,7 +21,6 @@ export default function TaskBar() {
           <nav>
             <Link to="/tasks">Tasks</Link>
             <Link to="/request-off">Request Off</Link>
-            <Link to="/discussion">Discussion</Link>
             <Link to="/availability">Availability</Link>
           </nav>
         </Grid>

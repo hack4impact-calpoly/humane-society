@@ -9,7 +9,7 @@ import {
   ListItemIcon,
 } from '@mui/material';
 import Logout from '@mui/icons-material/Logout';
-import userPool from '../userPool';
+import userPool from '../../userPool';
 
 export default function DropDownMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);

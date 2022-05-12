@@ -9,6 +9,7 @@
     "i": "^0.3.7",
     "jest-environment-node": "^27.4.6",
     "jsonwebtoken": "^8.5.1",
+    "minimist": "^1.2.6",
     "mongodb": "^4.3.0",
     "mongoose": "^6.1.5"
   },

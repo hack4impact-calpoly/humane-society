@@ -1,4 +1,5 @@
 const express = require('express');
+const mongodb = require('mongodb');
 
 const router = express.Router();
 require('dotenv').config();
@@ -45,7 +46,6 @@ router.post('/updateAvailability', async (req, res) => {
 /* deletes a availibility document based on userID */
 router.post('/deleteAvailability', async (req, res) => {
   const { _id } = req.body;
-  const mongodb = require('mongodb');
 
   Availability.deleteOne({ _id: new mongodb.ObjectID(_id) }).then((result) => {
     if (result) {
@@ -72,7 +72,7 @@ router.post('/getAvailabilities', async (req, res) => {
     },
   }).then((result) => {
     if (!result) {
-      res.status(404).send('No users found');
+      res.status(200).send('no availabilies'); // double check this
     } else {
       res.status(200).send(result);
     }

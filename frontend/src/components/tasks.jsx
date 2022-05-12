@@ -9,7 +9,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Typography, Grid } from '@mui/material';
 import CircularProgressWithLabel from './circularProgress';
 import TaskCard from './taskCard';
-import Taskbar from './taskbar';
+import Taskbar from './TaskBar/taskbar';
 import '../css/tasks.css';
 
 export default function Task() {

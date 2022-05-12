@@ -1,21 +1,9 @@
 /* eslint-disable */
 import { DataGrid } from '@mui/x-data-grid';
 import React, { useState, useEffect } from 'react';
-import AdminTaskbar from "./adminTaskbar"
-import TaskBar from "./taskbar"
+import AdminTaskbar from "./TaskBar/adminTaskbar"
 import { GridLinkOperator, GridToolbar } from '@mui/x-data-grid';
 import '../css/contacts.css';
-
-function renderTaskBar(props) {
-    const isAdmin = localStorage.getItem('isAdmin');
-
-    if (isAdmin == "true") {
-        return <AdminTaskbar />;
-    }
-    else {
-        return <TaskBar />;
-    }
-}
 
 /* the columns of the contacts data grid */
 const columns = [
@@ -36,7 +24,7 @@ export default function Contacts() {
         };
         console.log("hi")
         console.log(loginBody)
-        const response = await fetch('http://localhost:3001/getUsers/getFormattedUsers', {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}getUsers/getFormattedUsers`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -56,7 +44,7 @@ export default function Contacts() {
 
     return (
         <div>
-            {renderTaskBar()}
+            <AdminTaskbar />
             <div className="contacts">
                 <h3 className="contactsTitle"> Contacts </h3>
                 <DataGrid
