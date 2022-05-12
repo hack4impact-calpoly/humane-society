@@ -52,10 +52,11 @@ function App() {
                                      <Route path="/request-off-admin" element={<RequestAdmin />} />
                                      <Route path="/adminhomepage" element={<AdminHomePage />} />
                                      <Route path="/admin-tasks" />
+                                     <Route path="/profile" element={<Profile />} />
                                 </Fragment>)
                                 :
                                 (<Fragment>
-                                    <Route path="/availability" element={<Availability />} />
+                                    <Route path="/availability" element={<Availability />} />a
                                     <Route path="/tasks" element={<Task />} />
                                     <Route path="/request-off" element={<Request />} />
                                     <Route path="/profile" element={<Profile />} />
