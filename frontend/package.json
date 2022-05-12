@@ -27,6 +27,7 @@
     "amazon-cognito-identity-js": "^5.2.6",
     "async": "^3.2.3",
     "aws-amplify": "^4.3.13",
+    "core-js": "^3.22.5",
     "cssom": "^0.5.0",
     "date-fns": "^2.28.0",
     "ejs": "^3.1.8",
