@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import {
   Card, Checkbox, CardContent, IconButton, Collapse,
 } from '@mui/material';
@@ -15,7 +17,7 @@ function ExpandIcon({ open }) {
 }
 
 function TaskCard({
-  checked = false, setChecked, name, description,
+  taskID, checked = false, setChecked, name, description,
 }) {
   const [expand, setExpand] = useState(false);
 
@@ -24,7 +26,7 @@ function TaskCard({
       <Card>
         <CardContent sx={{ flexDirection: 'row', display: 'flex', justifyContent: 'space-between' }}>
           <div id="checkAndName">
-            <Checkbox value={checked} onChange={() => setChecked(name, !checked)} sx={{ color: 'black', '&.Mui-checked': { color: '#4AA7AC' } }} />
+            <Checkbox checked={checked || false} onChange={() => setChecked(taskID, !checked)} sx={{ color: 'black', '&.Mui-checked': { color: '#4AA7AC' } }} />
             <h4 id="name">{name}</h4>
           </div>
           <IconButton onClick={() => setExpand(!expand)}>

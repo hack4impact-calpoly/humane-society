@@ -77,7 +77,9 @@ router.post('/updateStatus', async (req, res) => {
 });
 
 router.post('/getTasks', async (req, res) => {
-  const { token, userID, startDate, endDate } = req.body;
+  const {
+    token, userID, startDate, endDate,
+  } = req.body;
   const userData = Token(token);
   if (userData == null) {
     res.status(403).send('Unauthorized user');
@@ -94,7 +96,6 @@ router.post('/getTasks', async (req, res) => {
       if (!result) {
         res.status(200).send('No schedule found');
       } else {
-        console.log(result);
         const taskIDs = [];
         result.forEach((obj) => {
           obj.Tasks.forEach((taskID) => {
@@ -105,7 +106,6 @@ router.post('/getTasks', async (req, res) => {
           if (!data) {
             res.status(404).send('Invalid Task ID ');
           } else {
-            // console.log(data);
             res.status(200).send(data);
           }
         });
