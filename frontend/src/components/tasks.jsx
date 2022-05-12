@@ -30,7 +30,7 @@ export default function Task() {
       endDate: endDate.toISOString().slice(0, -1) + '+00:00'
     };
     try {
-      const response = await fetch('http://localhost:3001/task/getTasks', {
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}task/getTasks`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ export default function Task() {
       taskID,
       completed
     };
-    fetch('http://localhost:3001/task/updateStatus', {
+    fetch(`${process.env.REACT_APP_SERVER_URL}task/updateStatus`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
