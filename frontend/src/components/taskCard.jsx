@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import {
-  Card, Checkbox, CardContent, IconButton, Collapse,
+  Card, Checkbox, CardContent, IconButton, Collapse, Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
@@ -27,8 +27,14 @@ function TaskCard({
         <CardContent sx={{ flexDirection: 'row', display: 'flex', justifyContent: 'space-between' }}>
           <div id="checkAndName">
             <Checkbox checked={checked || false} onChange={() => setChecked(taskID, !checked)} sx={{ color: 'black', '&.Mui-checked': { color: '#4AA7AC' } }} />
-            <h4 id="name">{name}</h4>
           </div>
+          <Typography sx={{
+            display: 'flex',
+            pt: '.6rem',
+          }}
+          >
+            {name}
+          </Typography>
           <IconButton onClick={() => setExpand(!expand)}>
             <ExpandIcon open={expand} />
           </IconButton>
