@@ -42,6 +42,7 @@ export default function Profile() {
 
   function isAdmin() {
     const admin = localStorage.getItem('isAdmin');
+    // eslint-disable-next-line eqeqeq
     if (admin == 'true') {
       return true;
     }
