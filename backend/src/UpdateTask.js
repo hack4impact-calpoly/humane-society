@@ -5,6 +5,7 @@ const express = require('express');
 const router = express.Router();
 require('dotenv').config();
 
+const Scheduling = require('../models/schedule');
 const Task = require('../models/task');
 const { Token } = require('../token');
 
@@ -73,6 +74,43 @@ router.post('/updateStatus', async (req, res) => {
     console.log(err);
     res.status(500).send('could not update');
   });
+});
+
+router.post('/getTasks', async (req, res) => {
+  const {
+    token, userID, startDate, endDate,
+  } = req.body;
+  const userData = Token(token);
+  if (userData == null) {
+    res.status(403).send('Unauthorized user');
+    return;
+  }
+  Scheduling.find({
+    userID,
+    Date: {
+      $gte: startDate,
+      $lt: endDate,
+    },
+  }, { Tasks: 1 })
+    .then((result) => {
+      if (!result) {
+        res.status(200).send('No schedule found');
+      } else {
+        const taskIDs = [];
+        result.forEach((obj) => {
+          obj.Tasks.forEach((taskID) => {
+            taskIDs.push(taskID);
+          });
+        });
+        Task.find({ _id: { $in: taskIDs } }).then((data) => {
+          if (!data) {
+            res.status(404).send('Invalid Task ID ');
+          } else {
+            res.status(200).send(data);
+          }
+        });
+      }
+    });
 });
 
 module.exports = router;
