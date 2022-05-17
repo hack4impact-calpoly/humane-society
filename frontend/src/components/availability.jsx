@@ -57,7 +57,7 @@ export default function Availability() {
       token: localStorage.getItem('token')
     };
 
-    const response = await fetch('http://localhost:3001/availability/getUserAvailabilities', {
+    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}availability/getUserAvailabilities`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -149,8 +149,11 @@ export default function Availability() {
   return (
       <div>   
       <TaskBar />
-      <div className="availabilityCalendar">
-      <Scheduler data={data} height={610}>
+      <div style={{
+      padding: '1% 10% 10%',
+    }}
+    >
+      <Scheduler className="availabilityCalendar" data={data} height={610}>
         <ViewState
           defaultCurrentViewName="Week"
           defaultCurrentDate={defaultDate}

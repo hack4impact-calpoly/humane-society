@@ -24,7 +24,7 @@ export default function Contacts() {
         };
         console.log("hi")
         console.log(loginBody)
-        const response = await fetch('http://localhost:3001/getUsers/getFormattedUsers', {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}getUsers/getFormattedUsers`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

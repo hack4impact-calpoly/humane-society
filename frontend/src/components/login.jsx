@@ -52,7 +52,7 @@ export default function Login() {
       email: await getEmail(),
       password: await getPw(),
     };
-    const response = await fetch('http://localhost:3001/login', {
+    const response = await fetch(process.env.REACT_APP_SERVER_URL + 'login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
