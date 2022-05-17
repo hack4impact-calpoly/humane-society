@@ -126,4 +126,42 @@ router.post('/getUserAvailabilities', async (req, res) => {
   });
 });
 
+router.post('/getAvailabilities', async (req, res) => {
+  /* get all availibilies in a specified date  */
+  const {
+    token, startDate, endDate,
+  } = req.body;
+  const userData = Token(token);
+  if (userData == null) {
+    res.status(403).send('Unauthorized user');
+    return;
+  }
+  /*
+    get all availabilities with rrules
+    for each rrule availability
+      get all dates
+      filter availabities within the specified date
+      create a new availability object without the rrule but with the specified date
+    get all availabilities within the date range
+    concat all availabilities together
+    get all request offs within date range (group by userId)
+    for each availability
+      if userId in request offs
+        remove availability
+    return availabilities
+  */
+  Availability.find({
+    userID,
+  }).then((result) => {
+    if (!result) {
+      res.status(404).send('No users found');
+    } else {
+      res.status(200).send(result);
+    }
+  }).catch((err) => {
+    console.log(err);
+    res.status(500).send('error');
+  });
+});
+
 module.exports = router;
