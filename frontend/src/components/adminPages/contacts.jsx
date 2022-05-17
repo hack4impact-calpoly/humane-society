@@ -1,9 +1,9 @@
 /* eslint-disable */
 import { DataGrid } from '@mui/x-data-grid';
 import React, { useState, useEffect } from 'react';
-import AdminTaskbar from "./TaskBar/adminTaskbar"
+import AdminTaskbar from "../TaskBar/adminTaskbar"
 import { GridLinkOperator, GridToolbar } from '@mui/x-data-grid';
-import '../css/contacts.css';
+import '../../css/contacts.css';
 
 /* the columns of the contacts data grid */
 const columns = [

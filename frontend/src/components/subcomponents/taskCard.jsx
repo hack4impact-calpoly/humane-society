@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import '../css/taskCard.css';
+import '../../css/taskCard.css';
 
 function ExpandIcon({ open }) {
   if (open === true) {
@@ -27,14 +27,15 @@ function TaskCard({
         <CardContent sx={{ flexDirection: 'row', display: 'flex', justifyContent: 'space-between' }}>
           <div id="checkAndName">
             <Checkbox checked={checked || false} onChange={() => setChecked(taskID, !checked)} sx={{ color: 'black', '&.Mui-checked': { color: '#4AA7AC' } }} />
+            <Typography
+              sx={{
+                display: 'flex',
+                pt: '.6rem',
+              }}
+            >
+              {name}
+            </Typography>
           </div>
-          <Typography sx={{
-            display: 'flex',
-            pt: '.6rem',
-          }}
-          >
-            {name}
-          </Typography>
           <IconButton onClick={() => setExpand(!expand)}>
             <ExpandIcon open={expand} />
           </IconButton>

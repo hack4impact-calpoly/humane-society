@@ -2,23 +2,23 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
-import Signup from './components/signup';
+import Signup from './components/auth/signup';
 import './css/App.css';
 import theme from './theme';
-import Login from './components/login';
-import ForgotPassword from './components/forgotPassword';
-import PasswordReset from './components/passwordReset';
-import ResetPassword from './components/resetPassword';
+import Login from './components/auth/login';
+import ForgotPassword from './components/auth/forgotPassword';
+import PasswordReset from './components/auth/passwordReset';
+import ResetPassword from './components/auth/resetPassword';
 import RequireAuth from './requireAuth';
-import SignupSuccess from './components/signupSuccess';
-import Profile from './components/profile';
-import Request from './components/requestOff';
-import Availability from './components/availability';
-import Contacts from './components/contacts';
+import SignupSuccess from './components/auth/signupSuccess';
+import Profile from './components/sharedPages/profile';
+import Request from './components/employeePages/requestOff';
+import Availability from './components/employeePages/availability';
+import Contacts from './components/adminPages/contacts';
 import { Fragment } from 'react';
-import Task from './components/tasks';
-import RequestAdmin from './components/requestOffAdmin';
-import AdminHomePage from './components/adminHomeData/adminHomePage';
+import Task from './components/employeePages/tasks';
+import RequestAdmin from './components/adminPages/requestOffAdmin';
+import AdminHomePage from './components/adminPages/adminHomePage';
 
 /* helps to only allow admins and employees to see certain pages */
 function isAdmin() {

@@ -7,10 +7,10 @@ import IconButton from '@mui/material/IconButton';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Typography, Grid } from '@mui/material';
-import CircularProgressWithLabel from './circularProgress';
-import TaskCard from './taskCard';
-import Taskbar from './TaskBar/taskbar';
-import '../css/tasks.css';
+import CircularProgressWithLabel from '../subcomponents/circularProgress';
+import TaskCard from '../subcomponents/taskCard';
+import Taskbar from '../TaskBar/taskbar';
+import '../../css/tasks.css';
 
 export default function Task() {
   const [date, setDate] = useState(new Date());

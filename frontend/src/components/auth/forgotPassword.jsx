@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Grid } from '@mui/material';
-import '../css/taskbar.css';
+import '../../css/taskbar.css';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import { CognitoUser } from 'amazon-cognito-identity-js';
-import userPool from '../userPool';
-import Navbar from '../navbar';
+import userPool from '../../userPool';
+import Navbar from '../../navbar';
 
 export default function ForgotPassword() {
   const navigate = useNavigate();
