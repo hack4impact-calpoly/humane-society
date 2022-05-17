@@ -4,7 +4,7 @@
 import { Button, IconButton, TextField } from '@mui/material';
 import CreateIcon from '@mui/icons-material/Create';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../css/profile.css';
 
 export default function Profile() {
@@ -37,6 +37,49 @@ export default function Profile() {
     setSchool(oldSchool);
     setEdit(false);
   }
+
+  async function updateProfile() {
+    setEdit(false);
+    const updateProfileBody = {
+      token: localStorage.getItem('token'),
+      userID: localStorage.getItem('userID'),
+      phone,
+      firstName,
+      lastName,
+      email,
+    };
+    fetch('http://localhost:3001/updateProfile', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updateProfileBody),
+    });
+  }
+
+  async function getProfile() {
+    const profileBody = {
+      token: localStorage.getItem('token'),
+      id: localStorage.getItem('userID'),
+    };
+    const response = await fetch('http://localhost:3001/getUsers/getUserById', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(profileBody),
+    });
+    const res = await response.json();
+    setFirstName(res.firstName);
+    setLastName(res.lastName);
+    setEmail(res.email);
+    setPhone(res.phone);
+    setSchool(res.school);
+  }
+
+  useEffect(() => {
+    getProfile();
+  }, []);
 
   return (
     <div className="profilePage">
@@ -116,7 +159,7 @@ export default function Profile() {
                 <Button
                   variant="contained"
                   id="saveButton"
-                  onClick={() => setEdit(false)}
+                  onClick={() => updateProfile()}
                   style={{ backgroundColor: '#4AA7AC' }}
                 >
                   Save changes
