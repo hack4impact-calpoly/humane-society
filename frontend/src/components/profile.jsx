@@ -1,10 +1,12 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-useless-escape */
 
-import { Button, IconButton, TextField } from '@mui/material';
+import {
+  Button, IconButton, TextField, Typography,
+} from '@mui/material';
 import CreateIcon from '@mui/icons-material/Create';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../css/profile.css';
 import TaskBar from './TaskBar/taskbar';
 import AdminTaskbar from './TaskBar/adminTaskbar';
@@ -49,6 +51,50 @@ export default function Profile() {
     return false;
   }
 
+  async function updateProfile() {
+    setEdit(false);
+    const updateProfileBody = {
+      token: localStorage.getItem('token'),
+      userID: localStorage.getItem('userID'),
+      phone,
+      firstName,
+      lastName,
+      email,
+    };
+    fetch('http://localhost:3001/updateProfile', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updateProfileBody),
+    });
+  }
+
+  async function getProfile() {
+    const profileBody = {
+      token: localStorage.getItem('token'),
+      id: localStorage.getItem('userID'),
+    };
+    const response = await fetch('http://localhost:3001/getUsers/getUserById', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(profileBody),
+    });
+    const res = await response.json();
+    setFirstName(res.firstName);
+    setLastName(res.lastName);
+    setEmail(res.email);
+    setPhone(res.phone);
+    setSchool(res.school);
+  }
+
+  useEffect(() => {
+    getProfile();
+  }, []);
+  //      {isAdmin() ? <AdminTaskbar /> : <TaskBar /> }
+
   return (
     <div>
       {isAdmin() ? <AdminTaskbar /> : <TaskBar /> }
@@ -56,16 +102,16 @@ export default function Profile() {
         <div id="pictureAndButton">
           <AccountCircleIcon sx={{ fontSize: 110 }} color="action" />
           {
-            (edit === true)
-              ? <div />
-              : (
-                <IconButton onClick={() => setOld()}>
-                  <CreateIcon sx={{ fontSize: 30 }} />
-                </IconButton>
-              )
-          }
+        (edit === true)
+          ? <div />
+          : (
+            <IconButton onClick={() => setOld()}>
+              <CreateIcon sx={{ fontSize: 30 }} />
+            </IconButton>
+          )
+      }
         </div>
-        <text className="profileText">Name:</text>
+        <Typography className="profileText">Name:</Typography>
         <div id="nameInputs">
           <TextField
             type="text"
@@ -82,7 +128,7 @@ export default function Profile() {
             size="small"
           />
         </div>
-        <text className="profileText">Email:</text>
+        <Typography className="profileText">Email:</Typography>
         <TextField
           type="text"
           value={email}
@@ -91,7 +137,7 @@ export default function Profile() {
           disabled={!edit}
           size="small"
         />
-        <text className="profileText">Phone:</text>
+        <Typography className="profileText">Phone:</Typography>
         <TextField
           type="text"
           value={phone}
@@ -100,7 +146,7 @@ export default function Profile() {
           disabled={!edit}
           size="small"
         />
-        <text className="profileText">Student:</text>
+        <Typography className="profileText">Student:</Typography>
         <TextField
           type="text"
           value={school}
@@ -111,35 +157,36 @@ export default function Profile() {
         />
         <div id="bottomSection">
           {
-            (edit === true)
-              ? (
-                <div id="buttonBox">
-                  <Button
-                    variant="outlined"
-                    id="cancelButton"
-                    onClick={() => resetFields()}
-                    sx={{
-                      borderWidth: '1px',
-                      color: 'black',
-                      fontWeight: 'bold',
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    variant="contained"
-                    id="saveButton"
-                    onClick={() => setEdit(false)}
-                    style={{ backgroundColor: '#4AA7AC' }}
-                  >
-                    Save changes
-                  </Button>
-                </div>
-              )
-              : <div />
-          }
+        (edit === true)
+          ? (
+            <div id="buttonBox">
+              <Button
+                variant="outlined"
+                id="cancelButton"
+                onClick={() => resetFields()}
+                sx={{
+                  borderWidth: '1px',
+                  color: 'black',
+                  fontWeight: 'bold',
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                id="saveButton"
+                onClick={() => updateProfile()}
+                style={{ backgroundColor: '#4AA7AC' }}
+              >
+                Save changes
+              </Button>
+            </div>
+          )
+          : <div />
+      }
         </div>
       </div>
     </div>
+
   );
 }
