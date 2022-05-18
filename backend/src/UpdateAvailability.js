@@ -1,5 +1,3 @@
-// import { RRuleSet, rrulestr} from 'rrule';
-
 const express = require('express');
 const mongodb = require('mongodb');
 const rrule = require('rrule');
@@ -8,6 +6,7 @@ const router = express.Router();
 require('dotenv').config();
 
 const Availability = require('../models/availability');
+const RequestOff = require('../models/requestOff');
 const { Token } = require('../token');
 
 /* creates a new availability with given attributes */
@@ -103,8 +102,7 @@ router.post('/getUserAvailabilities', async (req, res) => {
 
 router.post('/getAvailabilities', async (req, res) => {
   /* get all availibilies in a specified date  */
-  const {
-    token, startDate, endDate,
+  const { startDate, endDate,
   } = req.body;
   // const userData = Token(token);
   // if (userData == null) {
@@ -125,48 +123,59 @@ router.post('/getAvailabilities', async (req, res) => {
     return availabilities
   */
   // get all availabilities with a rrule
-  const availabilities = [];
-  Availability.find({ rRule: { $ne: null } }).then((result) => {
+  // const availabilities = [];
+  const promise1 = Availability.find({ rRule: { $ne: null } }).then((result) => {
+    const availabilities = [];
     if (result) {
       result.forEach((avail) => {
         const rruleSet = new rrule.RRuleSet();
-        rruleSet.rrule(rrule.rrulestr(avail.rRule));
-        // remove all the excluded dates
-        // const exDates = avail.exDate.split(',');
-        // exDates.forEach((exDate) => {
-        //   console.log(exDate);
-        //   // regex here
-        //   const dt = new Date(exDate);
-        //   console.log(dt);
-        //   rruleSet.exdate(new Date(dt));
-        // });
-        // console.log(rruleSet.all());
+        let rule = avail.rRule;
+        // if (avail.exDate !== '') {
+        //   rule = `${avail.rRule}\nEXDATE:${avail.exDate}`;
+        // }
+        // console.log(rule);
+        rruleSet.rrule(rrule.rrulestr(rule));
+        rruleSet.rdate(new Date(avail.startDate));
         // add availabilities that has recurrence in specified date
+        // console.log(rruleSet.all());
         const temp = rruleSet.between(new Date(startDate), new Date(endDate));
         if (temp.length > 0) {
           availabilities.push(avail);
         }
       });
-      // console.log(availabilies);
+      // console.log(availabilities);
+      return availabilities;
     }
   }).catch((err) => {
     console.log(err, 'error in finding rrule availabilities');
+    return [];
   });
   // find all availabilities without any rrules
-  Availability.find({
+  const promise2 = Availability.find({
     rRule: { $eq: null },
     startDate: { $gte: startDate, $lt: endDate },
-  }).then((result) => {
-    if (result) {
-      console.log(result, 'result of finding w/o rrule');
-      availabilities.concat(result);
-    }
-  }).catch((err) => {
+  }).then((result) => result).catch((err) => {
     console.log(err, 'error in no rrule availabilities');
   });
-  if (availabilities.length === 0) {
-    res.status(200).send('No availabilities found');
-  }
+  // find all ongoing approved request offs
+  const promise3 = RequestOff.find({
+    startDate: { $lte: startDate },
+    endDate: { $gte: endDate },
+    approved: { $eq: 1 },
+  }).then((result) => result).catch((err) => {
+    console.log(err, 'error in finding request offs');
+  });
+  Promise.all([promise1, promise2, promise3]).then((data) => {
+    // ! put availabilities into one array
+    const availabilities = data[1];
+    availabilities.concat(data[0]);
+    const requestOffs = data[2];
+    console.log(requestOffs);
+    if (availabilities.length === 0) {
+      res.status(200).send('No availabilities found');
+    }
+    res.status(200).send(availabilities);
+  });
 });
 
 module.exports = router;
