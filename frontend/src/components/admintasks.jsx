@@ -314,8 +314,6 @@ export default function Task() {
                             <EmployeeCard
                                 name={task.name}
                                 time={task.time}
-                                clicked={false}
-                                setClicked={false}
                             />
                         </div>
                     ))}

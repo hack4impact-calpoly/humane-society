@@ -16,7 +16,7 @@ function ExpandIcon({ open }) {
 }
 
 function EmployeeCard({
-    clicked = false, setClicked, name, time,
+    name, time
 }) {
 
     return (
@@ -38,8 +38,6 @@ ExpandIcon.propTypes = {
 };
 
 EmployeeCard.propTypes = {
-    clicked: PropTypes.bool.isRequired,
-    setClicked: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
     time: PropTypes.string.isRequired,
 };
