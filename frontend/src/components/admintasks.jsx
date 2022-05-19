@@ -19,18 +19,31 @@ import '../css/tasks.css';
 
 const testTasks = [
     {
-        name: 'Sage',
+        name: 'task1',
         time: '8-9',
     },
     {
-        name: 'Tom',
+        name: 'task2',
         time: '10-11',
     },
     {
-        name: 'Dave',
+        name: 'task3',
         time: '5-6',
     },
-   
+
+];
+
+const testEmployees = [
+    {
+        name: 'Sage',
+    },
+    {
+        name: 'Tom',
+    },
+    {
+        name: 'Dave',
+    }
+
 ];
 
 export default function Task() {
@@ -38,12 +51,13 @@ export default function Task() {
     const [tasks, setTasks] = useState(testTasks);
     const [checked, setChecked] = useState(new Map()); // will need to loop over tasks to init map
     const [completion, setCompletion] = useState(0);
+    let [employee, setEmployee] = useState(0);
 
-
-    const getUsers = async () => {
+    const getUsersForDay = async () => {
 
         const loginBody = {
             token: localStorage.getItem("token"),
+            date: date.getDate()
         };
         console.log("hi")
         console.log(loginBody)
@@ -81,6 +95,23 @@ export default function Task() {
         tomorrow.setDate(tomorrow.getDate() + 1);
         setDate(tomorrow);
     };
+
+    const setEmployeeForward = () => {
+
+        const next = employee + 1;
+        if (next < testEmployees.length) {
+            setEmployee(next);
+        }
+        
+    };
+    const setEmployeeBack = () => {
+        const back = employee - 1;
+        if (back >= 0) {
+            setEmployee(back);
+        }
+        
+    };
+
 
     const getChecked = (title) => {
         // returns if a task is checked, false if not in checked map
@@ -124,11 +155,41 @@ export default function Task() {
                 direction="row"
                 spacing={0.5}
             >
-                <Grid item lg={3} sx={{ display: { xs: 'none', md: 'none', lg: 'block' } }}>
+
+                <Grid item lg={3} sx={{ display: { xs: 'none', md: 'none', lg: 'none', xl: 'block' } }}>
+                    <Grid item>
+                        <Typography
+                            variant="h5"
+                            style={{ fontWeight: 600 }}
+                            sx={{ color: '#1d4d71' }}
+                        >
+                            <IconButton
+                                aria-label="back"
+                                sx={{ color: '#1d4d71' }}
+                                size="large"
+                                onClick={setDateBack}>
+                                <ArrowBackIosIcon />
+
+                            </IconButton>
+
+                            {`${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`}
+                            <IconButton
+                                aria-label="forward"
+                                sx={{ color: '#1d4d71' }}
+                                size="large"
+                                onClick={setDateForward}
+                            >
+                                <ArrowForwardIosIcon />
+                            </IconButton>
+                        </Typography>
+
+                    </Grid>
+
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <CalendarPicker date={date} onChange={(newDate) => setDate(newDate)} color="secondary" />
                     </LocalizationProvider>
                 </Grid>
+
                 <Grid
                     item
                     lg={3}
@@ -139,7 +200,17 @@ export default function Task() {
                     justifyContent="flex-start"
                     alignItems="center"
                 >
+
                     <Grid item sx={{ paddingBottom: 10 }}>
+                        <Typography
+                            variant="h5"
+                            style={{ fontWeight: 600 }}
+                            sx={{ color: '#1d4d71' }}
+                        >
+                            {`${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`}
+
+                        </Typography>
+
                         <Grid
                             className="dateSelector"
                             container
@@ -148,47 +219,40 @@ export default function Task() {
                             alignItems="center"
                             wrap="nowrap"
                         >
-                            <Grid item>
-                                <IconButton
-                                    aria-label="back"
-                                    sx={{ color: '#1d4d71' }}
-                                    size="large"
-                                    onClick={setDateBack}
-                                >
-                                    <ArrowBackIosIcon />
-                                </IconButton>
-                            </Grid>
-                            <Grid item>
-                                <Typography
-                                    variant="h5"
-                                    style={{ fontWeight: 600 }}
-                                    sx={{ color: '#1d4d71' }}
-                                >
-                                    {`${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`}
-                                </Typography>
-                            </Grid>
-                            <Grid item>
-                                <IconButton
-                                    aria-label="forward"
-                                    sx={{ color: '#1d4d71' }}
-                                    size="large"
-                                    onClick={setDateForward}
-                                >
-                                    <ArrowForwardIosIcon />
-                                </IconButton>
-                            </Grid>
+
                         </Grid>
                     </Grid>
 
                 </Grid>
                 <Grid item lg={6} md={8} xs={8} sx={{ paddingTop: 5, paddingBottom: 3 }}>
+
+
+                    
                     <Typography
                         variant="h5"
                         style={{ fontWeight: 600 }}
                         sx={{ color: '#1d4d71' }}
                     >
-                        {`${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`}
+                        <IconButton
+                            aria-label="back"
+                            sx={{ color: '#1d4d71' }}
+                            size="large"
+                            onClick={setEmployeeBack}>
+                            <ArrowBackIosIcon />
+
+                        </IconButton>
+
+                        {`Employee: ${testEmployees[employee].name}`}
+                        <IconButton
+                            aria-label="forward"
+                            sx={{ color: '#1d4d71' }}
+                            size="large"
+                            onClick={setEmployeeForward}
+                        >
+                            <ArrowForwardIosIcon />
+                        </IconButton>
                     </Typography>
+
 
                     {tasks.map((task, index) => (
                         <div key={index}>
@@ -196,31 +260,13 @@ export default function Task() {
                                 name={task.name}
                                 time={task.time}
                                 clicked={false}
-                              setClicked={false}
+                                setClicked={false}
                             />
                         </div>
                     ))}
                 </Grid>
 
-{/*                <Grid item lg={6} md={8} xs={8} sx={{ paddingTop: 5, paddingBottom: 3 }}>
-                    <Typography
-                        variant="h5"
-                        style={{ fontWeight: 600 }}
-                        sx={{ color: '#1d4d71' }}
-                    >
-                        {`Employee Name: `}
-                    </Typography>
-                    {tasks.map((task, index) => (
-                        <div key={index}>
-                            <TaskCard
-                                name={task.title}
-                                description={task.desc}
-                                checked={getChecked(task.title)}
-                                setChecked={onCheckedChange}
-                            />
-                        </div>
-                    ))}
-                </Grid>*/}
+
             </Grid>
         </div>
     );
