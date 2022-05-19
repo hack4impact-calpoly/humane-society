@@ -52,32 +52,41 @@ export default function Task() {
     const [checked, setChecked] = useState(new Map()); // will need to loop over tasks to init map
     const [completion, setCompletion] = useState(0);
     let [employee, setEmployee] = useState(0);
+    let [employeelist, setEmployeeList] = useState([]);
 
-    const getUsersForDay = async () => {
 
-        const loginBody = {
-            token: localStorage.getItem("token"),
-            date: date.getDate()
+    const getSchedulesForDay = async () => {
+        const startDate = new Date(date);
+        startDate.setUTCHours(0, 0, 0, 0);
+        const endDate = new Date(date);
+        endDate.setUTCHours(23, 59, 59, 999);
+        const taskBody = {
+            token: localStorage.getItem('token'),
+            weekStart: startDate.toISOString().slice(0, -1) + '+00:00',
+            weekEnd: endDate.toISOString().slice(0, -1) + '+00:00'
         };
-        console.log("hi")
-        console.log(loginBody)
-        const response = await fetch('http://localhost:3001/getUsers/getFormattedUsers', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(loginBody),
-        })
-        if (response.status === 200) {
-            setRows(await response.json())
-        } else {
-            console.log("could not get users")
+        try {
+            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}schedule/getWeekSchedules`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(taskBody),
+            });
+            const data = await response.json();
+            setEmployeeList(data);
+        } catch (err) {
+            console.log(err);
         }
-    }
+    };
+    console.log(employeelist)
+
 
     useEffect(() => {
         // fetch date's tasks and update state
         // setTasks(testTasks);
+        getSchedulesForDay()
+        console.log(employeelist.at(0))
     }, [date]);
 
     const months = ['January', 'February', 'March', 'April', 'May', 'June',
@@ -85,12 +94,14 @@ export default function Task() {
     ];
 
     const setDateBack = () => {
+        setEmployee(0);
         const yesterday = new Date(date);
         yesterday.setDate(yesterday.getDate() - 1);
         setDate(yesterday);
     };
 
     const setDateForward = () => {
+        setEmployee(0);
         const tomorrow = new Date(date);
         tomorrow.setDate(tomorrow.getDate() + 1);
         setDate(tomorrow);
@@ -98,15 +109,18 @@ export default function Task() {
 
     const setEmployeeForward = () => {
 
-        const next = employee + 1;
-        if (next < testEmployees.length) {
+        if (employee < employeelist.length -1) {
+            const next = employee + 1;
+            employee += 1;
             setEmployee(next);
         }
         
     };
     const setEmployeeBack = () => {
         const back = employee - 1;
+        
         if (back >= 0) {
+            employee -= 1;
             setEmployee(back);
         }
         
@@ -138,6 +152,13 @@ export default function Task() {
         }
         setChecked(temp);
     };
+    function GetPropertyValue(obj1, dataToRetrieve) {
+        return dataToRetrieve
+            .split('.') // split string based on `.`
+            .reduce(function (o, k) {
+                return o && o[k]; // get inner property if `o` is defined else get `o` and return
+            }, obj1) // set initial value as object
+    }
 
     useEffect(() => {
         // determine completion progress when checked is changed
@@ -242,7 +263,7 @@ export default function Task() {
 
                         </IconButton>
 
-                        {`Employee: ${testEmployees[employee].name}`}
+                        {`Employee: ${GetPropertyValue(employeelist.at(employee), "userID")} Start time:  ${GetPropertyValue(employeelist.at(employee), "startTime")} End time: ${GetPropertyValue(employeelist.at(employee), "endTime")} `}
                         <IconButton
                             aria-label="forward"
                             sx={{ color: '#1d4d71' }}
