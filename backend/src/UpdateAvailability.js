@@ -128,17 +128,11 @@ router.post('/getAvailabilities', async (req, res) => {
     const availabilities = [];
     if (result) {
       result.forEach((avail) => {
-        const rruleSet = new rrule.RRuleSet();
-        let rule = avail.rRule;
-        // if (avail.exDate !== '') {
-        //   rule = `${avail.rRule}\nEXDATE:${avail.exDate}`;
-        // }
-        // console.log(rule);
-        rruleSet.rrule(rrule.rrulestr(rule));
-        rruleSet.rdate(new Date(avail.startDate));
-        // add availabilities that has recurrence in specified date
-        // console.log(rruleSet.all());
-        const temp = rruleSet.between(new Date(startDate), new Date(endDate));
+        const options = rrule.RRule.parseString((avail.rRule).slice(6));
+        options.dtstart = new Date(avail.startDate);
+        const rule = new rrule.RRule(options);
+        // ! ex dates
+        const temp = rule.between(new Date(startDate), new Date(endDate));
         if (temp.length > 0) {
           availabilities.push(avail);
         }
@@ -162,19 +156,21 @@ router.post('/getAvailabilities', async (req, res) => {
     startDate: { $lte: startDate },
     endDate: { $gte: endDate },
     approved: { $eq: 1 },
-  }).then((result) => result).catch((err) => {
+  }, { userID: 1 }).then((result) => result).catch((err) => {
     console.log(err, 'error in finding request offs');
   });
   Promise.all([promise1, promise2, promise3]).then((data) => {
-    // ! put availabilities into one array
-    const availabilities = data[1];
-    availabilities.concat(data[0]);
-    const requestOffs = data[2];
+    const availabilities = [...data[1], ...data[0]];
+    const requestOffs = [...data[2]];
     console.log(requestOffs);
+    // add userIDs to set
+    // loop over availabilities and remove any with matching userID
     if (availabilities.length === 0) {
       res.status(200).send('No availabilities found');
     }
     res.status(200).send(availabilities);
+  }).catch((err) => {
+    console.log(err);
   });
 });
 
