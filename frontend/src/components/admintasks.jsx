@@ -10,8 +10,8 @@ import IconButton from '@mui/material/IconButton';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Typography, Grid } from '@mui/material';
-import CircularProgressWithLabel from './circularProgress';
-import TaskCard from './taskCard';
+import CircularProgressWithLabel from './subcomponents/circularProgress';
+import TaskCard from './subcomponents/taskCard';
 import EmployeeCard from './employeeCard';
 
 import AdminTaskBar from './TaskBar/adminTaskbar';

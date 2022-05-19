@@ -2,24 +2,24 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
-import Signup from './components/signup';
+import Signup from './components/auth/signup';
 import './css/App.css';
 import theme from './theme';
-import Login from './components/login';
-import ForgotPassword from './components/forgotPassword';
-import PasswordReset from './components/passwordReset';
-import ResetPassword from './components/resetPassword';
+import Login from './components/auth/login';
+import ForgotPassword from './components/auth/forgotPassword';
+import PasswordReset from './components/auth/passwordReset';
+import ResetPassword from './components/auth/resetPassword';
 import RequireAuth from './requireAuth';
-import SignupSuccess from './components/signupSuccess';
-import Profile from './components/profile';
-import Request from './components/requestOff';
-import Availability from './components/availability';
-import Contacts from './components/contacts';
+import SignupSuccess from './components/auth/signupSuccess';
+import Profile from './components/sharedPages/profile';
+import Request from './components/employeePages/requestOff';
+import Availability from './components/employeePages/availability';
+import Contacts from './components/adminPages/contacts';
 import { Fragment } from 'react';
-import Task from './components/tasks';
-import RequestAdmin from './components/requestOffAdmin';
-import AdminHomePage from './components/adminHomeData/adminHomePage';
 import AdminTasks from './components/admintasks';
+import Task from './components/employeePages/tasks';
+import RequestAdmin from './components/adminPages/requestOffAdmin';
+import AdminHomePage from './components/adminPages/adminHomePage';
 
 /* helps to only allow admins and employees to see certain pages */
 function isAdmin() {
@@ -39,7 +39,7 @@ function App() {
                 <BrowserRouter>
                     <Routes>
                         { /* Public Routes */}
-                        <Route path="/" element={<p>landing page</p>} />
+                        <Route path="/" element={<Signup />} />
                         <Route path="/login" element={<Login />} exact />
                         <Route path="/signup" element={<Signup />} />
                         <Route path="/signup/success" element={<SignupSuccess />} />
@@ -52,11 +52,12 @@ function App() {
                                 (<Fragment> <Route path="/contacts" element={<Contacts />} />
                                      <Route path="/request-off-admin" element={<RequestAdmin />} />
                                      <Route path="/adminhomepage" element={<AdminHomePage />} />
-                                    <Route path="/tasks-admin" element={<AdminTasks />}/>
+                                     <Route path="/admin-tasks" element={<AdminTasks />} />
+                                     <Route path="/profile" element={<Profile />} />
                                 </Fragment>)
                                 :
                                 (<Fragment>
-                                    <Route path="/availability" element={<Availability />} />
+                                    <Route path="/availability" element={<Availability />} />a
                                     <Route path="/tasks" element={<Task />} />
                                     <Route path="/request-off" element={<Request />} />
                                     <Route path="/profile" element={<Profile />} />

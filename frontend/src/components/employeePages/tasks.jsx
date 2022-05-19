@@ -1,7 +1,4 @@
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-param-reassign */
-/* eslint-disable react/prop-types */
+/* eslint-disable */
 import { React, useState, useEffect } from 'react';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -10,43 +7,76 @@ import IconButton from '@mui/material/IconButton';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Typography, Grid } from '@mui/material';
-import CircularProgressWithLabel from './circularProgress';
-import TaskCard from './taskCard';
-import Taskbar from './TaskBar/taskbar';
-import '../css/tasks.css';
-
-const testTasks = [
-  {
-    title: 'task1',
-    desc: 'task1 desc',
-  },
-  {
-    title: 'task2',
-    desc: 'task2 desc',
-  },
-  {
-    title: 'task3',
-    desc: 'task3 desc',
-  },
-  {
-    title: 'task4',
-    desc: 'task4 desc',
-  },
-  {
-    title: 'task5',
-    desc: 'task5 desc',
-  },
-];
+import CircularProgressWithLabel from '../subcomponents/circularProgress';
+import TaskCard from '../subcomponents/taskCard';
+import Taskbar from '../TaskBar/taskbar';
+import '../../css/tasks.css';
 
 export default function Task() {
   const [date, setDate] = useState(new Date());
-  const [tasks, setTasks] = useState(testTasks);
-  const [checked, setChecked] = useState(new Map()); // will need to loop over tasks to init map
+  const [tasks, setTasks] = useState([]);
+  const [checked, setChecked] = useState(new Map());
   const [completion, setCompletion] = useState(0);
+  
+  const getTasks = async () => {
+    const startDate = new Date(date);
+    startDate.setUTCHours(0,0,0,0);
+    const endDate = new Date(date);
+    endDate.setUTCHours(23,59,59,999);
+    const taskBody = {
+      token: localStorage.getItem('token'),
+      userID: localStorage.getItem('userID'),
+      startDate: startDate.toISOString().slice(0, -1) + '+00:00',
+      endDate: endDate.toISOString().slice(0, -1) + '+00:00'
+    };
+    try {
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}task/getTasks`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(taskBody),
+      });
+      const data = await response.json();
+      setTasks(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const updateStatus = async (taskID, completed) => {
+    const statusBody = {
+      token: localStorage.getItem('token'),
+      taskID,
+      completed
+    };
+    fetch(`${process.env.REACT_APP_SERVER_URL}task/updateStatus`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(statusBody),
+    })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  const initChecked = () => {
+    const newMap = new Map();
+    tasks.forEach((task) => {
+      newMap.set(task._id, task.completed);
+    });
+    setChecked(newMap);
+  }
+
   useEffect(() => {
-    // fetch date's tasks and update state
-    // setTasks(testTasks);
+    getTasks()
   }, [date]);
+
+  useEffect(() => {
+    initChecked();
+  }, [tasks]);
 
   const months = ['January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December',
@@ -64,35 +94,36 @@ export default function Task() {
     setDate(tomorrow);
   };
 
-  const getChecked = (title) => {
+  const getChecked = (taskID) => {
     // returns if a task is checked, false if not in checked map
-    const isChecked = checked.get(title);
-    return isChecked || false;
+    const isChecked = checked.get(taskID);
+    return isChecked;
   };
 
   const getNumComplete = () => {
     let numComplete = 0;
-    checked.forEach((key, value) => {
-      if (value) {
+    checked.forEach((value, key) => {
+      if (value === true) {
         numComplete += 1;
       }
     });
     return numComplete;
   };
 
-  const onCheckedChange = (title, isChecked) => {
+  const onCheckedChange = (taskID, isChecked) => {
     const temp = new Map(checked);
     if (isChecked) {
-      temp.set(title, isChecked);
+      temp.set(taskID, true);
     } else {
-      temp.delete(title);
+      temp.set(taskID, false);
     }
+    updateStatus(taskID, isChecked);
     setChecked(temp);
   };
 
   useEffect(() => {
     // determine completion progress when checked is changed
-    const numTasks = tasks.length;
+    const numTasks = tasks.length ? tasks.length : 1; // prevent division by 0
     const numComplete = getNumComplete();
     setCompletion(Math.floor((numComplete / numTasks) * 100));
   }, [checked]);
@@ -169,16 +200,19 @@ export default function Task() {
           <Typography variant="body1" id="subtitle" align="right">
             {`${getNumComplete()}/${tasks.length} tasks completed`}
           </Typography>
-          {tasks.map((task, index) => (
-            <div key={index}>
-              <TaskCard
-                name={task.title}
-                description={task.desc}
-                checked={getChecked(task.title)}
-                setChecked={onCheckedChange}
-              />
-            </div>
-          ))}
+          {(tasks.length === 0)
+            ? <Typography variant="h5" sx={{ pt: 5 }}>No tasks assigned</Typography>
+            : tasks.map((task, index) => (
+              <div key={index}>
+                <TaskCard
+                  taskID={task._id}
+                  name={task.title}
+                  description={task.description}
+                  checked={getChecked(task._id)}
+                  setChecked={onCheckedChange}
+                />
+              </div>
+            ))}
         </Grid>
       </Grid>
     </div>

@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { Grid, Button } from '@mui/material';
-import '../css/taskbar.css';
+import '../../css/taskbar.css';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../navbar';
+import Navbar from '../../navbar';
 
 export default function PasswordReset() {
   const navigate = useNavigate();

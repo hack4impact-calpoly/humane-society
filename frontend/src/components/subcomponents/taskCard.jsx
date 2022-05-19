@@ -1,11 +1,13 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import {
-  Card, Checkbox, CardContent, IconButton, Collapse,
+  Card, Checkbox, CardContent, IconButton, Collapse, Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import '../css/taskCard.css';
+import '../../css/taskCard.css';
 
 function ExpandIcon({ open }) {
   if (open === true) {
@@ -15,7 +17,7 @@ function ExpandIcon({ open }) {
 }
 
 function TaskCard({
-  checked = false, setChecked, name, description,
+  taskID, checked = false, setChecked, name, description,
 }) {
   const [expand, setExpand] = useState(false);
 
@@ -24,8 +26,15 @@ function TaskCard({
       <Card>
         <CardContent sx={{ flexDirection: 'row', display: 'flex', justifyContent: 'space-between' }}>
           <div id="checkAndName">
-            <Checkbox value={checked} onChange={() => setChecked(name, !checked)} sx={{ color: 'black', '&.Mui-checked': { color: '#4AA7AC' } }} />
-            <h4 id="name">{name}</h4>
+            <Checkbox checked={checked || false} onChange={() => setChecked(taskID, !checked)} sx={{ color: 'black', '&.Mui-checked': { color: '#4AA7AC' } }} />
+            <Typography
+              sx={{
+                display: 'flex',
+                pt: '.6rem',
+              }}
+            >
+              {name}
+            </Typography>
           </div>
           <IconButton onClick={() => setExpand(!expand)}>
             <ExpandIcon open={expand} />
@@ -33,7 +42,7 @@ function TaskCard({
         </CardContent>
         <Collapse in={expand}>
           <CardContent>
-            <text id="desc">{description}</text>
+            <p id="desc">{description}</p>
           </CardContent>
         </Collapse>
       </Card>

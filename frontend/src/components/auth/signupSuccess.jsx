@@ -5,7 +5,7 @@ import {
   Button, Grid, Box, Typography, Container,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import logo from '../imgs/signupLogo.svg';
+import logo from '../../imgs/signupLogo.svg';
 
 export default function SignupSuccess() {
   const navigate = useNavigate();

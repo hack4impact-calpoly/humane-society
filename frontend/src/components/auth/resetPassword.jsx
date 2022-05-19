@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Grid, Button } from '@mui/material';
-import '../css/taskbar.css';
+import '../../css/taskbar.css';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import { CognitoUser } from 'amazon-cognito-identity-js';
 import { useNavigate } from 'react-router-dom';
-import userPool from '../userPool';
-import Navbar from '../navbar';
+import userPool from '../../userPool';
+import Navbar from '../../navbar';
 
 export default function ResetPassword() {
   const navigate = useNavigate();
@@ -52,7 +52,7 @@ export default function ResetPassword() {
       email: localStorage.getItem('woods-humane-email'),
       password: password2,
     };
-    fetch('http://localhost:3001/updatePassword', {
+    fetch(`${process.env.REACT_APP_SERVER_URL}updatePassword`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

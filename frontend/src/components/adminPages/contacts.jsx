@@ -1,9 +1,9 @@
 /* eslint-disable */
 import { DataGrid } from '@mui/x-data-grid';
 import React, { useState, useEffect } from 'react';
-import AdminTaskbar from "./TaskBar/adminTaskbar"
+import AdminTaskbar from "../TaskBar/adminTaskbar"
 import { GridLinkOperator, GridToolbar } from '@mui/x-data-grid';
-import '../css/contacts.css';
+import '../../css/contacts.css';
 
 /* the columns of the contacts data grid */
 const columns = [
@@ -24,7 +24,7 @@ export default function Contacts() {
         };
         console.log("hi")
         console.log(loginBody)
-        const response = await fetch('http://localhost:3001/getUsers/getFormattedUsers', {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}getUsers/getFormattedUsers`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
