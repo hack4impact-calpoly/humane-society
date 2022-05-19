@@ -13,6 +13,7 @@ import { Typography, Grid } from '@mui/material';
 import CircularProgressWithLabel from './subcomponents/circularProgress';
 import TaskCard from './subcomponents/taskCard';
 import EmployeeCard from './employeeCard';
+import moment from 'moment';
 
 import AdminTaskBar from './TaskBar/adminTaskbar';
 import '../css/tasks.css';
@@ -53,7 +54,30 @@ export default function Task() {
     const [completion, setCompletion] = useState(0);
     let [employee, setEmployee] = useState(0);
     let [employeelist, setEmployeeList] = useState([]);
+    let [userName, setUserName] = useState(new Object());
 
+    const getUsersByID = async () => {
+
+        const loginBody = {
+            token: localStorage.getItem("token"),
+            id: GetPropertyValue(employeelist.at(employee), "userID")
+        };
+
+        const response = await fetch('http://localhost:3001/getUsers/getUserById', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(loginBody),
+        })
+        if (response.status === 200) {
+            setUserName(await response.json())
+            console.log(userName)
+
+        } else {
+            console.log("could not get users")
+        }
+    }
 
     const getSchedulesForDay = async () => {
         const startDate = new Date(date);
@@ -75,6 +99,17 @@ export default function Task() {
             });
             const data = await response.json();
             setEmployeeList(data);
+
+            if (employeelist.length > 0) {
+
+                getUsersByID()
+            }
+            else {
+                setUserName(new Object());
+
+            }
+
+
         } catch (err) {
             console.log(err);
         }
@@ -86,9 +121,14 @@ export default function Task() {
         // fetch date's tasks and update state
         // setTasks(testTasks);
         getSchedulesForDay()
-        console.log(employeelist.at(0))
-    }, [date]);
 
+    }, [userName]);
+
+    useEffect(() => {
+        // fetch date's tasks and update state
+        // setTasks(testTasks);
+
+    }, [date]);
     const months = ['January', 'February', 'March', 'April', 'May', 'June',
         'July', 'August', 'September', 'October', 'November', 'December',
     ];
@@ -98,6 +138,7 @@ export default function Task() {
         const yesterday = new Date(date);
         yesterday.setDate(yesterday.getDate() - 1);
         setDate(yesterday);
+
     };
 
     const setDateForward = () => {
@@ -109,21 +150,21 @@ export default function Task() {
 
     const setEmployeeForward = () => {
 
-        if (employee < employeelist.length -1) {
+        if (employee < employeelist.length - 1) {
             const next = employee + 1;
             employee += 1;
             setEmployee(next);
         }
-        
+
     };
     const setEmployeeBack = () => {
         const back = employee - 1;
-        
+
         if (back >= 0) {
             employee -= 1;
             setEmployee(back);
         }
-        
+
     };
 
 
@@ -248,7 +289,7 @@ export default function Task() {
                 <Grid item lg={6} md={8} xs={8} sx={{ paddingTop: 5, paddingBottom: 3 }}>
 
 
-                    
+
                     <Typography
                         variant="h5"
                         style={{ fontWeight: 600 }}
@@ -263,7 +304,7 @@ export default function Task() {
 
                         </IconButton>
 
-                        {`Employee: ${GetPropertyValue(employeelist.at(employee), "userID")} Start time:  ${GetPropertyValue(employeelist.at(employee), "startTime")} End time: ${GetPropertyValue(employeelist.at(employee), "endTime")} `}
+                        {`Employee: ${GetPropertyValue(userName, "firstName")} ${GetPropertyValue(userName, "lastName")} Start time:  ${moment(GetPropertyValue(employeelist.at(employee), "startTime")).format(' h:mm a')} End time: ${moment(GetPropertyValue(employeelist.at(employee), "endTime")).format(' h:mm a')} `}
                         <IconButton
                             aria-label="forward"
                             sx={{ color: '#1d4d71' }}
