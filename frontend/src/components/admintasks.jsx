@@ -14,6 +14,7 @@ import CircularProgressWithLabel from './subcomponents/circularProgress';
 import TaskCard from './subcomponents/taskCard';
 import EmployeeCard from './employeeCard';
 import moment from 'moment';
+import { Button, Box } from '@mui/material/';
 
 import AdminTaskBar from './TaskBar/adminTaskbar';
 import '../css/tasks.css';
@@ -55,7 +56,10 @@ export default function Task() {
     let [employee, setEmployee] = useState(0);
     let [employeelist, setEmployeeList] = useState([]);
     let [userName, setUserName] = useState(new Object());
-
+    const onClick = () => {
+        // button stuff
+       
+    };
     const getUsersByID = async () => {
 
         const loginBody = {
@@ -313,8 +317,27 @@ export default function Task() {
                         >
                             <ArrowForwardIosIcon />
                         </IconButton>
-                    </Typography>
 
+                    </Typography>
+                    <Box
+                        m={1}
+                        //margin
+                        display="flex"
+                        justifyContent="flex-end"
+                        alignItems="flex-end"
+                    >
+                    <Button
+                        onClick={onClick}
+                        variant="contained"
+                        
+                        style={{
+                            borderRadius: 8,
+                        }}
+                        color="secondary"
+                    >
+                        + New Task
+                        </Button>
+                    </Box>
 
                     {tasks.map((task, index) => (
                         <div key={index}>
