@@ -56,7 +56,7 @@ export default function Task() {
     let [employee, setEmployee] = useState(0);
     let [employeelist, setEmployeeList] = useState([]);
     let [userName, setUserName] = useState(new Object());
-    const onClick = () => {
+    const onCreateTaskClick = () => {
         // button stuff
        
     };
@@ -121,18 +121,7 @@ export default function Task() {
     console.log(employeelist)
 
 
-    useEffect(() => {
-        // fetch date's tasks and update state
-        // setTasks(testTasks);
-        getSchedulesForDay()
 
-    }, [userName]);
-
-    useEffect(() => {
-        // fetch date's tasks and update state
-        // setTasks(testTasks);
-
-    }, [date]);
     const months = ['January', 'February', 'March', 'April', 'May', 'June',
         'July', 'August', 'September', 'October', 'November', 'December',
     ];
@@ -170,33 +159,20 @@ export default function Task() {
         }
 
     };
+    useEffect(() => {
+        // fetch date's tasks and update state
+        // setTasks(testTasks);
+        getSchedulesForDay()
+
+    }, [userName]);
+
+    useEffect(() => {
+        // fetch date's tasks and update state
+        // setTasks(testTasks);
+
+    }, [date]);
 
 
-    const getChecked = (title) => {
-        // returns if a task is checked, false if not in checked map
-        const isChecked = checked.get(title);
-        return isChecked || false;
-    };
-
-    const getNumComplete = () => {
-        let numComplete = 0;
-        checked.forEach((key, value) => {
-            if (value) {
-                numComplete += 1;
-            }
-        });
-        return numComplete;
-    };
-
-    const onCheckedChange = (title, isChecked) => {
-        const temp = new Map(checked);
-        if (isChecked) {
-            temp.set(title, isChecked);
-        } else {
-            temp.delete(title);
-        }
-        setChecked(temp);
-    };
     function GetPropertyValue(obj1, dataToRetrieve) {
         return dataToRetrieve
             .split('.') // split string based on `.`
@@ -205,12 +181,6 @@ export default function Task() {
             }, obj1) // set initial value as object
     }
 
-    useEffect(() => {
-        // determine completion progress when checked is changed
-        const numTasks = tasks.length;
-        const numComplete = getNumComplete();
-        setCompletion(Math.floor((numComplete / numTasks) * 100));
-    }, [checked]);
 
     return (
         <div>
@@ -327,7 +297,7 @@ export default function Task() {
                         alignItems="flex-end"
                     >
                     <Button
-                        onClick={onClick}
+                        onClick={onCreateTaskClick}
                         variant="contained"
                         
                         style={{
