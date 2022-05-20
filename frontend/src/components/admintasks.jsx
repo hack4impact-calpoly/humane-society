@@ -145,7 +145,6 @@ export default function Task() {
     };
 
     const setEmployeeForward = () => {
-
         if (employee < employeelist.length - 1) {
             const next = employee + 1;
             employee += 1;
@@ -155,7 +154,6 @@ export default function Task() {
     };
     const setEmployeeBack = () => {
         const back = employee - 1;
-
         if (back >= 0) {
             employee -= 1;
             setEmployee(back);
@@ -170,6 +168,7 @@ export default function Task() {
         setOpen(false);
         setNotes('');
         setTitle('');
+
     };
 
     const backendCreateTask = async () => {
@@ -179,7 +178,6 @@ export default function Task() {
             title: title,
             description: notes
         };
-
         const response = await fetch('http://localhost:3001/task/createTask', {
             method: 'POST',
             headers: {
@@ -188,18 +186,46 @@ export default function Task() {
             body: JSON.stringify(loginBody),
         })
         if (response.status === 200) {
+            const data = await response.json();       
             console.log("task created")
+
+            const loginBodySchedule = {
+                token: localStorage.getItem("token"),
+                _id: GetPropertyValue(employeelist.at(employee), "_id"),
+                taskID: data
+            };
+            const responseSchedule = await fetch('http://localhost:3001/schedule/updateScheduleTasks', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(loginBodySchedule),
+            })
+            if (responseSchedule.status === 200) {
+                console.log("updated")
+
+            } else {
+                console.log("could not update schedule")
+            }
+
         } else {
             console.log("could not create task")
         }
+
+
+
+
         setMakeTask(false);
 
 
     };
 
     const createTask = () => {
-        backendCreateTask()
-        setMakeTask(true)
+        if (title != '' && notes != '') // you need a title
+        {
+            backendCreateTask()
+            setMakeTask(true)
+        }
         handleClose();
 
     };
