@@ -354,8 +354,7 @@ export default function Task() {
                             <ArrowBackIosIcon />
 
                         </IconButton>
-
-                        {`Employee: ${GetPropertyValue(userName, "firstName")} ${GetPropertyValue(userName, "lastName")} Start time:  ${moment(GetPropertyValue(employeelist.at(employee), "startTime")).format(' h:mm a')} End time: ${moment(GetPropertyValue(employeelist.at(employee), "endTime")).format(' h:mm a')} `}
+                        {GetPropertyValue(userName, "firstName") != undefined ? `Employee: ${GetPropertyValue(userName, "firstName")} ${GetPropertyValue(userName, "lastName")} Start time:  ${moment(GetPropertyValue(employeelist.at(employee), "startTime")).format(' h:mm a')} End time: ${moment(GetPropertyValue(employeelist.at(employee), "endTime")).format(' h:mm a')} ` : 'No Schedules'}
                         <IconButton
                             aria-label="forward"
                             sx={{ color: '#1d4d71' }}
@@ -385,7 +384,7 @@ export default function Task() {
                             + New Task
                         </Button>
                     </Box>
-
+                    {tasks.length <= 0 ? 'No tasks' : ''}
                     {tasks.map((task, index) => (
                         <div key={index}>
                             <AdminTaskCard
