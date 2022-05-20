@@ -15,7 +15,10 @@ import TaskCard from './subcomponents/taskCard';
 import EmployeeCard from './employeeCard';
 import moment from 'moment';
 import { Button, Box } from '@mui/material/';
-
+import { TextField } from '@mui/material/';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
 import AdminTaskBar from './TaskBar/adminTaskbar';
 import '../css/tasks.css';
 
@@ -51,15 +54,15 @@ const testEmployees = [
 export default function Task() {
     const [date, setDate] = useState(new Date());
     const [tasks, setTasks] = useState(testTasks);
+    const [open, setOpen] = useState(false);
     const [checked, setChecked] = useState(new Map()); // will need to loop over tasks to init map
     const [completion, setCompletion] = useState(0);
     let [employee, setEmployee] = useState(0);
     let [employeelist, setEmployeeList] = useState([]);
     let [userName, setUserName] = useState(new Object());
-    const onCreateTaskClick = () => {
-        // button stuff
-       
-    };
+    const [title, setTitle] = useState('');
+    const [notes, setNotes] = useState('');
+
     const getUsersByID = async () => {
 
         const loginBody = {
@@ -158,6 +161,29 @@ export default function Task() {
             setEmployee(back);
         }
 
+    };
+    const onCreateTaskClick = () => {
+        // button stuff
+        setOpen(true);
+
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const submitRequest = () => {
+        // TODO make sure start < end
+        /*        if (!validStart || !validEnd) {
+                    if (!validStart) {
+                        setValidStart(false);
+                    }
+                    if (!validEnd) {
+                        setValidEnd(false);
+                    }
+                    return;
+                }
+                console.log(startDate, endDate, notes);*/
+        handleClose();
     };
     useEffect(() => {
         // fetch date's tasks and update state
@@ -296,16 +322,16 @@ export default function Task() {
                         justifyContent="flex-end"
                         alignItems="flex-end"
                     >
-                    <Button
-                        onClick={onCreateTaskClick}
-                        variant="contained"
-                        
-                        style={{
-                            borderRadius: 8,
-                        }}
-                        color="secondary"
-                    >
-                        + New Task
+                        <Button
+                            onClick={onCreateTaskClick}
+                            variant="contained"
+
+                            style={{
+                                borderRadius: 8,
+                            }}
+                            color="secondary"
+                        >
+                            + New Task
                         </Button>
                     </Box>
 
@@ -319,7 +345,72 @@ export default function Task() {
                     ))}
                 </Grid>
 
+                <Dialog open={open} onClose={handleClose}>
+                    <DialogContent>
+                        <Grid
+                            container
+                            className="body"
+                            direction="column"
+                            justifyContent="space-between"
+                        >
 
+                            <Grid item>
+                                <TextField
+                                    id="title"
+                                    label="Insert task title"
+                                    multiline
+                                    fullWidth
+                                    rows={6}
+                                    value={title}
+                                    onChange={(e) => { setTitle(e.target.value); }}
+                                />
+                            </Grid>
+
+                            <Grid item>
+                                <TextField
+                                    id="notes"
+                                    label="Insert task notes"
+                                    multiline
+                                    fullWidth
+                                    rows={6}
+                                    value={notes}
+                                    onChange={(e) => { setNotes(e.target.value); }}
+                                />
+                            </Grid>
+                            <Grid
+                                item
+                                container
+                                justifyContent="space-between"
+                            >
+                                <Button
+                                    variant="outlined"
+                                    onClick={handleClose}
+                                    sx={{
+                                        width: 120,
+                                        color: 'black',
+                                        border: '2px black solid',
+                                    }}
+                                    style={{
+                                        borderRadius: 5,
+                                    }}
+                                >
+                                    <b>Cancel</b>
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={submitRequest}
+                                    style={{
+                                        borderRadius: 5,
+                                        minWidth: '120px',
+                                    }}
+                                >
+                                    <b>Request</b>
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </DialogContent>
+                </Dialog>
             </Grid>
         </div>
     );
