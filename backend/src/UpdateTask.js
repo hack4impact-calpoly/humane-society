@@ -76,6 +76,7 @@ router.post('/updateStatus', async (req, res) => {
   });
 });
 
+/* gets the tasks for a specific user on a specific day */
 router.post('/getTasks', async (req, res) => {
   const {
     token, userID, startDate, endDate,

@@ -20,17 +20,17 @@ import AdminTaskBar from './TaskBar/adminTaskbar';
 import '../css/tasks.css';
 
 export default function Task() {
-    const [date, setDate] = useState(new Date());
-    const [tasks, setTasks] = useState([]);
-    const [open, setOpen] = useState(false);
-    const [makeTask, setMakeTask] = useState(false);
+    const [date, setDate] = useState(new Date()); // keep track of date we choose in calendar 
+    const [tasks, setTasks] = useState([]); // list of tasks for specific schedule
+    const [open, setOpen] = useState(false); // determines if the create task button is clicked or not so we can have the window popup
+    const [makeTask, setMakeTask] = useState(false); // determines if the button to finalize making the task is clicked
+    let [employee, setEmployee] = useState(0); // keep track of what employee we are on
+    let [employeelist, setEmployeeList] = useState([]); // list of schedules pulled from database
+    let [userName, setUserName] = useState(new Object());  // user object for employee we are on (to get first/last names)
+    const [title, setTitle] = useState(''); // hold new task's title 
+    const [notes, setNotes] = useState(''); // hold new task's description 
 
-    let [employee, setEmployee] = useState(0);
-    let [employeelist, setEmployeeList] = useState([]);
-    let [userName, setUserName] = useState(new Object());
-    const [title, setTitle] = useState('');
-    const [notes, setNotes] = useState('');
-
+    /* calls the bakend to get the tasks for a specific schedule we looking at so they are displayed on the frontend */
     const getGetTasksForUser = async () => {
         const startDate = new Date(date);
         startDate.setUTCHours(0, 0, 0, 0);
@@ -52,7 +52,7 @@ export default function Task() {
         })
         if (response.status == 200) {
             const data = await response.json();
-
+            /* set the task list to these tasks */
             setTasks(data)
 
         } else {
@@ -60,12 +60,12 @@ export default function Task() {
         }
     }
 
-
+    /* gets a user object from the backeend based on a given userID */
     const getUsersByID = async () => {
 
         const loginBody = {
             token: localStorage.getItem("token"),
-            id: GetPropertyValue(employeelist.at(employee), "userID")
+            id: GetPropertyValue(employeelist.at(employee), "userID") /* get the user object associated to the schedule we are looking at */
         };
 
         const response = await fetch('http://localhost:3001/getUsers/getUserById', {
@@ -76,12 +76,13 @@ export default function Task() {
             body: JSON.stringify(loginBody),
         })
         if (response.status === 200) {
-            setUserName(await response.json())
+            setUserName(await response.json()) /* keep track of this user object so we can pull the last/first name from it */
         } else {
             console.log("could not get users")
         }
     }
 
+    /* pulls all the schedules on the current day we are looking at from the backend */
     const getSchedulesForDay = async () => {
         const startDate = new Date(date);
         startDate.setUTCHours(0, 0, 0, 0);
@@ -101,78 +102,25 @@ export default function Task() {
                 body: JSON.stringify(taskBody),
             });
             const data = await response.json();
-            setEmployeeList(data);
+            setEmployeeList(data); /* keep track of this schedule list so we can display it */
 
             if (employeelist.length > 0) {
-
+                /* if there are actual schedules returned, then get the user object associated to the schedule */
                 getUsersByID()
+                /* fet the tasks for that schedule/user so we can display them */
                 getGetTasksForUser()
             }
             else {
+                /* if this is not the case, we do not have any user objects */
                 setUserName(new Object());
-
             }
-
-
         } catch (err) {
             console.log(err);
         }
     };
 
-
-
-
-    const months = ['January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December',
-    ];
-
-    const setDateBack = () => {
-        setEmployee(0);
-        setTasks([]);
-
-        const yesterday = new Date(date);
-        yesterday.setDate(yesterday.getDate() - 1);
-        setDate(yesterday);
-
-    };
-
-    const setDateForward = () => {
-        setEmployee(0);
-        setTasks([]);
-        const tomorrow = new Date(date);
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        setDate(tomorrow);
-    };
-
-    const setEmployeeForward = () => {
-        if (employee < employeelist.length - 1) {
-            const next = employee + 1;
-            employee += 1;
-            setEmployee(next);
-        }
-
-    };
-    const setEmployeeBack = () => {
-        const back = employee - 1;
-        if (back >= 0) {
-            employee -= 1;
-            setEmployee(back);
-        }
-
-    };
-    const onCreateTaskClick = () => {
-        setOpen(true);
-
-    };
-    const handleClose = () => {
-        setOpen(false);
-        setNotes('');
-        setTitle('');
-
-    };
-
+    /* call the backend so we can make a new task in the data base with the title/description the user provided */
     const backendCreateTask = async () => {
-        // create task here
         const loginBody = {
             token: localStorage.getItem("token"),
             title: title,
@@ -187,11 +135,11 @@ export default function Task() {
         })
         if (response.status === 200) {
             const data = await response.json();
-            console.log("task created")
-
+            /* add this newly created task to the schedule's task list */
+            /* data contains the taskID for this new task */
             const loginBodySchedule = {
                 token: localStorage.getItem("token"),
-                _id: GetPropertyValue(employeelist.at(employee), "_id"),
+                _id: GetPropertyValue(employeelist.at(employee), "_id"), /* add this task to the specific schedule we are on */
                 taskID: data
             };
             const responseSchedule = await fetch('http://localhost:3001/schedule/updateScheduleTasks', {
@@ -202,26 +150,83 @@ export default function Task() {
                 body: JSON.stringify(loginBodySchedule),
             })
             if (responseSchedule.status === 200) {
-                console.log("updated")
+                console.log("added schedule task")
 
             } else {
-                console.log("could not update schedule")
+                console.log("could not add task to schedule")
             }
-
         } else {
             console.log("could not create task")
         }
+        setMakeTask(false); /* indicate we are done adding the task to the data base */
+    };
 
 
+    const months = ['January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December',
+    ];
 
-
-        setMakeTask(false);
-
+    /* move to prev date */
+    const setDateBack = () => {
+        /* reset variables */
+        setEmployee(0);
+        setTasks([]);
+        const yesterday = new Date(date);
+        yesterday.setDate(yesterday.getDate() - 1);
+        setDate(yesterday);
 
     };
 
+    /* move to next date */
+    const setDateForward = () => {
+        /* reset variables */
+        setEmployee(0);
+        setTasks([]);
+        const tomorrow = new Date(date);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        setDate(tomorrow);
+    };
+
+    /* move to prev employee in schedules list */
+    const setEmployeeForward = () => {
+        if (employee < employeelist.length - 1) {
+            const next = employee + 1;
+            employee += 1;
+            setEmployee(next);
+        }
+
+    };
+    /* move to next employee in schedules list */
+    const setEmployeeBack = () => {
+        const back = employee - 1;
+        if (back >= 0) {
+            employee -= 1;
+            setEmployee(back);
+        }
+
+    };
+
+    /* set open to true so the popup can display */
+    const onCreateTaskClick = () => {
+        setOpen(true);
+
+    };
+
+    /* close the create task popup */
+    const handleClose = () => {
+        setOpen(false);
+        setNotes('');
+        setTitle('');
+    };
+
+    /* capatalize the first letter in a given string and lower case the rest */
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    }
+
+    /* create the task in the backend and then close the popup */
     const createTask = () => {
-        if (title != '' && notes != '') // you need a title
+        if (title != '' && notes != '') // you need a title/notes in order for the task to be created
         {
             backendCreateTask()
             setMakeTask(true)
@@ -231,25 +236,20 @@ export default function Task() {
     };
 
     useEffect(() => {
-        if (makeTask == true) {
+        if (makeTask == true) /* only make task if variable indicates we need too */ {
             backendCreateTask();
-
         }
     }, []);
 
     useEffect(() => {
-
-        getSchedulesForDay()
-
+        getSchedulesForDay() /* get the list of schedules for a specific day and tasks for the schedule we are on */
     }, [userName]);
 
     useEffect(() => {
-        // fetch date's tasks and update state
-        // setTasks(testTasks);
-
+        // fetch date's tasks
     }, [date]);
 
-
+    /* get the value of a specific property of a given object */
     function GetPropertyValue(obj1, dataToRetrieve) {
         return dataToRetrieve
             .split('.') // split string based on `.`
@@ -268,7 +268,7 @@ export default function Task() {
                 direction="row"
                 spacing={0.5}
             >
-
+                {/* Calendar */}
                 <Grid item lg={3} sx={{ display: { xs: 'none', md: 'none', lg: 'none', xl: 'block' } }}>
                     <Grid item>
                         <Typography
@@ -284,7 +284,6 @@ export default function Task() {
                                 <ArrowBackIosIcon />
 
                             </IconButton>
-
                             {`${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`}
                             <IconButton
                                 aria-label="forward"
@@ -295,14 +294,13 @@ export default function Task() {
                                 <ArrowForwardIosIcon />
                             </IconButton>
                         </Typography>
-
                     </Grid>
-
                     <LocalizationProvider wrapperClassName="datepicker" dateAdapter={AdapterDateFns}>
                         <CalendarPicker date={date} onChange={(newDate) => setDate(newDate)} color="secondary" />
                     </LocalizationProvider>
                 </Grid>
 
+                {/* Gap between calendar and task list */}
                 <Grid
                     item
                     lg={3}
@@ -313,48 +311,37 @@ export default function Task() {
                     justifyContent="flex-start"
                     alignItems="center"
                 >
-
                     <Grid item sx={{ paddingBottom: 10 }}>
-                        <Typography
-                            variant="h5"
-                            style={{ fontWeight: 600 }}
-                            sx={{ color: '#1d4d71' }}
-                        >
-                            {`${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`}
-
-                        </Typography>
 
                         <Grid
-                            className="dateSelector"
                             container
                             direction="row"
                             justifyContent="space-evenly"
                             alignItems="center"
                             wrap="nowrap"
                         >
-
                         </Grid>
                     </Grid>
-
                 </Grid>
+
+                {/* display employee schedules/tasks */}
                 <Grid item lg={6} md={8} xs={8} sx={{ paddingTop: 5, paddingBottom: 3 }}>
-
-
-
                     <Typography
                         variant="h5"
                         style={{ fontWeight: 600 }}
                         sx={{ color: '#1d4d71' }}
                     >
+                        {/* ability to click to go to different employee schedules for that day */}
                         <IconButton
                             aria-label="back"
                             sx={{ color: '#1d4d71' }}
                             size="large"
                             onClick={setEmployeeBack}>
                             <ArrowBackIosIcon />
-
                         </IconButton>
-                        {GetPropertyValue(userName, "firstName") != undefined ? `Employee: ${GetPropertyValue(userName, "firstName")} ${GetPropertyValue(userName, "lastName")} Start time:  ${moment(GetPropertyValue(employeelist.at(employee), "startTime")).format(' h:mm a')} End time: ${moment(GetPropertyValue(employeelist.at(employee), "endTime")).format(' h:mm a')} ` : 'No Schedules'}
+
+                        {/* see if there is a employee, if there is not then no schedules found */}
+                        {GetPropertyValue(userName, "firstName") != undefined ? `${capitalizeFirstLetter(GetPropertyValue(userName, "firstName"))} ${capitalizeFirstLetter(GetPropertyValue(userName, "lastName"))} ${moment(GetPropertyValue(employeelist.at(employee), "startTime")).format(' h:mm a')} to ${moment(GetPropertyValue(employeelist.at(employee), "endTime")).format(' h:mm a')} ` : 'No Schedules'}
                         <IconButton
                             aria-label="forward"
                             sx={{ color: '#1d4d71' }}
@@ -363,8 +350,9 @@ export default function Task() {
                         >
                             <ArrowForwardIosIcon />
                         </IconButton>
-
                     </Typography>
+
+                    {/* new task button -> call prompt if clicked */}
                     <Box
                         m={1}
                         //margin
@@ -384,6 +372,8 @@ export default function Task() {
                             + New Task
                         </Button>
                     </Box>
+
+                    {/* display all tasks for a given schedule or "no tasks" if there are no tasks */}
                     {tasks.length <= 0 ? 'No tasks' : ''}
                     {tasks.map((task, index) => (
                         <div key={index}>
@@ -395,6 +385,7 @@ export default function Task() {
                     ))}
                 </Grid>
 
+                {/* Create task prompt window */}
                 <Dialog maxWidth='lg' open={open} onClose={handleClose}>
                     <DialogContent style={{ width: 500 }}>
                         <Grid
@@ -403,7 +394,7 @@ export default function Task() {
                             direction="column"
                             justifyContent="space-between"
                         >
-
+                            {/* enter title field */}
                             <Grid item>
                                 <TextField
                                     id="title"
@@ -417,6 +408,7 @@ export default function Task() {
                                 />
                             </Grid>
 
+                            {/* enter notes field */}
                             <Grid item>
                                 <TextField
                                     id="notes"
@@ -434,6 +426,7 @@ export default function Task() {
                                 container
                                 justifyContent="space-between"
                             >
+                                {/* cancel */}
                                 <Button
                                     variant="outlined"
                                     onClick={handleClose}
@@ -449,6 +442,7 @@ export default function Task() {
                                     <b>Cancel</b>
                                 </Button>
 
+                                {/* actually create the task */}
                                 <Button
                                     variant="contained"
                                     color="secondary"
