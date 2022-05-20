@@ -16,8 +16,8 @@ import {
   DragDropProvider,
   ConfirmationDialog,
 } from '@devexpress/dx-react-scheduler-material-ui';
-import '../css/availability.css';
-import TaskBar from './TaskBar/taskbar';
+import '../../css/availability.css';
+import TaskBar from '../TaskBar/taskbar';
 
 
 // Change how the appointments look

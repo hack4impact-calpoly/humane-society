@@ -8,9 +8,9 @@ import {
 } from '@mui/material';
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
 import { useNavigate } from 'react-router-dom';
-import userPool from '../userPool';
-import logo from '../imgs/signupLogo.svg';
-import '../css/signup.css';
+import userPool from '../../userPool';
+import logo from '../../imgs/signupLogo.svg';
+import '../../css/signup.css';
 
 export default function SignUp() {
   const navigate = useNavigate();

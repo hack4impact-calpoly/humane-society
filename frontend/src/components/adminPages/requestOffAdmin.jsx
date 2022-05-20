@@ -3,8 +3,8 @@
 import { React, useState } from 'react';
 import { Button, Switch, FormControlLabel } from '@mui/material/';
 import { DataGrid } from '@mui/x-data-grid';
-import AdminTaskbar from './TaskBar/adminTaskbar';
-import '../css/requestOffAdmin.css';
+import AdminTaskbar from '../TaskBar/adminTaskbar';
+import '../../css/requestOffAdmin.css';
 
 function RequestOffTables() {
   const curDate = new Date();
