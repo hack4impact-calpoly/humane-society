@@ -94,7 +94,7 @@ router.post('/getTasks', async (req, res) => {
   }, { Tasks: 1 })
     .then((result) => {
       if (!result) {
-        res.status(200).send('No schedule found');
+        res.status(300).send('No schedule found');
       } else {
         const taskIDs = [];
         result.forEach((obj) => {

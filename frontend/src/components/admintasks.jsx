@@ -10,58 +10,56 @@ import IconButton from '@mui/material/IconButton';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Typography, Grid } from '@mui/material';
-import CircularProgressWithLabel from './subcomponents/circularProgress';
-import TaskCard from './subcomponents/taskCard';
-import EmployeeCard from './employeeCard';
+import AdminTaskCard from './adminTaskCard';
 import moment from 'moment';
 import { Button, Box } from '@mui/material/';
 import { TextField } from '@mui/material/';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
 import AdminTaskBar from './TaskBar/adminTaskbar';
 import '../css/tasks.css';
 
-const testTasks = [
-    {
-        name: 'task1',
-        time: '8-9',
-    },
-    {
-        name: 'task2',
-        time: '10-11',
-    },
-    {
-        name: 'task3',
-        time: '5-6',
-    },
-
-];
-
-const testEmployees = [
-    {
-        name: 'Sage',
-    },
-    {
-        name: 'Tom',
-    },
-    {
-        name: 'Dave',
-    }
-
-];
-
 export default function Task() {
     const [date, setDate] = useState(new Date());
-    const [tasks, setTasks] = useState(testTasks);
+    const [tasks, setTasks] = useState([]);
     const [open, setOpen] = useState(false);
-    const [checked, setChecked] = useState(new Map()); // will need to loop over tasks to init map
-    const [completion, setCompletion] = useState(0);
+    const [makeTask, setMakeTask] = useState(false);
+
     let [employee, setEmployee] = useState(0);
     let [employeelist, setEmployeeList] = useState([]);
     let [userName, setUserName] = useState(new Object());
     const [title, setTitle] = useState('');
     const [notes, setNotes] = useState('');
+
+    const getGetTasksForUser = async () => {
+        const startDate = new Date(date);
+        startDate.setUTCHours(0, 0, 0, 0);
+        const endDate = new Date(date);
+        endDate.setUTCHours(23, 59, 59, 999);
+        const loginBody = {
+            token: localStorage.getItem("token"),
+            userID: GetPropertyValue(employeelist.at(employee), "userID"),
+            startDate: startDate.toISOString().slice(0, -1) + '+00:00',
+            endDate: endDate.toISOString().slice(0, -1) + '+00:00'
+        };
+
+        const response = await fetch('http://localhost:3001/task/getTasks', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(loginBody),
+        })
+        if (response.status == 200) {
+            const data = await response.json();
+
+            setTasks(data)
+
+        } else {
+            console.log("could not get users")
+        }
+    }
+
 
     const getUsersByID = async () => {
 
@@ -79,8 +77,6 @@ export default function Task() {
         })
         if (response.status === 200) {
             setUserName(await response.json())
-            console.log(userName)
-
         } else {
             console.log("could not get users")
         }
@@ -110,6 +106,7 @@ export default function Task() {
             if (employeelist.length > 0) {
 
                 getUsersByID()
+                getGetTasksForUser()
             }
             else {
                 setUserName(new Object());
@@ -121,7 +118,7 @@ export default function Task() {
             console.log(err);
         }
     };
-    console.log(employeelist)
+
 
 
 
@@ -131,6 +128,8 @@ export default function Task() {
 
     const setDateBack = () => {
         setEmployee(0);
+        setTasks([]);
+
         const yesterday = new Date(date);
         yesterday.setDate(yesterday.getDate() - 1);
         setDate(yesterday);
@@ -139,6 +138,7 @@ export default function Task() {
 
     const setDateForward = () => {
         setEmployee(0);
+        setTasks([]);
         const tomorrow = new Date(date);
         tomorrow.setDate(tomorrow.getDate() + 1);
         setDate(tomorrow);
@@ -172,13 +172,47 @@ export default function Task() {
         setTitle('');
     };
 
-    const createTask = () => {
+    const backendCreateTask = async () => {
         // create task here
-        handleClose();
+        const loginBody = {
+            token: localStorage.getItem("token"),
+            title: title,
+            description: notes
+        };
+
+        const response = await fetch('http://localhost:3001/task/createTask', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(loginBody),
+        })
+        if (response.status === 200) {
+            console.log("task created")
+        } else {
+            console.log("could not create task")
+        }
+        setMakeTask(false);
+
+
     };
+
+    const createTask = () => {
+        backendCreateTask()
+        setMakeTask(true)
+        handleClose();
+
+    };
+
     useEffect(() => {
-        // fetch date's tasks and update state
-        // setTasks(testTasks);
+        if (makeTask == true) {
+            backendCreateTask();
+
+        }
+    }, []);
+
+    useEffect(() => {
+
         getSchedulesForDay()
 
     }, [userName]);
@@ -238,7 +272,7 @@ export default function Task() {
 
                     </Grid>
 
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <LocalizationProvider wrapperClassName="datepicker" dateAdapter={AdapterDateFns}>
                         <CalendarPicker date={date} onChange={(newDate) => setDate(newDate)} color="secondary" />
                     </LocalizationProvider>
                 </Grid>
@@ -328,16 +362,16 @@ export default function Task() {
 
                     {tasks.map((task, index) => (
                         <div key={index}>
-                            <EmployeeCard
-                                name={task.name}
-                                time={task.time}
+                            <AdminTaskCard
+                                name={task.title}
+                                description={task.description}
                             />
                         </div>
                     ))}
                 </Grid>
 
-                <Dialog open={open} onClose={handleClose}>
-                    <DialogContent>
+                <Dialog maxWidth='lg' open={open} onClose={handleClose}>
+                    <DialogContent style={{ width: 500 }}>
                         <Grid
                             container
                             className="body"
@@ -351,7 +385,8 @@ export default function Task() {
                                     label="Insert task title"
                                     multiline
                                     fullWidth
-                                    rows={6}
+                                    rows={1}
+                                    sx={{ paddingBottom: 3 }}
                                     value={title}
                                     onChange={(e) => { setTitle(e.target.value); }}
                                 />
@@ -364,6 +399,7 @@ export default function Task() {
                                     multiline
                                     fullWidth
                                     rows={6}
+                                    sx={{ paddingBottom: 3 }}
                                     value={notes}
                                     onChange={(e) => { setNotes(e.target.value); }}
                                 />
@@ -387,6 +423,7 @@ export default function Task() {
                                 >
                                     <b>Cancel</b>
                                 </Button>
+
                                 <Button
                                     variant="contained"
                                     color="secondary"
