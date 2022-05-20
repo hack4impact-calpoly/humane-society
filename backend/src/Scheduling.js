@@ -28,6 +28,7 @@ router.post('/newSchedule', async (req, res) => {
   res.status(200).send('success');
 });
 
+/* add a new taskID to a schedule's task list */
 router.post('/updateScheduleTasks', async (req, res) => {
     const {
         token, _id, taskID
@@ -39,7 +40,6 @@ router.post('/updateScheduleTasks', async (req, res) => {
     }
 
     const schedules = Scheduling;
-
     await schedules.findByIdAndUpdate({ _id: _id }, { $addToSet: {Tasks: taskID}, }).then((result) => {
         if (result) {
             res.status(200).send('updated successfully');

@@ -186,7 +186,7 @@ export default function Task() {
             body: JSON.stringify(loginBody),
         })
         if (response.status === 200) {
-            const data = await response.json();       
+            const data = await response.json();
             console.log("task created")
 
             const loginBodySchedule = {
