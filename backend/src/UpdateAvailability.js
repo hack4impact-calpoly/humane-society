@@ -101,45 +101,32 @@ router.post('/getUserAvailabilities', async (req, res) => {
 });
 
 router.post('/getAvailabilities', async (req, res) => {
-  /* get all availibilies in a specified date  */
-  const { startDate, endDate,
+  /* get all availibilities for a specified date. startDate must be the UTC beginning of the 
+  desired date and endDate must be the UTC end of the desired date */
+  const { token, startDate, endDate,
   } = req.body;
-  // const userData = Token(token);
-  // if (userData == null) {
-  //   res.status(403).send('Unauthorized user');
-  //   return;
-  // }
-  /*
-    get all availabilities with rrules
-    for each rrule availability
-      get all dates
-      filter availabities within the specified date
-    get all availabilities within the date range
-    concat all availabilities together
-    get all request offs within date range (group by userId)
-    for each availability
-      if userId in request offs
-        remove availability
-    return availabilities
-  */
-  // get all availabilities with a rrule
-  // const availabilities = [];
+  const userData = Token(token);
+  if (userData == null) {
+    res.status(403).send('Unauthorized user');
+    return;
+  }
   const promise1 = Availability.find({ rRule: { $ne: null } }).then((result) => {
     const availabilities = [];
     if (result) {
       result.forEach((avail) => {
         const options = rrule.RRule.parseString((avail.rRule).slice(6));
         options.dtstart = new Date(avail.startDate);
-        const rule = new rrule.RRule(options);
-        // ! ex dates
+        let rule = new rrule.RRule(options);
+        if (avail.exDate !== undefined && avail.exDate !== '') {
+          rule = rrule.rrulestr(`${rule.toString()}\nEXDATE:${avail.exDate}`);
+        }
         const temp = rule.between(new Date(startDate), new Date(endDate));
         if (temp.length > 0) {
           availabilities.push(avail);
         }
       });
-      // console.log(availabilities);
-      return availabilities;
     }
+    return availabilities;
   }).catch((err) => {
     console.log(err, 'error in finding rrule availabilities');
     return [];
@@ -162,17 +149,12 @@ router.post('/getAvailabilities', async (req, res) => {
   Promise.all([promise1, promise2, promise3]).then((data) => {
     const availabilities = [...data[1], ...data[0]];
     const requestOffs = [...data[2]];
-    // console.log(availabilities);
-    // console.log(requestOffs);
     // add userIDs to set
     const userIDSet = new Set();
     requestOffs.forEach((request) => {
       userIDSet.add(request.userID);
     });
     const result = availabilities.filter((avail) => !userIDSet.has(avail.userID));
-    if (availabilities.length === 0) {
-      res.status(200).send('No availabilities found');
-    }
     res.status(200).send(result);
   }).catch((err) => {
     console.log(err);
