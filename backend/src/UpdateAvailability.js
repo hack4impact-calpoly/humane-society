@@ -162,15 +162,21 @@ router.post('/getAvailabilities', async (req, res) => {
   Promise.all([promise1, promise2, promise3]).then((data) => {
     const availabilities = [...data[1], ...data[0]];
     const requestOffs = [...data[2]];
-    console.log(requestOffs);
+    // console.log(availabilities);
+    // console.log(requestOffs);
     // add userIDs to set
-    // loop over availabilities and remove any with matching userID
+    const userIDSet = new Set();
+    requestOffs.forEach((request) => {
+      userIDSet.add(request.userID);
+    });
+    const result = availabilities.filter((avail) => !userIDSet.has(avail.userID));
     if (availabilities.length === 0) {
       res.status(200).send('No availabilities found');
     }
-    res.status(200).send(availabilities);
+    res.status(200).send(result);
   }).catch((err) => {
     console.log(err);
+    res.status(400).send('an error occured');
   });
 });
 
