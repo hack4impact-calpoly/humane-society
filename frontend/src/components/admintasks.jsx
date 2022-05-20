@@ -163,26 +163,17 @@ export default function Task() {
 
     };
     const onCreateTaskClick = () => {
-        // button stuff
         setOpen(true);
 
     };
     const handleClose = () => {
         setOpen(false);
+        setNotes('');
+        setTitle('');
     };
 
-    const submitRequest = () => {
-        // TODO make sure start < end
-        /*        if (!validStart || !validEnd) {
-                    if (!validStart) {
-                        setValidStart(false);
-                    }
-                    if (!validEnd) {
-                        setValidEnd(false);
-                    }
-                    return;
-                }
-                console.log(startDate, endDate, notes);*/
+    const createTask = () => {
+        // create task here
         handleClose();
     };
     useEffect(() => {
@@ -399,7 +390,7 @@ export default function Task() {
                                 <Button
                                     variant="contained"
                                     color="secondary"
-                                    onClick={submitRequest}
+                                    onClick={createTask}
                                     style={{
                                         borderRadius: 5,
                                         minWidth: '120px',
