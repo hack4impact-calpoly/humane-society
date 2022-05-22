@@ -43,8 +43,6 @@ export default function Login() {
     const storeUser = (user, token) => {
     localStorage.setItem('userID', user.userID);
     localStorage.setItem('token', token);
-    localStorage.setItem('isAdmin', user.isAdmin);
-
   };
 
   const createToken = async () => {
