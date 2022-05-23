@@ -17,7 +17,7 @@ import {
   ConfirmationDialog,
 } from '@devexpress/dx-react-scheduler-material-ui';
 import '../../css/availability.css';
-import TaskBar from '../TaskBar/taskbar';
+import { appointment, resourcesData } from './employee.js';
 
 
 // Change how the appointments look
@@ -54,8 +54,8 @@ export default function Availability() {
   const [data, setData] = useState([]);
   const [resources, setResources] = useState([
     {
-      fieldName: 'roomId',
-      title: 'Room',
+      fieldName: 'employeeId',
+      title: 'Employee',
       instances: data,
     },
   ],);
@@ -159,7 +159,7 @@ export default function Availability() {
       padding: '1% 10% 10%',
     }}
     >
-      <Scheduler className="availabilityCalendar" data={data} height={610}>
+      <Scheduler className="availabilityCalendar" dataSource={appointment} height={610}>
         <ViewState
           defaultCurrentViewName="Week"
           defaultCurrentDate={defaultDate}
@@ -171,6 +171,7 @@ export default function Availability() {
         <WeekView
           startDayHour={7}
           endDayHour={17}
+          dataSource={data}
           cellDuration={60}
         />
         <MonthView
@@ -196,7 +197,7 @@ export default function Availability() {
         />
          <Resources
             data={resources}
-            mainResourceName="roomId"
+            mainResourceName="employeeId"
           />
         <DragDropProvider />
       </Scheduler>
