@@ -45,18 +45,18 @@ function App() {
                         <Route path="/forgotpassword" element={<ForgotPassword />} />
                         <Route path="/passwordreset" element={<PasswordReset />} />
                         <Route path="/resetpassword" element={<ResetPassword />} />
+                        <Route path="/availability" element={<Availability />} />
+                        <Route path="/adminhomepage" element={<AdminHomePage />} />
                         { /* Private Routes */}
                         <Route element={<RequireAuth />}>
                             {isAdmin() ?
                                 (<Fragment> <Route path="/contacts" element={<Contacts />} />
                                      <Route path="/request-off-admin" element={<RequestAdmin />} />
-                                     <Route path="/adminhomepage" element={<AdminHomePage />} />
                                      <Route path="/admin-tasks" />
                                      <Route path="/profile" element={<Profile />} />
                                 </Fragment>)
                                 :
                                 (<Fragment>
-                                    <Route path="/availability" element={<Availability />} />a
                                     <Route path="/tasks" element={<Task />} />
                                     <Route path="/request-off" element={<Request />} />
                                     <Route path="/profile" element={<Profile />} />
