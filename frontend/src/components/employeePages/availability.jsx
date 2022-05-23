@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { React, useState, useEffect } from 'react';
-import { ViewState, EditingState } from '@devexpress/dx-react-scheduler';
+import { ViewState, EditingState, Resources } from '@devexpress/dx-react-scheduler';
 import {
   Scheduler,
   WeekView,
@@ -51,6 +51,14 @@ const BooleanEditor = (props) => {
 }
 
 export default function Availability() {
+  const [data, setData] = useState([]);
+  const [resources, setResources] = useState([
+    {
+      fieldName: 'roomId',
+      title: 'Room',
+      instances: data,
+    },
+  ],);
   const getAppointments = async () => {
     const availabilityBody = {
       userID: localStorage.getItem('userID'),
@@ -77,12 +85,11 @@ export default function Availability() {
     return data
   }
 
-  const [data, setData] = useState([]);
-
   useEffect( () => {
     getAppointments().then((data) => {
       setData(data)
     })
+
   }, [])
 
   // Have calendar default on current date
@@ -188,6 +195,10 @@ export default function Availability() {
           textEditorComponent={TextEditor}
           booleanEditorComponent={BooleanEditor}
         />
+         <Resources
+            data={resources}
+            mainResourceName="roomId"
+          />
         <DragDropProvider />
       </Scheduler>
       </div>
