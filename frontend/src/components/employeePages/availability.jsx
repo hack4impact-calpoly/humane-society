@@ -70,7 +70,7 @@ export default function Availability() {
         id: availability._id,
         userID: availability.userID,
         rRule: availability.rRule,
-        exDate: availability.exDate.join(','),
+        exDate: availability.exDate,
         startDate: new Date(availability.startDate),
         endDate: new Date(availability.endDate)
       }))

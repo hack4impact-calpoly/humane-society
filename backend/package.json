@@ -11,7 +11,8 @@
     "jsonwebtoken": "^8.5.1",
     "minimist": "^1.2.6",
     "mongodb": "^4.3.0",
-    "mongoose": "^6.1.5"
+    "mongoose": "^6.1.5",
+    "rrule": "^2.6.9"
   },
   "scripts": {
     "start": "node server.js",

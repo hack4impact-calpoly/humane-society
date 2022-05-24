@@ -6,7 +6,7 @@ const AvailabilitySchema = new mongoose.Schema({
   startDate: { type: Date, required: false },
   endDate: { type: Date, required: false },
   rRule: { type: String, required: false },
-  exDate: [{ type: String, required: false }],
+  exDate: { type: String, required: false },
 });
 
 const Availability = userConnection.model('availability', AvailabilitySchema);
