@@ -63,6 +63,27 @@ router.post('/getUserById', async (req, res) => {
     } else {
       res.status(200).send(result);
     }
+  }).catch((err) => {
+    console.log(err);
+    res.status(404).send(err);
+  });
+});
+
+router.post('/isAdmin', async (req, res) => {
+  const { token, userID } = req.body;
+  const userData = Token(token);
+  if (userData == null) {
+    res.status(403).send('Unauthorized user');
+  }
+  User.findOne({ userID }, { isAdmin: 1 }).then((result) => {
+    if (!result) {
+      res.status(404).send('Invalid User ID');
+    } else {
+      res.status(200).send(result.isAdmin);
+    }
+  }).catch((err) => {
+    console.log(err);
+    res.status(404).send(err);
   });
 });
 
