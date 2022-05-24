@@ -23,6 +23,7 @@ export default function Profile() {
   const [oldEmail, setOldEmail] = useState('');
   const [oldPhone, setOldPhone] = useState('');
   const [oldSchool, setOldSchool] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false);
 
   function setOld() {
     setOldFirst(firstName);
@@ -42,14 +43,26 @@ export default function Profile() {
     setEdit(false);
   }
 
-  function isAdmin() {
-    const admin = localStorage.getItem('isAdmin');
-    // eslint-disable-next-line eqeqeq
-    if (admin == 'true') {
-      return true;
+  const getIsAdmin = async () => {
+    try {
+      const body = {
+        token: localStorage.getItem('token'),
+        userID: localStorage.getItem('userID'),
+      };
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}getUsers/isAdmin`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
+      const admin = await response.json();
+      setIsAdmin(admin);
+    } catch {
+      console.log('Error in finding isAdmin');
+      setIsAdmin(false);
     }
-    return false;
-  }
+  };
 
   async function updateProfile() {
     setEdit(false);
@@ -92,12 +105,12 @@ export default function Profile() {
 
   useEffect(() => {
     getProfile();
+    getIsAdmin();
   }, []);
-  //      {isAdmin() ? <AdminTaskbar /> : <TaskBar /> }
 
   return (
     <div>
-      {isAdmin() ? <AdminTaskbar /> : <TaskBar /> }
+      {isAdmin ? <AdminTaskbar /> : <TaskBar /> }
       <div className="profilePage">
         <div id="pictureAndButton">
           <AccountCircleIcon sx={{ fontSize: 110 }} color="action" />

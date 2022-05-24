@@ -78,7 +78,7 @@ export default function Availability() {
         id: availability._id,
         userID: availability.userID,
         rRule: availability.rRule,
-        exDate: availability.exDate.join(','),
+        exDate: availability.exDate,
         startDate: new Date(availability.startDate),
         endDate: new Date(availability.endDate)
       }))
@@ -101,7 +101,7 @@ export default function Availability() {
     let newData = data;
     if (added) {
       const appointmentBody = { userID: localStorage.getItem('userID'), ...added };
-      const response = await fetch('http://localhost:3001/availability/newAvailability', {
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}availability/newAvailability`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -118,7 +118,7 @@ export default function Availability() {
       const appointmentBody = {
         _id: appointmentID, ...oldAppointment, ...changed[appointmentID],
       }
-      fetch('http://localhost:3001/availability/updateAvailability', {
+      fetch(`${process.env.REACT_APP_SERVER_URL}availability/updateAvailability`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -136,7 +136,7 @@ export default function Availability() {
       
     }
     if (deleted !== undefined) {
-      fetch('http://localhost:3001/availability/deleteAvailability', {
+      fetch(`${process.env.REACT_APP_SERVER_URL}availability/deleteAvailability`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

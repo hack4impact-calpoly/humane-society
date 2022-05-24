@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React from 'react';
+import { React, useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import Signup from './components/auth/signup';
@@ -20,18 +20,35 @@ import Task from './components/employeePages/tasks';
 import RequestAdmin from './components/adminPages/requestOffAdmin';
 import AdminHomePage from './components/adminPages/adminHomePage';
 
-/* helps to only allow admins and employees to see certain pages */
-function isAdmin() {
-    const isAdmin = localStorage.getItem('isAdmin');
-
-    if (isAdmin == "true") {
-        return true
-    }
-    return false
-
-}
-
 function App() {
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    /* helps to only allow admins and employees to see certain pages */
+    const getIsAdmin = async () => {
+        try {
+            const body = {
+                token: localStorage.getItem('token'),
+                userID: localStorage.getItem('userID'),
+            };
+            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}getUsers/isAdmin`, {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(body),
+            });
+            const admin = await response.json();
+            setIsAdmin(admin)
+        } catch {
+            console.log('Error in finding isAdmin');
+            setIsAdmin(false);
+        }
+    }
+
+    useEffect(() => {
+        getIsAdmin();
+    });
+
     return (
         <div className="App">
             <ThemeProvider theme={theme}>
@@ -49,7 +66,7 @@ function App() {
                         <Route path="/adminhomepage" element={<AdminHomePage />} />
                         { /* Private Routes */}
                         <Route element={<RequireAuth />}>
-                            {isAdmin() ?
+                            {isAdmin ?
                                 (<Fragment> <Route path="/contacts" element={<Contacts />} />
                                      <Route path="/request-off-admin" element={<RequestAdmin />} />
                                      <Route path="/admin-tasks" />

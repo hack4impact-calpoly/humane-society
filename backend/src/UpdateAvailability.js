@@ -162,4 +162,8 @@ router.post('/getAvailabilities', async (req, res) => {
   });
 });
 
+<<<<<<< HEAD
 module.exports = router;
+=======
+module.exports = router;
+>>>>>>> ae80b5b4ea30809d98efedc1d7d852e58a57ddd3
