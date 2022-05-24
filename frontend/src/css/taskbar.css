@@ -22,6 +22,18 @@ a {
   font-size: 1.2em;
 }
 
+a:visited {
+  text-decoration: none;
+}
+
 a:hover {
   text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 3px;
+}
+
+.active {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 3px;
 }
