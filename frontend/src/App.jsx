@@ -16,7 +16,7 @@ import Request from './components/employeePages/requestOff';
 import Availability from './components/employeePages/availability';
 import Contacts from './components/adminPages/contacts';
 import { Fragment } from 'react';
-import AdminTasks from './components/admintasks';
+import AdminTasks from './components/adminPages/admintasks';
 import Task from './components/employeePages/tasks';
 import RequestAdmin from './components/adminPages/requestOffAdmin';
 import AdminHomePage from './components/adminPages/adminHomePage';

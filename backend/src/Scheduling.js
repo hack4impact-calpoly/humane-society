@@ -30,24 +30,24 @@ router.post('/newSchedule', async (req, res) => {
 
 /* add a new taskID to a schedule's task list */
 router.post('/updateScheduleTasks', async (req, res) => {
-    const {
-        token, _id, taskID
-    } = req.body;
-    const userData = Token(token);
-    if (userData == null) {
-        res.status(403).send('Unauthorized user');
-        return;
-    }
+  const {
+    token, _id, taskID,
+  } = req.body;
+  const userData = Token(token);
+  if (userData == null) {
+    res.status(403).send('Unauthorized user');
+    return;
+  }
 
-    const schedules = Scheduling;
-    await schedules.findByIdAndUpdate({ _id: _id }, { $addToSet: {Tasks: taskID}, }).then((result) => {
-        if (result) {
-            res.status(200).send('updated successfully');
-        }
-    }).catch((err) => {
-        console.log(err);
-        res.status(500).send('could not update');
-    });
+  const schedules = Scheduling;
+  await schedules.findByIdAndUpdate({ _id }, { $addToSet: { Tasks: taskID } }).then((result) => {
+    if (result) {
+      res.status(200).send('updated successfully');
+    }
+  }).catch((err) => {
+    console.log(err);
+    res.status(500).send('could not update');
+  });
 });
 
 /* gets all schedules */

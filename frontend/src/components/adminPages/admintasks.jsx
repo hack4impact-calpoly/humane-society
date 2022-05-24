@@ -10,14 +10,14 @@ import IconButton from '@mui/material/IconButton';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Typography, Grid } from '@mui/material';
-import AdminTaskCard from './adminTaskCard';
+import AdminTaskCard from '../subcomponents/adminTaskCard';
 import moment from 'moment';
 import { Button, Box } from '@mui/material/';
 import { TextField } from '@mui/material/';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
-import AdminTaskBar from './TaskBar/adminTaskbar';
-import '../css/tasks.css';
+import AdminTaskBar from '../TaskBar/adminTaskbar';
+import '../../css/tasks.css';
 
 export default function Task() {
     const [date, setDate] = useState(new Date()); // keep track of date we choose in calendar 
@@ -266,10 +266,10 @@ export default function Task() {
                 className="main"
                 container
                 direction="row"
-                spacing={0.5}
+                spacing={10}
             >
                 {/* Calendar */}
-                <Grid item lg={3} sx={{ display: { xs: 'none', md: 'none', lg: 'none', xl: 'block' } }}>
+                <Grid item lg={4} sx={{ display: { xs: 'none', md: 'none', lg: 'none', xl: 'block' } }}>
                     <Grid item>
                         <Typography
                             variant="h5"
@@ -300,17 +300,6 @@ export default function Task() {
                     </LocalizationProvider>
                 </Grid>
 
-                {/* Gap between calendar and task list */}
-                <Grid
-                    item
-                    lg={3}
-                    md={4}
-                    xs={4}
-                    container
-                    direction="column"
-                    justifyContent="flex-start"
-                    alignItems="center"
-                >
                     <Grid item sx={{ paddingBottom: 10 }}>
 
                         <Grid
@@ -322,7 +311,6 @@ export default function Task() {
                         >
                         </Grid>
                     </Grid>
-                </Grid>
 
                 {/* display employee schedules/tasks */}
                 <Grid item lg={6} md={8} xs={8} sx={{ paddingTop: 5, paddingBottom: 3 }}>
@@ -341,7 +329,7 @@ export default function Task() {
                         </IconButton>
 
                         {/* see if there is a employee, if there is not then no schedules found */}
-                        {GetPropertyValue(userName, "firstName") != undefined ? `${capitalizeFirstLetter(GetPropertyValue(userName, "firstName"))} ${capitalizeFirstLetter(GetPropertyValue(userName, "lastName"))} ${moment(GetPropertyValue(employeelist.at(employee), "startTime")).format(' h:mm a')} to ${moment(GetPropertyValue(employeelist.at(employee), "endTime")).format(' h:mm a')} ` : 'No Schedules'}
+                        {GetPropertyValue(userName, "firstName") != undefined ? `${capitalizeFirstLetter(GetPropertyValue(userName, "firstName"))} ${capitalizeFirstLetter(GetPropertyValue(userName, "lastName"))}: ${moment(GetPropertyValue(employeelist.at(employee), "startTime")).format(' h:mm a')} to ${moment(GetPropertyValue(employeelist.at(employee), "endTime")).format(' h:mm a')} ` : 'No Schedules'}
                         <IconButton
                             aria-label="forward"
                             sx={{ color: '#1d4d71' }}

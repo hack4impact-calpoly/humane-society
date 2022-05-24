@@ -21,7 +21,7 @@ router.post('/createTask', async (req, res) => {
     title, description, completed,
   });
   newTask.save();
-    res.status(200).send(newTask._id);
+  res.status(200).send(newTask._id);
 });
 
 router.post('/updateTask', async (req, res) => {

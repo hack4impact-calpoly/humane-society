@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import '../css/adminTaskCard.css';
+import '../../css/adminTaskCard.css';
 
 function ExpandIcon({ open }) {
     if (open === true) {
