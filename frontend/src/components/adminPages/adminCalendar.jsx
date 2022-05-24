@@ -61,7 +61,6 @@ export default function Availability() {
   ],);
   const getAppointments = async () => {
     const availabilityBody = {
-      userID: localStorage.getItem('userID'),
       token: localStorage.getItem('token'),
       startDate: startDate.toISOString().slice(0, -1) + '+00:00',
       endDate: endDate.toISOString().slice(0, -1) + '+00:00'
