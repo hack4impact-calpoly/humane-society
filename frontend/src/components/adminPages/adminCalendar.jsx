@@ -60,6 +60,10 @@ export default function Availability() {
     },
   ],);
   const getAppointments = async () => {
+    const startDate = new Date(date);
+    startDate.setUTCHours(0,0,0,0);
+    const endDate = new Date(date);
+    endDate.setUTCHours(23,59,59,999);
     const availabilityBody = {
       token: localStorage.getItem('token'),
       startDate: startDate.toISOString().slice(0, -1) + '+00:00',
