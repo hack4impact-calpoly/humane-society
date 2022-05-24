@@ -62,10 +62,12 @@ export default function Availability() {
   const getAppointments = async () => {
     const availabilityBody = {
       userID: localStorage.getItem('userID'),
-      token: localStorage.getItem('token')
+      token: localStorage.getItem('token'),
+      startDate: startDate.toISOString().slice(0, -1) + '+00:00',
+      endDate: endDate.toISOString().slice(0, -1) + '+00:00'
     };
 
-    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}availability/getUserAvailabilities`, {
+    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}availability/getAvailabilities`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
