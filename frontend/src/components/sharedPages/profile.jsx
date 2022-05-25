@@ -74,7 +74,7 @@ export default function Profile() {
       lastName,
       email,
     };
-    fetch('http://localhost:3001/updateProfile', {
+    fetch(`${process.env.REACT_APP_SERVER_URL}updateProfile`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ export default function Profile() {
       token: localStorage.getItem('token'),
       id: localStorage.getItem('userID'),
     };
-    const response = await fetch('http://localhost:3001/getUsers/getUserById', {
+    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}getUsers/getUserById`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

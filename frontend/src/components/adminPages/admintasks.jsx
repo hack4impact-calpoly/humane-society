@@ -43,7 +43,7 @@ export default function Task() {
             endDate: endDate.toISOString().slice(0, -1) + '+00:00'
         };
 
-        const response = await fetch('http://localhost:3001/task/getTasks', {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}task/getTasks`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ export default function Task() {
             id: GetPropertyValue(employeelist.at(employee), "userID") /* get the user object associated to the schedule we are looking at */
         };
 
-        const response = await fetch('http://localhost:3001/getUsers/getUserById', {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}getUsers/getUserById`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -126,7 +126,7 @@ export default function Task() {
             title: title,
             description: notes
         };
-        const response = await fetch('http://localhost:3001/task/createTask', {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}task/createTask`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -142,7 +142,7 @@ export default function Task() {
                 _id: GetPropertyValue(employeelist.at(employee), "_id"), /* add this task to the specific schedule we are on */
                 taskID: data
             };
-            const responseSchedule = await fetch('http://localhost:3001/schedule/updateScheduleTasks', {
+            const responseSchedule = await fetch(`${process.env.REACT_APP_SERVER_URL}schedule/updateScheduleTasks`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
