@@ -16,6 +16,7 @@ import Request from './components/employeePages/requestOff';
 import Availability from './components/employeePages/availability';
 import Contacts from './components/adminPages/contacts';
 import { Fragment } from 'react';
+import AdminTasks from './components/adminPages/admintasks';
 import Task from './components/employeePages/tasks';
 import RequestAdmin from './components/adminPages/requestOffAdmin';
 import AdminHomePage from './components/adminPages/adminHomePage';
@@ -68,7 +69,7 @@ function App() {
                                 (<Fragment> <Route path="/contacts" element={<Contacts />} />
                                      <Route path="/request-off-admin" element={<RequestAdmin />} />
                                      <Route path="/adminhomepage" element={<AdminHomePage />} />
-                                     <Route path="/admin-tasks" />
+                                     <Route path="/admin-tasks" element={<AdminTasks />} />
                                      <Route path="/profile" element={<Profile />} />
                                 </Fragment>)
                                 :

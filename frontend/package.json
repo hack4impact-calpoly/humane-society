@@ -39,6 +39,7 @@
     "jsonwebtoken": "^8.5.1",
     "locate-path": "^7.1.0",
     "minimist": "^1.2.6",
+    "moment": "^2.29.3",
     "nanoid": "^3.2.0",
     "node-forge": "^1.2.1",
     "prop-types": "^15.8.1",

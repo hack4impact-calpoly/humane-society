@@ -21,7 +21,7 @@ router.post('/createTask', async (req, res) => {
     title, description, completed,
   });
   newTask.save();
-  res.status(200).send('success');
+  res.status(200).send(newTask._id);
 });
 
 router.post('/updateTask', async (req, res) => {
@@ -76,6 +76,7 @@ router.post('/updateStatus', async (req, res) => {
   });
 });
 
+/* gets the tasks for a specific user on a specific day */
 router.post('/getTasks', async (req, res) => {
   const {
     token, userID, startDate, endDate,
@@ -94,7 +95,7 @@ router.post('/getTasks', async (req, res) => {
   }, { Tasks: 1 })
     .then((result) => {
       if (!result) {
-        res.status(200).send('No schedule found');
+        res.status(300).send('No schedule found');
       } else {
         const taskIDs = [];
         result.forEach((obj) => {
