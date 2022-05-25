@@ -21,7 +21,7 @@ export default function AdminTaskbar() {
                 <Grid item xs={8}>
                     <nav>
                         <NavLink to="/adminhomepage" activeClassName="active">Schedule</NavLink>
-                        <NavLink to="/tasks-admin" activeClassName="active">Assign Tasks</NavLink>
+                        <NavLink to="/admin-tasks" activeClassName="active">Assign Tasks</NavLink>
                         <NavLink to="/request-off-admin" activeClassName="active" >Request Off</NavLink>
                         <NavLink to="/contacts" activeClassName="active">Contacts</NavLink>
                     </nav>

@@ -1,0 +1,19 @@
+#name {
+    display: flex;
+    flex-direction: row;
+}
+
+#name {
+    margin-left: 10%;
+}
+
+#desc {
+    display: flex;
+    justify-content: start;
+    margin-left: 4%;
+}
+
+#lowerBorder {
+    border-bottom: 5;
+    border-color: gray;
+}

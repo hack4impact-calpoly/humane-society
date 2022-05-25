@@ -3,7 +3,7 @@ import { Button, TextField, Grid } from '@mui/material/';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import '../css/requestOffModal.css';
+import '../../css/requestOffModal.css';
 
 export default function RequestOffModal() {
   const [open, setOpen] = useState(false);
