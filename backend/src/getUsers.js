@@ -83,7 +83,11 @@ router.post('/isAdmin', async (req, res) => {
     }
   }).catch((err) => {
     console.log(err);
-    res.status(404).send(err);
+    try {
+      res.status(404).send(err);
+    } catch {
+      console.log(err);
+    }
   });
 });
 
