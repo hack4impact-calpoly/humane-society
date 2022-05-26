@@ -1,7 +1,7 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable */
 /* eslint-disable react/prop-types */
 import {
-  Card, Checkbox, CardContent, IconButton, Collapse, Typography,
+  Card, Checkbox, CardContent, IconButton, Collapse, Typography, Button, Box
 } from '@mui/material';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
@@ -16,8 +16,10 @@ function ExpandIcon({ open }) {
   return <ExpandLessIcon sx={{ color: 'black' }} />;
 }
 
+
+
 function TaskCard({
-  taskID, name, description,
+    taskID, checked = false, setChecked, name, description,
 }) {
   const [expand, setExpand] = useState(false);
 
@@ -25,24 +27,42 @@ function TaskCard({
     <div>
       <Card>
         <CardContent sx={{ flexDirection: 'row', display: 'flex', justifyContent: 'space-between' }}>
-          <Typography
+                  <Button
+                      onClick={() => setChecked(taskID, true)}
+                      variant="contained"
+
+                      style={{
+                          borderRadius: 8,
+                      }}
+                      color="secondary"
+                  >
+                      Edit
+                  </Button>
+                  <Typography
             sx={{
               display: 'flex',
               pt: '.6rem',
             }}
-          >
+                  >
+
             {name}
-          </Typography>
+                      </Typography>
+ 
           <IconButton onClick={() => setExpand(!expand)}>
-            <ExpandIcon open={expand} />
-          </IconButton>
+                      <ExpandIcon open={expand} />
+                  </IconButton>
+
+                    
         </CardContent>
         <Collapse in={expand}>
           <CardContent>
-            <p id="desc">{description}</p>
+                      <p id="desc">{description}</p>
+
           </CardContent>
-        </Collapse>
-      </Card>
+              </Collapse>
+
+          </Card>
+
       <div id="lowerBorder" />
     </div>
   );
@@ -53,7 +73,11 @@ ExpandIcon.propTypes = {
 };
 
 TaskCard.propTypes = {
-  name: PropTypes.string.isRequired,
+    checked: PropTypes.bool.isRequired,
+    setChecked: PropTypes.func.isRequired,
+
+    name: PropTypes.string.isRequired,
+
   description: PropTypes.string.isRequired,
 };
 

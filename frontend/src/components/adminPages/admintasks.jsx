@@ -23,13 +23,16 @@ export default function Task() {
     const [date, setDate] = useState(new Date()); // keep track of date we choose in calendar 
     const [tasks, setTasks] = useState([]); // list of tasks for specific schedule
     const [open, setOpen] = useState(false); // determines if the create task button is clicked or not so we can have the window popup
+    const [openEdit, setOpenEdit] = useState(false);
     const [makeTask, setMakeTask] = useState(false); // determines if the button to finalize making the task is clicked
+    const [editTask, setEditTask] = useState(false);
     let [employee, setEmployee] = useState(0); // keep track of what employee we are on
     let [employeelist, setEmployeeList] = useState([]); // list of schedules pulled from database
     let [userName, setUserName] = useState(new Object());  // user object for employee we are on (to get first/last names)
     const [title, setTitle] = useState(''); // hold new task's title 
     const [notes, setNotes] = useState(''); // hold new task's description 
-
+    const [checked, setChecked] = useState(new Map());
+    const [currTask, setCurrTask] = useState('');
     /* calls the bakend to get the tasks for a specific schedule we looking at so they are displayed on the frontend */
     const getGetTasksForUser = async () => {
         const startDate = new Date(date);
@@ -119,6 +122,27 @@ export default function Task() {
         }
     };
 
+    const backendEditTask = async () => {
+
+        const loginBody = {
+            token: localStorage.getItem("token"),
+            taskID: currTask,
+            title: title,
+            description: notes
+        };
+        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}task/updateTask`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(loginBody),
+        })
+        if (response.status === 200) {
+        } else {
+            console.log("could not create task")
+        }
+        setEditTask(false); /* indicate we are done editting the task to the data base */
+    };
     /* call the backend so we can make a new task in the data base with the title/description the user provided */
     const backendCreateTask = async () => {
         const loginBody = {
@@ -206,15 +230,38 @@ export default function Task() {
 
     };
 
+    const getChecked = (taskID) => {
+        // returns if a task is checked, false if not in checked map
+        const isChecked = checked.get(taskID);
+        return isChecked;
+    };
+
     /* set open to true so the popup can display */
     const onCreateTaskClick = () => {
         setOpen(true);
 
     };
+    const onCheckedChange = (taskID, isChecked) => {
+        const temp = new Map(checked);
+        if (isChecked) {
+            temp.set(taskID, true);
+        } else {
+            temp.set(taskID, false);
+        }
+/*        updateStatus(taskID, isChecked);
+*/
+        setOpenEdit(true);
+        setChecked(temp);
+        setCurrTask(taskID);
+        setEditTask(true);
+    };
 
     /* close the create task popup */
     const handleClose = () => {
         setOpen(false);
+        setOpenEdit(false);
+        setCurrTask('');
+
         setNotes('');
         setTitle('');
     };
@@ -235,9 +282,26 @@ export default function Task() {
 
     };
 
+
+    const doneEditting = () => {
+        if (title != '' && notes != '') // you need a title/notes in order for the task to be created
+        {
+            backendEditTask()
+            setMakeTask(true)
+        }
+        handleClose();
+
+    };
+
     useEffect(() => {
         if (makeTask == true) /* only make task if variable indicates we need too */ {
             backendCreateTask();
+        }
+    }, []);
+
+    useEffect(() => {
+        if (editTask == true) /* only make task if variable indicates we need too */ {
+            backendEditTask();
         }
     }, []);
 
@@ -248,6 +312,8 @@ export default function Task() {
     useEffect(() => {
         // fetch date's tasks
     }, [date]);
+
+
 
     /* get the value of a specific property of a given object */
     function GetPropertyValue(obj1, dataToRetrieve) {
@@ -368,10 +434,87 @@ export default function Task() {
                             <AdminTaskCard
                                 name={task.title}
                                 description={task.description}
+                                taskID={task._id}
+                                checked={getChecked(task._id)}
+                                setChecked={onCheckedChange}
+
                             />
                         </div>
                     ))}
                 </Grid>
+                <Dialog maxWidth='lg' open={openEdit} onClose={handleClose}>
+                    <DialogContent style={{ width: 500 }}>
+                        <Grid
+                            container
+                            className="body"
+                            direction="column"
+                            justifyContent="space-between"
+                        >
+                            {/* enter title field */}
+                            <Grid item>
+                                <TextField
+                                    id="title"
+                                    label="Insert task title"
+                                    multiline
+                                    fullWidth
+                                    rows={1}
+                                    sx={{ paddingBottom: 3 }}
+                                    value={title}
+                                    onChange={(e) => { setTitle(e.target.value); }}
+                                />
+                            </Grid>
+
+                            {/* enter notes field */}
+                            <Grid item>
+                                <TextField
+                                    id="notes"
+                                    label="Insert task notes"
+                                    multiline
+                                    fullWidth
+                                    rows={6}
+                                    sx={{ paddingBottom: 3 }}
+                                    value={notes}
+                                    onChange={(e) => { setNotes(e.target.value); }}
+                                />
+                            </Grid>
+                            <Grid
+                                item
+                                container
+                                justifyContent="space-between"
+                            >
+                                {/* cancel */}
+                                <Button
+                                    variant="outlined"
+                                    onClick={handleClose}
+                                    sx={{
+                                        width: 120,
+                                        color: 'black',
+                                        border: '2px black solid',
+                                    }}
+                                    style={{
+                                        borderRadius: 5,
+                                    }}
+                                >
+                                    <b>Cancel</b>
+                                </Button>
+
+                                {/* actually create the task */}
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={doneEditting}
+                                    style={{
+                                        borderRadius: 5,
+                                        minWidth: '120px',
+                                    }}
+                                >
+                                    <b>Done</b>
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </DialogContent>
+                </Dialog>
+
 
                 {/* Create task prompt window */}
                 <Dialog maxWidth='lg' open={open} onClose={handleClose}>
