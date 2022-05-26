@@ -25,17 +25,6 @@ function TaskCard({
         <div>
             <Card>
                 <CardContent sx={{ flexDirection: 'row', display: 'flex', justifyContent: 'space-between' }}>
-                    <Button
-                        onClick={() => setChecked(taskID, name, description)}
-                        variant="contained"
-
-                        style={{
-                            borderRadius: 8,
-                        }}
-                        color="secondary"
-                    >
-                        Edit
-                    </Button>
                     <Typography
                         sx={{
                             display: 'flex',
@@ -44,10 +33,21 @@ function TaskCard({
                     >
                         {name}
                     </Typography>
-
+                    <div>
+                    <Button
+                        onClick={() => setChecked(taskID, name, description)}
+                        variant="contained"
+                        style={{
+                            borderRadius: 10,
+                        }}
+                        color="secondary"
+                    >
+                        Edit
+                    </Button>
                     <IconButton onClick={() => setExpand(!expand)}>
                         <ExpandIcon open={expand} />
                     </IconButton>
+                    </div>
                 </CardContent>
                 <Collapse in={expand}>
                     <CardContent>
