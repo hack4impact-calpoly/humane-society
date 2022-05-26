@@ -1,7 +1,7 @@
 /* eslint-disable */
 /* eslint-disable react/prop-types */
 import {
-    Card, Checkbox, CardContent, IconButton, Collapse, Typography, Button, Box
+    Card, CardContent, IconButton, Collapse, Typography, Button
 } from '@mui/material';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
@@ -16,10 +16,8 @@ function ExpandIcon({ open }) {
     return <ExpandLessIcon sx={{ color: 'black' }} />;
 }
 
-
-
 function TaskCard({
-    taskID, checked = false, setChecked, name, description,
+    taskID, setChecked, name, description,
 }) {
     const [expand, setExpand] = useState(false);
 
@@ -28,7 +26,7 @@ function TaskCard({
             <Card>
                 <CardContent sx={{ flexDirection: 'row', display: 'flex', justifyContent: 'space-between' }}>
                     <Button
-                        onClick={() => setChecked(taskID, true)}
+                        onClick={() => setChecked(taskID, name, description)}
                         variant="contained"
 
                         style={{
@@ -44,15 +42,12 @@ function TaskCard({
                             pt: '.6rem',
                         }}
                     >
-
                         {name}
                     </Typography>
 
                     <IconButton onClick={() => setExpand(!expand)}>
                         <ExpandIcon open={expand} />
                     </IconButton>
-
-
                 </CardContent>
                 <Collapse in={expand}>
                     <CardContent>
@@ -60,9 +55,7 @@ function TaskCard({
 
                     </CardContent>
                 </Collapse>
-
             </Card>
-
             <div id="lowerBorder" />
         </div>
     );
@@ -75,9 +68,7 @@ ExpandIcon.propTypes = {
 TaskCard.propTypes = {
     checked: PropTypes.bool.isRequired,
     setChecked: PropTypes.func.isRequired,
-
     name: PropTypes.string.isRequired,
-
     description: PropTypes.string.isRequired,
 };
 

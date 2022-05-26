@@ -23,16 +23,16 @@ export default function Task() {
     const [date, setDate] = useState(new Date()); // keep track of date we choose in calendar 
     const [tasks, setTasks] = useState([]); // list of tasks for specific schedule
     const [open, setOpen] = useState(false); // determines if the create task button is clicked or not so we can have the window popup
-    const [openEdit, setOpenEdit] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false); // determine if we should open editting window popup
     const [makeTask, setMakeTask] = useState(false); // determines if the button to finalize making the task is clicked
-    const [editTask, setEditTask] = useState(false);
+    const [editTask, setEditTask] = useState(false); // determines if edit task button pressed 
     let [employee, setEmployee] = useState(0); // keep track of what employee we are on
     let [employeelist, setEmployeeList] = useState([]); // list of schedules pulled from database
     let [userName, setUserName] = useState(new Object());  // user object for employee we are on (to get first/last names)
     const [title, setTitle] = useState(''); // hold new task's title 
     const [notes, setNotes] = useState(''); // hold new task's description 
-    const [checked, setChecked] = useState(new Map());
-    const [currTask, setCurrTask] = useState('');
+    const [currTask, setCurrTask] = useState(''); // holds current task we pressed to edit
+
     /* calls the bakend to get the tasks for a specific schedule we looking at so they are displayed on the frontend */
     const getGetTasksForUser = async () => {
         const startDate = new Date(date);
@@ -122,6 +122,7 @@ export default function Task() {
         }
     };
 
+    /* update task in backend */
     const backendEditTask = async () => {
 
         const loginBody = {
@@ -143,6 +144,7 @@ export default function Task() {
         }
         setEditTask(false); /* indicate we are done editting the task to the data base */
     };
+
     /* call the backend so we can make a new task in the data base with the title/description the user provided */
     const backendCreateTask = async () => {
         const loginBody = {
@@ -230,33 +232,22 @@ export default function Task() {
 
     };
 
-    const getChecked = (taskID) => {
-        // returns if a task is checked, false if not in checked map
-        const isChecked = checked.get(taskID);
-        return isChecked;
-    };
-
     /* set open to true so the popup can display */
     const onCreateTaskClick = () => {
         setOpen(true);
 
     };
-    const onCheckedChange = (taskID, isChecked) => {
-        const temp = new Map(checked);
-        if (isChecked) {
-            temp.set(taskID, true);
-        } else {
-            temp.set(taskID, false);
-        }
-        /*        updateStatus(taskID, isChecked);
-        */
+
+    /* see if edit button pressed and do stuff */
+    const onCheckedChange = (taskID, name, description,) => {
+        setTitle(name);
+        setNotes(description);
         setOpenEdit(true);
-        setChecked(temp);
         setCurrTask(taskID);
         setEditTask(true);
     };
 
-    /* close the create task popup */
+    /* close the create/edit task popup */
     const handleClose = () => {
         setOpen(false);
         setOpenEdit(false);
@@ -435,13 +426,14 @@ export default function Task() {
                                 name={task.title}
                                 description={task.description}
                                 taskID={task._id}
-                                checked={getChecked(task._id)}
                                 setChecked={onCheckedChange}
 
                             />
                         </div>
                     ))}
                 </Grid>
+
+                {/* Edit task prompt window */}
                 <Dialog maxWidth='lg' open={openEdit} onClose={handleClose}>
                     <DialogContent style={{ width: 500 }}>
                         <Grid
@@ -454,12 +446,13 @@ export default function Task() {
                             <Grid item>
                                 <TextField
                                     id="title"
-                                    label="Insert task title"
+                                    label="Edit task title"
                                     multiline
                                     fullWidth
                                     rows={1}
                                     sx={{ paddingBottom: 3 }}
                                     value={title}
+                                    initialValue={title}
                                     onChange={(e) => { setTitle(e.target.value); }}
                                 />
                             </Grid>
@@ -468,12 +461,13 @@ export default function Task() {
                             <Grid item>
                                 <TextField
                                     id="notes"
-                                    label="Insert task notes"
+                                    label="Edit task notes"
                                     multiline
                                     fullWidth
                                     rows={6}
                                     sx={{ paddingBottom: 3 }}
                                     value={notes}
+                                    initialValue={notes}
                                     onChange={(e) => { setNotes(e.target.value); }}
                                 />
                             </Grid>
