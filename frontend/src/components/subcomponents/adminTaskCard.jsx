@@ -1,7 +1,7 @@
 /* eslint-disable */
 /* eslint-disable react/prop-types */
 import {
-  Card, Checkbox, CardContent, IconButton, Collapse, Typography, Button, Box
+    Card, Checkbox, CardContent, IconButton, Collapse, Typography, Button, Box
 } from '@mui/material';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
@@ -10,10 +10,10 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import '../../css/taskCard.css';
 
 function ExpandIcon({ open }) {
-  if (open === true) {
-    return <ExpandMoreIcon sx={{ color: 'black' }} />;
-  }
-  return <ExpandLessIcon sx={{ color: 'black' }} />;
+    if (open === true) {
+        return <ExpandMoreIcon sx={{ color: 'black' }} />;
+    }
+    return <ExpandLessIcon sx={{ color: 'black' }} />;
 }
 
 
@@ -21,55 +21,55 @@ function ExpandIcon({ open }) {
 function TaskCard({
     taskID, checked = false, setChecked, name, description,
 }) {
-  const [expand, setExpand] = useState(false);
+    const [expand, setExpand] = useState(false);
 
-  return (
-    <div>
-      <Card>
-        <CardContent sx={{ flexDirection: 'row', display: 'flex', justifyContent: 'space-between' }}>
-                  <Button
-                      onClick={() => setChecked(taskID, true)}
-                      variant="contained"
+    return (
+        <div>
+            <Card>
+                <CardContent sx={{ flexDirection: 'row', display: 'flex', justifyContent: 'space-between' }}>
+                    <Button
+                        onClick={() => setChecked(taskID, true)}
+                        variant="contained"
 
-                      style={{
-                          borderRadius: 8,
-                      }}
-                      color="secondary"
-                  >
-                      Edit
-                  </Button>
-                  <Typography
-            sx={{
-              display: 'flex',
-              pt: '.6rem',
-            }}
-                  >
+                        style={{
+                            borderRadius: 8,
+                        }}
+                        color="secondary"
+                    >
+                        Edit
+                    </Button>
+                    <Typography
+                        sx={{
+                            display: 'flex',
+                            pt: '.6rem',
+                        }}
+                    >
 
-            {name}
-                      </Typography>
- 
-          <IconButton onClick={() => setExpand(!expand)}>
-                      <ExpandIcon open={expand} />
-                  </IconButton>
+                        {name}
+                    </Typography>
 
-                    
-        </CardContent>
-        <Collapse in={expand}>
-          <CardContent>
-                      <p id="desc">{description}</p>
+                    <IconButton onClick={() => setExpand(!expand)}>
+                        <ExpandIcon open={expand} />
+                    </IconButton>
 
-          </CardContent>
-              </Collapse>
 
-          </Card>
+                </CardContent>
+                <Collapse in={expand}>
+                    <CardContent>
+                        <p id="desc">{description}</p>
 
-      <div id="lowerBorder" />
-    </div>
-  );
+                    </CardContent>
+                </Collapse>
+
+            </Card>
+
+            <div id="lowerBorder" />
+        </div>
+    );
 }
 
 ExpandIcon.propTypes = {
-  open: PropTypes.bool.isRequired,
+    open: PropTypes.bool.isRequired,
 };
 
 TaskCard.propTypes = {
@@ -78,7 +78,7 @@ TaskCard.propTypes = {
 
     name: PropTypes.string.isRequired,
 
-  description: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
 };
 
 export default TaskCard;

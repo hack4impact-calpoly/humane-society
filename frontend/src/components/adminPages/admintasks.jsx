@@ -248,8 +248,8 @@ export default function Task() {
         } else {
             temp.set(taskID, false);
         }
-/*        updateStatus(taskID, isChecked);
-*/
+        /*        updateStatus(taskID, isChecked);
+        */
         setOpenEdit(true);
         setChecked(temp);
         setCurrTask(taskID);
@@ -366,17 +366,17 @@ export default function Task() {
                     </LocalizationProvider>
                 </Grid>
 
-                    <Grid item sx={{ paddingBottom: 10 }}>
+                <Grid item sx={{ paddingBottom: 10 }}>
 
-                        <Grid
-                            container
-                            direction="row"
-                            justifyContent="space-evenly"
-                            alignItems="center"
-                            wrap="nowrap"
-                        >
-                        </Grid>
+                    <Grid
+                        container
+                        direction="row"
+                        justifyContent="space-evenly"
+                        alignItems="center"
+                        wrap="nowrap"
+                    >
                     </Grid>
+                </Grid>
 
                 {/* display employee schedules/tasks */}
                 <Grid item lg={6} md={8} xs={8} sx={{ paddingTop: 5, paddingBottom: 3 }}>
