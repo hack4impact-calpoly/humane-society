@@ -5,8 +5,8 @@ const RequestOffSchema = new mongoose.Schema({
   userID: { type: String, required: true },
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
-  notes: [{ type: String, required: true }],
-  approved: [{ type: Number, required: true }],
+  notes: { type: String, required: true },
+  approved: { type: Number, required: true },
 });
 
 RequestOffSchema.pre('validate', (next) => {
