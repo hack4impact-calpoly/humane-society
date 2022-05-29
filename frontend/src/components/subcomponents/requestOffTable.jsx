@@ -1,24 +1,27 @@
-import React, { useState } from 'react';
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-param-reassign */
+import React, { useState, useEffect } from 'react';
 import {
   Button, Grid, Modal, Box,
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
+import requestOffModal from './requestOffModal';
 
 export default function RequestOffTable() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showFailure, setShowFailure] = useState(false);
   const pendingColumns = [
     {
-      field: 'id',
-      headerName: 'Date(s):',
+      field: 'startDate',
+      headerName: 'Start Date',
       flex: 0.1,
       minWidth: 150,
     },
     {
-      field: 'shiftTime',
-      headerName: 'Shift Time',
+      field: 'endDate',
+      headerName: 'End Date',
       flex: 0.1,
       minWidth: 150,
     },
@@ -30,46 +33,18 @@ export default function RequestOffTable() {
     },
   ];
 
-  const pendingRows = [
-    {
-      id: '1/1/2022', shiftTime: 'Snow', notes: 'Jon',
-    },
-    {
-      id: '1/2/2022', shiftTime: 'Lannister', notes: 'Cersei',
-    },
-    {
-      id: '1/3/2022', shiftTime: 'Lannister', notes: 'Jaime',
-    },
-    {
-      id: '1/4/2022', shiftTime: 'Stark', notes: 'Arya',
-    },
-    {
-      id: '1/5/2022', shiftTime: 'Targaryen', notes: 'Daenerys',
-    },
-    {
-      id: '1/6/2022', shiftTime: 'Melisandre', notes: null,
-    },
-    {
-      id: '1/7/2022', shiftTime: 'Clifford', notes: 'Ferrara',
-    },
-    {
-      id: '1/8/2022', shiftTime: 'Frances', notes: 'Rossini',
-    },
-    {
-      id: '1/9/2022', shiftTime: 'Roxie', notes: 'Harvey',
-    },
-  ];
+  const [pendingRows, setPendingRows] = useState([]);
 
   const reviewedColumns = [
     {
-      field: 'id',
-      headerName: 'Date(s):',
+      field: 'startDate',
+      headerName: 'Start Date',
       flex: 0.1,
       minWidth: 150,
     },
     {
-      field: 'shiftTime',
-      headerName: 'Shift Time',
+      field: 'endDate',
+      headerName: 'End Date',
       flex: 0.1,
       minWidth: 150,
     },
@@ -81,35 +56,7 @@ export default function RequestOffTable() {
     },
   ];
 
-  const reviewedRows = [
-    {
-      id: '1/1/2022', shiftTime: 'Snow', notes: 'Jon',
-    },
-    {
-      id: '1/2/2022', shiftTime: 'Lannister', notes: 'Cersei',
-    },
-    {
-      id: '1/3/2022', shiftTime: 'Lannister', notes: 'Jaime',
-    },
-    {
-      id: '1/4/2022', shiftTime: 'Stark', notes: 'Arya',
-    },
-    {
-      id: '1/5/2022', shiftTime: 'Targaryen', notes: 'Daenerys',
-    },
-    {
-      id: '1/6/2022', shiftTime: 'Melisandre', notes: null,
-    },
-    {
-      id: '1/7/2022', shiftTime: 'Clifford', notes: 'Ferrara',
-    },
-    {
-      id: '1/8/2022', shiftTime: 'Frances', notes: 'Rossini',
-    },
-    {
-      id: '1/9/2022', shiftTime: 'Roxie', notes: 'Harvey',
-    },
-  ];
+  const [reviewedRows, setReviewedRows] = useState([]);
 
   const modalStyle = {
     display: 'flex',
@@ -134,6 +81,48 @@ export default function RequestOffTable() {
     setShowFailure(true);
     setTimeout(() => setShowFailure(false), 2000);
   }
+
+  const processRequest = () => {
+    requestOffModal();
+
+    displayRequestSuccess();
+    displayRequestFailure();
+  };
+
+  const loadRequestOff = async () => {
+    const requestOffBody = {
+      userID: localStorage.getItem('userID'),
+    };
+    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}requestOff/user`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(requestOffBody),
+    });
+    console.log(response);
+    let data = await response.json();
+    data = data.map(
+      (obj) => ({
+        approved: obj.approved,
+        notes: obj.notes,
+        userID: obj.userID,
+        id: obj._id,
+        startDate: new Date(obj.startDate),
+        endDate: new Date(obj.endDate),
+      }),
+    );
+    console.log(data);
+    const pending = data.filter((requestOff) => requestOff.approved === 0);
+    const reviewed = data.filter((requestOff) => requestOff.approved !== 0);
+    setPendingRows(pending);
+    setReviewedRows(reviewed);
+  };
+
+  useEffect(() => {
+    loadRequestOff();
+  }, []);
 
   return (
     <div style={{
@@ -161,7 +150,7 @@ export default function RequestOffTable() {
               borderRadius: 5,
               maxHeight: '40px',
             }}
-            onClick={() => { displayRequestSuccess(); displayRequestFailure(); }}
+            onClick={() => { processRequest(); }}
           >
             <b>+ Add Request Off</b>
           </Button>
