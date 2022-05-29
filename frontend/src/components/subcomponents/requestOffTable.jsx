@@ -7,9 +7,11 @@ import {
 import { DataGrid } from '@mui/x-data-grid';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
-import requestOffModal from './requestOffModal';
+import RequestOffModal from './requestOffModal';
 
 export default function RequestOffTable() {
+  const [modal, setModal] = useState(false);
+  const Toggle = () => setModal(!modal);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showFailure, setShowFailure] = useState(false);
   const pendingColumns = [
@@ -83,8 +85,6 @@ export default function RequestOffTable() {
   }
 
   const processRequest = () => {
-    requestOffModal();
-
     displayRequestSuccess();
     displayRequestFailure();
   };
@@ -154,6 +154,7 @@ export default function RequestOffTable() {
           >
             <b>+ Add Request Off</b>
           </Button>
+          {/* <RequestOffModal show={modal} title="Request Off Modal" close={Toggle} /> */}
           <Modal open={showSuccess} onClose={() => setShowSuccess(false)}>
             <Box style={modalStyle}>
               <CheckCircleIcon sx={{ color: '#4AA7AC', fontSize: 100 }} />
