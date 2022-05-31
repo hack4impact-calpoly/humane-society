@@ -17,11 +17,23 @@
 a {
   padding-left: 8%;
   padding-right: 10%;
-  color: grey;
+  color: #054D75;
   text-decoration: none;
   font-size: 1.2em;
 }
 
+a:visited {
+  text-decoration: none;
+}
+
 a:hover {
   text-decoration: underline;
+  text-underline-offset: 5px;
+  text-decoration-thickness: 3px;
+}
+
+.active {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  text-decoration-thickness: 3px;
 }

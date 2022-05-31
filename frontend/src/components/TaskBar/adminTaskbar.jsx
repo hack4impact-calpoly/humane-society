@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Grid } from '@mui/material';
 import DropDownMenu from './dropDownMenu';
 import logo from '../../imgs/logo.svg';
@@ -20,10 +20,10 @@ export default function AdminTaskbar() {
                 </Grid>
                 <Grid item xs={8}>
                     <nav>
-                        <Link to="/adminhomepage">Schedule</Link>
-                        <Link to="/admin-tasks">Assign Tasks</Link>
-                        <Link to="/request-off-admin">Request Off</Link>
-                        <Link to="/contacts">Contacts</Link>
+                        <NavLink to="/adminhomepage" activeClassName="active">Schedule</NavLink>
+                        <NavLink to="/admin-tasks" activeClassName="active">Assign Tasks</NavLink>
+                        <NavLink to="/request-off-admin" activeClassName="active" >Request Off</NavLink>
+                        <NavLink to="/contacts" activeClassName="active">Contacts</NavLink>
                     </nav>
                 </Grid>
                 <Grid item xs={1}>

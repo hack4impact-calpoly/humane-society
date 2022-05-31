@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Grid } from '@mui/material';
 import DropDownMenu from './dropDownMenu';
 import logo from '../../imgs/logo.svg';
@@ -19,9 +19,9 @@ export default function TaskBar() {
         </Grid>
         <Grid item xs={8}>
           <nav>
-            <Link to="/tasks">Tasks</Link>
-            <Link to="/request-off">Request Off</Link>
-            <Link to="/availability">Availability</Link>
+            <NavLink to="/tasks" activeClassName="active">Tasks</NavLink>
+            <NavLink to="/request-off" activeClassName="active">Request Off</NavLink>
+            <NavLink to="/availability" activeClassName="active">Availability</NavLink>
           </nav>
         </Grid>
         <Grid item xs={1}>

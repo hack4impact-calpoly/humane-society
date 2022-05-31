@@ -70,11 +70,7 @@ router.post('/getUserById', async (req, res) => {
 });
 
 router.post('/isAdmin', async (req, res) => {
-  const { token, userID } = req.body;
-  const userData = Token(token);
-  if (userData == null) {
-    res.status(403).send('Unauthorized user');
-  }
+  const { userID } = req.body;
   User.findOne({ userID }, { isAdmin: 1 }).then((result) => {
     if (!result) {
       res.status(404).send('Invalid User ID');

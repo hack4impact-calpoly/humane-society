@@ -1,9 +1,9 @@
 /* eslint-disable */
 import React, {
-  useState, useRef, useCallback, useEffect,
+  useState, useRef, useCallback, useEffect, 
 } from 'react';
 import {
-  Button, Grid, TextField, Container,
+  Button, Grid, TextField, Container, Typography
 } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
@@ -169,9 +169,11 @@ export default function Login() {
                 error={invalidLogin && confirmedUser}
                 helperText={invalidLogin && confirmedUser ? 'Invalid email or password, please try again' : ''}
               />
-              <p>
-                <Link to="/forgotpassword" style={{ float: 'right' }}>Forgot Password?</Link>
-              </p>
+              <Link to="/forgotpassword" style={{ float: 'right', paddingRight: '0', paddingTop: '5px' }}>
+                <Typography variant="body2">
+                  Forgot Password?
+                </Typography>
+              </Link>
             </Grid>
           </Grid>
           <Grid item style={{ width: '100%' }}>
@@ -186,10 +188,14 @@ export default function Login() {
             >
               Login
             </Button>
-            <p align="left">
+            <Typography variant="body2" align="left" style={{ paddingTop: '5px' }}>
               Don&apos;t have an account?&nbsp;
-              <Link to="/signup">Create an account here.</Link>
-            </p>
+              <Link to="/signup" style={{ float: 'right', paddingRight: '0' }}>
+                <Typography variant="body2">
+                  Create an account here.
+                </Typography>
+              </Link>
+            </Typography>
           </Grid>
         </Grid>
       </Container>
