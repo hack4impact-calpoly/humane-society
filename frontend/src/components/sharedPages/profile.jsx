@@ -20,7 +20,6 @@ export default function Profile() {
   const [school, setSchool] = useState('Cal Poly');
   const [oldFirst, setOldFirst] = useState('');
   const [oldLast, setOldLast] = useState('');
-  const [oldEmail, setOldEmail] = useState('');
   const [oldPhone, setOldPhone] = useState('');
   const [oldSchool, setOldSchool] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
@@ -28,7 +27,6 @@ export default function Profile() {
   function setOld() {
     setOldFirst(firstName);
     setOldLast(lastName);
-    setOldEmail(email);
     setOldPhone(phone);
     setOldSchool(school);
     setEdit(true);
@@ -37,7 +35,6 @@ export default function Profile() {
   function resetFields() {
     setFirstName(oldFirst);
     setLastName(oldLast);
-    setEmail(oldEmail);
     setPhone(oldPhone);
     setSchool(oldSchool);
     setEdit(false);
@@ -72,7 +69,6 @@ export default function Profile() {
       phone,
       firstName,
       lastName,
-      email,
     };
     fetch(`${process.env.REACT_APP_SERVER_URL}updateProfile`, {
       method: 'POST',
@@ -145,9 +141,8 @@ export default function Profile() {
         <TextField
           type="text"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
           sx={{ width: '41%' }}
-          disabled={!edit}
+          disabled
           size="small"
         />
         <Typography className="profileText">Phone:</Typography>
