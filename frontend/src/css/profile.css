@@ -7,7 +7,7 @@
     height: 73vh;
     width: 80%;
     margin-left: 20%;
-    margin-top: 8vh;
+    margin-top: 5vh;
 }
 
 .noEditProfileInput {
@@ -52,7 +52,7 @@
     align-items: flex-end;
     justify-content: flex-end;
     width: 40.5%;
-    margin-top: 2%;
+    margin-top: 1%;
 }
 
 #buttonBox {
