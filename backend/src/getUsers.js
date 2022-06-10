@@ -41,9 +41,12 @@ router.post('/getFormattedUsers', async (req, res) => {
 
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < result.length; i++) {
-        rows.push({
-          id: result[i].userID, name: (`${result[i].firstName} ${result[i].lastName}`), email: result[i].email, phoneNumber: `${result[i].phone.substring(-1, 3)}-${result[i].phone.substring(3, 6)}-${result[i].phone.substring(6, 10)}`,
+          rows.push({
+              id: result[i].userID, name: (`${result[i].firstName} ${result[i].lastName}`), email: result[i].email,
+              phoneNumber: `${result[i].phone.substring(-1, 3)}-${result[i].phone.substring(3, 6)}-${result[i].phone.substring(6, 10)}`,
+              isAdmin:  result[i].isAdmin  == true  ? 'yes' : 'no',
         });
+
       }
       res.status(200).send(rows);
     }
