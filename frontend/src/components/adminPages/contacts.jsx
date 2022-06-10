@@ -4,42 +4,43 @@ import React, { useState, useEffect } from 'react';
 import AdminTaskbar from "../TaskBar/adminTaskbar"
 import { GridLinkOperator, GridToolbar } from '@mui/x-data-grid';
 import '../../css/contacts.css';
-import { Button, Box } from '@mui/material/';
-
-/* the columns of the contacts data grid */
-const columns = [
-    { field: "name", headerName: "Name", flex: 1 },
-    { field: "email", headerName: "Email", flex: 1 },
-    { field: "phoneNumber", headerName: "Phone Number", flex: 1 },
-    { field: "isAdmin", headerName: "Admin Status", flex: 1 },
-
-    {
-        field: "", headerName: " ", flex: 1,
-
-        renderCell: (params: null) => (
-            <strong>
-                {
-                <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                style={{ marginLeft: 30 }}
-                tabIndex={params.hasFocus ? 0 : -1}
-                >
-{/*                        {isAdmin  == 'yes'  ? 'yes' : 'no'}
-*/}                Make Admin
-                </Button> }
-            </strong >
-            )
-
-
-    },
-];
-
+import { Button } from '@mui/material/';
 
 /* the contacts page */
 export default function Contacts() {
     const [rows, setRows] = useState([]);
+
+    /* change admin status on click */
+    const toggleAdminStatus = () => {
+        console.log("hi")
+    };
+
+    const columns = [
+        { field: "name", headerName: "Name", flex: 1 },
+        { field: "email", headerName: "Email", flex: 1 },
+        { field: "phoneNumber", headerName: "Phone Number", flex: 1 },
+        { field: "isAdmin", headerName: "Admin Status", flex: 1 },
+
+        {
+            field: "", headerName: " ", flex: 1,
+
+            renderCell: (params: null) => (
+                <strong>
+                    {
+                        <Button
+                            onClick={toggleAdminStatus}
+                            variant="contained"
+                            color="primary"
+                            size="small"
+                            style={{ marginLeft: 30 }}
+                        >
+                            Toggle Admin Status
+                        </Button>}
+                </strong >
+            )
+
+        },
+    ];
 
     /* gets a properly formatted array of users from the backend */
     const getUsers = async () => {
